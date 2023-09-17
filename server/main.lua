@@ -5,7 +5,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local useCashAsItem = true -- true if you want to use cash as item
 local cashItem = "cash"    -- the cash item for the inventory
-local lastPlacedSlot = 0
 
 local function UpdateCashItem(id)
     local Player = QBCore.Functions.GetPlayer(id)
