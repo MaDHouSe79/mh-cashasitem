@@ -40,15 +40,15 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
 end)
 
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action)
-	local Player = QBCore.Functions.GetPlayer(id)
-	if Player and useCashAsItem then 
+    local Player = QBCore.Functions.GetPlayer(id)
+    if Player and useCashAsItem then 
         local cash = Player.Functions.GetMoney('cash')
-		if item and item.name == cashItem then
-			if action == "add" then
-				Player.Functions.AddMoney(cashItem, amount, nil)
-			elseif action == "remove" then
-				Player.Functions.RemoveMoney(cashItem, amount, nil)
-			end
-		end
+        if item and item.name == cashItem then
+            if action == "add" then
+		Player.Functions.AddMoney(cashItem, amount, nil)
+	    elseif action == "remove" then
+		Player.Functions.RemoveMoney(cashItem, amount, nil)
+	    end
 	end
+    end
 end)
