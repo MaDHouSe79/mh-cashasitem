@@ -7,8 +7,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 -- inventory itembox popup when you add or remove items.
 local useItemBox    = false   -- true is you want to use the itembox popup 
-local useAddBox     = true    -- true if you want to see the add itembox popup
-local useRemoveBox  = false   -- true if you want to see the remove itembox popup
+local useAddBox     = true    -- true if you want to see the add itembox popup (only works if useItemBox = true)
+local useRemoveBox  = false   -- true if you want to see the remove itembox popup (only works if useItemBox = true)
 --
 
 local useCashAsItem = true -- true if you want to use cash as item
