@@ -23,7 +23,7 @@ local function RemoveMoney(player, amount)
 end
 
 local function AddItem(player, item, amount)
-    if lastUsedSlot ~= nil then
+    if lastUsedSlot ~= nil or lastUsedSlot ~= 0 then
         player.Functions.AddItem(item, amount, lastUsedSlot)
     else
         player.Functions.AddItem(item, amount, nil)
