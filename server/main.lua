@@ -5,10 +5,15 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 -- Config
+local useItemBox = false
 local useCashAsItem = true -- true if you want to use cash as item
 local cashItem = "cash"    -- the cash item for the inventory
 local lastUsedSlot = nil   -- last used slot number, the slot number where you put the cash last in.(dont edit this)
 local debug = false        -- true only for debug.
+
+local function ItemBox(amount, action)
+    TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[cashItem:lower()], action, amount)
+end
 
 local function GetMoney(player)
     return player.Functions.GetMoney('cash')
@@ -22,17 +27,17 @@ local function RemoveMoney(player, amount)
     return player.Functions.RemoveMoney("cash", amount, nil)
 end
 
-local function AddItem(player, item, amount)
-    if lastUsedSlot ~= nil or lastUsedSlot ~= 0 then
-        player.Functions.AddItem(item, amount, lastUsedSlot)
+local function AddItem(player, amount)
+    if lastUsedSlot ~= nil or lastUsedSlot ~= nil then
+        player.Functions.AddItem(cashItem:lower(), amount, lastUsedSlot)
     else
-        player.Functions.AddItem(item, amount, nil)
+        player.Functions.AddItem(cashItem:lower(), amount, nil)
     end
-    TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[item], "add", amount)
+    if useItemBox then ItemBox(amount, "add")  end
 end
 
-local function RemoveItem(player, item, amount, slot)
-    return player.Functions.RemoveItem(item, amount, slot)
+local function RemoveItem(player, amount, slot)
+    return player.Functions.RemoveItem(cashItem:lower(), amount, slot)
 end
 
 local function UpdateCashItem(id)
@@ -43,13 +48,14 @@ local function UpdateCashItem(id)
         for _, item in pairs(player.PlayerData.items) do
             if item and item.name:lower() == cashItem:lower() then
                 itemCount = itemCount + item.amount
-                RemoveItem(player, cashItem, item.amount, item.slot)
+                RemoveItem(player, item.amount, item.slot)
             end
         end
         if itemCount >= 1 and cash >= 1 then
-            AddItem(player, cashItem, cash)
+            if useItemBox then ItemBox(itemCount, "remove") end
+            AddItem(player, cash)
         elseif itemCount <= 0 and cash >= 1 then
-            AddItem(player, cashItem, cash)
+            AddItem(player, cash)
         end
     end
 end
@@ -57,8 +63,8 @@ end
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action)
     local player = QBCore.Functions.GetPlayer(id)
     if player and useCashAsItem then 
-        if item and item.name == cashItem then
-            if action == "add" then
+	if item and item.name == cashItem then
+	    if action == "add" then
 		AddMoney(player, amount, nil)
 	    elseif action == "remove" then
 		RemoveMoney(player, amount, nil)
@@ -80,24 +86,22 @@ end)
 local count = 0
 RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     local src = source
-    local player = QBCore.Functions.GetPlayer(src)
-    fromSlot = tonumber(fromSlot)
-    toSlot = tonumber(toSlot)
-    if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting") then
-        return
-    end
+	local player = QBCore.Functions.GetPlayer(src)
+	fromSlot = tonumber(fromSlot)
+	toSlot = tonumber(toSlot)
+    if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting") then return end
     if fromInventory == "player" or fromInventory == "hotbar" then
-        if toInventory == "player" or toInventory == "hotbar" then
-            lastUsedSlot = toSlot
+        if toInventory == "player" or toInventory == "hotbar" then 
+            lastUsedSlot = toSlot 
         end
     else
         if toInventory == nil or toInventory == 0 then
-        else
-            lastUsedSlot = toSlot
+        else 
+            lastUsedSlot = toSlot 
         end
     end
     if debug then
-        count = counr + 1
+        count = count + 1
         print("----------------"..count.."----------------")
         print("From Inventory "..tostring(fromInventory))
         print("To Inventory "..tostring(toInventory))
