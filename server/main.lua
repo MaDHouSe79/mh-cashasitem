@@ -37,7 +37,7 @@ local function AddItem(player, amount, slot)
     else
         player.Functions.AddItem(cashItem:lower(), amount, nil)
     end
-    if useItemBox and useAddBox then ItemBox(amount, "add")  end
+    if useItemBox and useAddBox then ItemBox(amount, "add") end
 end
 
 local function RemoveItem(player, amount, slot)
