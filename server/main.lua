@@ -4,8 +4,13 @@
 
 local QBCore = exports['qb-core']:GetCoreObject()
 
--- Config
-local useItemBox = false   -- true is you want the itembox popup from the inventory when you add or remove an item.
+
+-- inventory itembox popup when you add or remove items.
+local useItemBox    = false   -- true is you want to use the itembox popup 
+local useAddBox     = true    -- true if you want to see the add itembox popup
+local useRemoveBox  = false   -- true if you want to see the remove itembox popup
+--
+
 local useCashAsItem = true -- true if you want to use cash as item
 local cashItem = "cash"    -- the cash item for the inventory
 local lastUsedSlot = nil   -- last used slot number, the slot number where you put the cash last in.(dont edit this)
@@ -33,7 +38,7 @@ local function AddItem(player, amount)
     else
         player.Functions.AddItem(cashItem:lower(), amount, nil)
     end
-    if useItemBox then ItemBox(amount, "add")  end
+    if useItemBox and useAddBox then ItemBox(amount, "add")  end
 end
 
 local function RemoveItem(player, amount, slot)
@@ -52,7 +57,7 @@ local function UpdateCashItem(id)
             end
         end
         if itemCount >= 1 and cash >= 1 then
-            if useItemBox then ItemBox(itemCount, "remove") end
+            if useItemBox and useRemoveBox then ItemBox(itemCount, "remove") end
             AddItem(player, cash)
         elseif itemCount <= 0 and cash >= 1 then
             AddItem(player, cash)
@@ -63,7 +68,7 @@ end
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action)
     local player = QBCore.Functions.GetPlayer(id)
     if player and useCashAsItem then 
-	if item and item.name == cashItem then
+        if item and item.name == cashItem then
 	    if action == "add" then
 		AddMoney(player, amount, nil)
 	    elseif action == "remove" then
