@@ -7,7 +7,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 -- Config
 local useCashAsItem = true -- true if you want to use cash as item
 local cashItem = "cash"    -- the cash item for the inventory
-local lastUsedSlot = nil   -- last used slot number, the slot number where you put the cash last in.
+local lastUsedSlot = nil   -- last used slot number, the slot number where you put the cash last in.(dont edit this)
 local debug = false        -- true only for debug.
 
 local function GetMoney(player)
