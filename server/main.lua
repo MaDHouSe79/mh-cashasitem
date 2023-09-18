@@ -90,9 +90,9 @@ end)
 local count = 0
 RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     local src = source
-	local player = QBCore.Functions.GetPlayer(src)
-	fromSlot = tonumber(fromSlot)
-	toSlot = tonumber(toSlot)
+    local player = QBCore.Functions.GetPlayer(src)
+    fromSlot = tonumber(fromSlot)
+    toSlot = tonumber(toSlot)
     if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting") then return end
     if fromInventory == "player" or fromInventory == "hotbar" then
         if toInventory == "player" or toInventory == "hotbar" then 
