@@ -97,7 +97,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
         end
     end
     if debug then
-    count += 1
+        count = counr + 1
         print("----------------"..count.."----------------")
         print("From Inventory "..tostring(fromInventory))
         print("To Inventory "..tostring(toInventory))
