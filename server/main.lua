@@ -31,9 +31,9 @@ local function RemoveMoney(player, amount)
     return player.Functions.RemoveMoney("cash", amount, nil)
 end
 
-local function AddItem(player, amount)
-    if lastUsedSlot ~= nil or lastUsedSlot ~= nil then
-        player.Functions.AddItem(cashItem:lower(), amount, lastUsedSlot)
+local function AddItem(player, amount, slot)
+    if slot ~= nil or slot ~= 0 then
+        player.Functions.AddItem(cashItem:lower(), amount, slot)
     else
         player.Functions.AddItem(cashItem:lower(), amount, nil)
     end
@@ -49,20 +49,23 @@ local function UpdateCashItem(id)
     if player and useCashAsItem then
         local cash = GetMoney(player)
         local itemCount = 0
+        local lastslot = nil
         for _, item in pairs(player.PlayerData.items) do
             if item and item.name:lower() == cashItem:lower() then
                 itemCount = itemCount + item.amount
+                lastslot = item.slot
                 RemoveItem(player, item.amount, item.slot)
             end
         end
         if itemCount >= 1 and cash >= 1 then
             if useItemBox and useRemoveBox then ItemBox(itemCount, "remove") end
-            AddItem(player, cash)
+            AddItem(player, cash, lastslot)
         elseif itemCount <= 0 and cash >= 1 then
-            AddItem(player, cash)
+            AddItem(player, cash, lastslot)
         end
     end
 end
+
 
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action)
     local player = QBCore.Functions.GetPlayer(id)
@@ -94,16 +97,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
     fromSlot = tonumber(fromSlot)
     toSlot = tonumber(toSlot)
     if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting") then return end
-    if fromInventory == "player" or fromInventory == "hotbar" then
-        if toInventory == "player" or toInventory == "hotbar" then 
-            lastUsedSlot = toSlot 
-        end
-    else
-        if toInventory == nil or toInventory == 0 then
-        else 
-            lastUsedSlot = toSlot 
-        end
-    end
     if debug then
         count = count + 1
         print("----------------"..count.."----------------")
