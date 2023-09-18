@@ -5,7 +5,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 -- Config
-local useItemBox = false
+local useItemBox = false   -- true is you want the itembox popup from the inventory when you add or remove an item.
 local useCashAsItem = true -- true if you want to use cash as item
 local cashItem = "cash"    -- the cash item for the inventory
 local lastUsedSlot = nil   -- last used slot number, the slot number where you put the cash last in.(dont edit this)
