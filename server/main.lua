@@ -3,16 +3,14 @@
 --[[ ===================================================== ]]--
 
 local QBCore = exports['qb-core']:GetCoreObject()
-
-
+--
+local useCashAsItem = true -- true if you want to use cash as item
+local cashItem = "cash"    -- the cash item for the inventory
 -- inventory itembox popup when you add or remove items.
 local useItemBox    = true -- true is you want to use the itembox popup 
 local useAddBox     = true -- true if you want to see the add itembox popup (only works if useItemBox = true)
 local useRemoveBox  = true -- true if you want to see the remove itembox popup (only works if useItemBox = true)
 --
-
-local useCashAsItem = true -- true if you want to use cash as item
-local cashItem = "cash"    -- the cash item for the inventory
 local lastUsedSlot = nil   -- last used slot number, the slot number where you put the cash last in.(dont edit this)
 local debug = false        -- true only for debug.
 
