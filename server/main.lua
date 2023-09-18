@@ -11,8 +11,6 @@ local cashItem = "cash"    -- the cash item for the inventory
 local useItemBox = true    -- true if you want to use the itembox popup 
 local useAddBox = true     -- true if you want to see the add itembox popup (only works if useItemBox = true)
 local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
---
-local debug = false        -- true only for debug.
 
 local function ItemBox(amount, action)
     TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[cashItem:lower()], action, amount)
@@ -86,25 +84,4 @@ end)
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     local src = source
     UpdateCashItem(src)
-end)
-
-local count = 0
-RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
-    local src = source
-    local player = QBCore.Functions.GetPlayer(src)
-    fromSlot = tonumber(fromSlot)
-    toSlot = tonumber(toSlot)
-    if (fromInventory == "player" or fromInventory == "hotbar") and (QBCore.Shared.SplitStr(toInventory, "-")[1] == "itemshop" or toInventory == "crafting") then return end
-    if debug then
-        count = count + 1
-        print("----------------"..count.."----------------")
-        print("From Inventory "..tostring(fromInventory))
-        print("To Inventory "..tostring(toInventory))
-        print("From Slot "..tostring(fromSlot))
-        print("To Slot "..tostring(toSlot))
-        print("From Amount "..tostring(fromAmount))
-        print("To Amount "..tostring(toAmount))
-        print("Last Used Slot "..tostring(lastUsedSlot))
-        print("------------------------------------------")
-    end
 end)
