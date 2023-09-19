@@ -13,7 +13,9 @@ local useAddBox = true     -- true if you want to see the add itembox popup (onl
 local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
 
 local function ItemBox(amount, action)
-    TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[cashItem:lower()], action, amount)
+    if useItemBox and (useAddBox or useRemoveBox) then
+        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[cashItem:lower()], action, amount)
+    end
 end
 
 local function GetMoney(player)
@@ -34,7 +36,7 @@ local function AddItem(player, amount, slot)
     else
         player.Functions.AddItem(cashItem:lower(), amount, nil)
     end
-    if useItemBox and useAddBox then ItemBox(amount, "add") end
+    ItemBox(amount, "add")
 end
 
 local function RemoveItem(player, amount, slot)
@@ -55,7 +57,7 @@ local function UpdateCashItem(id)
             end
         end
         if itemCount >= 1 and cash >= 1 then
-            if useItemBox and useRemoveBox then ItemBox(itemCount, "remove") end
+            ItemBox(itemCount, "remove")
             AddItem(player, cash, lastslot)
         elseif itemCount <= 0 and cash >= 1 then
             AddItem(player, cash, lastslot)
