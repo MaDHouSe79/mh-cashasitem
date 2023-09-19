@@ -17,7 +17,7 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 --- Inventory ItemBox Popup
 ---@param amount int
 ---@param action string
-local function ItemBox(amount, action)
+local function ItemBox(player, amount, action)
     if useItemBox and (useAddBox or useRemoveBox) then
         TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[cashItem:lower()], action, amount)
     end
@@ -53,7 +53,7 @@ local function AddItem(player, amount, slot)
     else
         player.Functions.AddItem(cashItem:lower(), amount, nil)
     end
-    ItemBox(amount, "add")
+    ItemBox(player, amount, "add")
 end
 
 ---Remove Cash Item
@@ -80,7 +80,7 @@ local function UpdateCashItem(id)
             end
         end
         if itemCount >= 1 and cash >= 1 then
-            ItemBox(itemCount, "remove")
+            ItemBox(player, itemCount, "remove")
             AddItem(player, cash, lastslot)
         elseif itemCount <= 0 and cash >= 1 then
             AddItem(player, cash, lastslot)
