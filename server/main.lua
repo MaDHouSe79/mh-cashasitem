@@ -103,10 +103,14 @@ end)
 
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
-    UpdateCashItem(src)
+    if useCashAsItem then
+        UpdateCashItem(src)
+    end
 end)
 
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     local src = source
-    UpdateCashItem(src)
+    if useCashAsItem then
+        UpdateCashItem(src)
+    end
 end)
