@@ -41,7 +41,7 @@ https://www.youtube.com/watch?v=sWYkV-PeqU4
 ```lua
 ['cash'] = {
     ['name'] = 'cash', 
-    ['label'] = 'Pile of Cash', 
+    ['label'] = 'Cash', 
     ['weight'] = 0, 
     ['type'] = 'item', 
     ['image'] = 'cash.png', 
@@ -49,7 +49,7 @@ https://www.youtube.com/watch?v=sWYkV-PeqU4
     ['useable'] = false,
     ['shouldClose'] = true,
     ['combinable'] = nil,
-    ['description'] = 'Cash where you can pay with.'
+    ['description'] = 'Cash'
 },
 ```
 
