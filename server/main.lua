@@ -91,7 +91,7 @@ end
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action, display)
     local player = QBCore.Functions.GetPlayer(id)
     if display == nil then display = true end
-    if player and useCashAsItem  then
+    if player and useCashAsItem then
         if item and item.name == cashItem and display then
             if action == "add" then
                 AddMoney(player, amount, nil)
