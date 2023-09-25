@@ -54,13 +54,33 @@ https://www.youtube.com/watch?v=sWYkV-PeqU4
 
 # Add in inventory config.lua
 ```lua
--- you need mh-cashasitem fot this one.
--- it works without but this is needed in the config, of the trigger can give you errors.
+-- it works without but this is needed in the inventory config, or the trigger can give you errors.
 Config.AllowedSuitcaseItems = {
-    ["cash"] = true, -- you need mh-cashasitem fot this one.
-    ["meth"] = true,
-    ["coke"] = true,
-    -- you can add more here
+    ['cashsuitcase'] = {
+        allowedItems = {
+            ["cash"] = true,
+        },
+    },
+    ['drugssuitcase'] = {
+        allowedItems = {
+            ["meth"] = true,
+            ["coke"] = true,
+            ["weed"] = true,
+        },
+
+    },
+    ['weaponsuitcase'] = {
+        allowedItems = {
+            ["weapon_pistol"] = true,
+            ["pistol_ammo"] = true,
+        },
+    },
+}
+
+Config.Suitcases = {
+    ["cashsuitcase"] = true,
+    ["drugssuitcase"] = true,
+    ["weaponsuitcase"] = true,
 }
 ```
 
