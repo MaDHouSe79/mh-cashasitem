@@ -29,7 +29,9 @@
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory)
 
-  
+# Optional
+- [ps-inventory](https://github.com/Project-Sloth/ps-inventory)
+
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
@@ -62,7 +64,8 @@ Config.AllowedSuitcaseItems = {
 }
 ```
 
-# Find in inventory [qb]/qb-inventory/server/main.lua
+# qb-inventory
+- Find in qb-inventory [qb]/qb-inventory/server/main.lua
 - `RegisterNetEvent` `inventory:server:SetInventoryData`
 - Replace the code with this code below, and make sure you backup the old code.
 ```lua
@@ -367,7 +370,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if toItemData.name:lower() == "suitcase" then
+				if fromItemData.name:lower() == "suitcase" then
 					local hasItem = QBCore.Functions.HasItem(src, "suitcase", 1)
 					if hasItem then
 						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
@@ -501,7 +504,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if toItemData.name:lower() == "suitcase" then
+				if fromItemData.name:lower() == "suitcase" then
 					local hasItem = QBCore.Functions.HasItem(src, "suitcase", 1)
 					if hasItem then
 						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
@@ -570,7 +573,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if toItemData.name:lower() == "suitcase" then
+				if fromItemData.name:lower() == "suitcase" then
 					local hasItem = QBCore.Functions.HasItem(src, "suitcase", 1)
 					if hasItem then
 						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
@@ -792,6 +795,11 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 	end
 end)
 ```
+
+
+# ps-inventory
+- Find in ps-inventory [qb]/ps-inventory/server/main.lua
+```lua
 
 
 ## 🙈 Youtube & Discord
