@@ -29,7 +29,7 @@
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory)
 
-# Optional
+# Compatible
 - [ps-inventory](https://github.com/Project-Sloth/ps-inventory)
 
 # Video
