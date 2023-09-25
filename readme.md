@@ -55,19 +55,18 @@ https://www.youtube.com/watch?v=sWYkV-PeqU4
 # Add in inventory config.lua
 ```lua
 -- it works without but this is needed in the inventory config, or the trigger can give you errors.
-Config.AllowedSuitcaseItems = {
-    ['cashsuitcase'] = {
+Config.Suitcases = {
+    ["cashsuitcase"] = {
         allowedItems = {
             ["cash"] = true,
         },
     },
-    ['drugssuitcase'] = {
+    ["drugssuitcase"] = = {
         allowedItems = {
             ["meth"] = true,
             ["coke"] = true,
             ["weed"] = true,
         },
-
     },
     ['weaponsuitcase'] = {
         allowedItems = {
@@ -75,12 +74,6 @@ Config.AllowedSuitcaseItems = {
             ["pistol_ammo"] = true,
         },
     },
-}
-
-Config.Suitcases = {
-    ["cashsuitcase"] = true,
-    ["drugssuitcase"] = true,
-    ["weaponsuitcase"] = true,
 }
 ```
 
@@ -196,8 +189,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local toItemData = Stashes[stashId].items[toSlot]
 				local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
 				if suitcase then
-					if suitcase == "suitcase" then
-						if Config.AllowedSuitcaseItems[fromItemData.name:lower()] then
+					if Config.Suitcases[suitcase] then
+						if Config.Suitcases[suitcase].allowedItems[fromItemData.name:lower()] then
 							RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
 							TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)
 							if toItemData then
