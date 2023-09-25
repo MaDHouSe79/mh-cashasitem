@@ -61,7 +61,7 @@ Config.Suitcases = {
             ["cash"] = true,
         },
     },
-    ["drugssuitcase"] = = {
+    ["drugssuitcase"] = {
         allowedItems = {
             ["meth"] = true,
             ["coke"] = true,
