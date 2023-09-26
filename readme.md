@@ -64,7 +64,8 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 
 # Add in inventory config.lua
 ```lua
--- it works without but this is needed in the inventory config, or the trigger can give you errors.
+-- it works without this, it is for mh-suitecases,
+-- but this is needed in the inventory config, or the trigger can give you errors.
 Config.Suitcases = {
     ["cashsuitcase"] = {
         allowedItems = {
