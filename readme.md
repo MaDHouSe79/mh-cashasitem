@@ -36,7 +36,7 @@
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
 
-# Check in server file cor config
+# Check in server file config
 - inventory itembox popup when you add or remove items.
 - set it all to false if you don't want it.
 ```lua
