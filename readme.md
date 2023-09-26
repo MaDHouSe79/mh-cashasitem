@@ -35,6 +35,16 @@
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
+
+# Check in server file cor config
+- inventory itembox popup when you add or remove items.
+- set it all to false if you don't want it.
+```lua
+local useItemBox = true    -- true if you want to use the itembox popup 
+local useAddBox = true     -- true if you want to see the add itembox popup (only works if useItemBox = true)
+local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
+```
+
 # Add in `[qb]/qb-core/shared/items.lua` 
 - and don't forgot the add the cash.png in to your inventory image folder.
 ```lua
