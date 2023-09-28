@@ -219,13 +219,13 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local stashId = QBCore.Shared.SplitStr(toInventory, "-")[2]
 				local toItemData = Stashes[stashId].items[toSlot]
 				-- mh-stashes (start)
-				local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
+				local stash = QBCore.Shared.SplitStr(stashId, "_")[1]
 				local canuse = true
-				if Config.Stashes[suitcase] then -- we hebben een koffer
-					if Config.Stashes[suitcase].allowedItems then -- zijn er items die we in de koffer mogen doen?
-						if not Config.Stashes[suitcase].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
+				if Config.Stashes[stash] then -- we hebben een koffer
+					if Config.Stashes[stash].allowedItems then -- zijn er items die we in de koffer mogen doen?
+						if not Config.Stashes[stash].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
 							canuse = false
-							TriggerEvent('mh-stashes:server:allowed_items_error', src, Config.Stashes[suitcase].allowedItems)						
+							TriggerEvent('mh-stashes:server:allowed_items_error', src, Config.Stashes[stash].allowedItems)						
 						end
 					end	
 				end
@@ -288,7 +288,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 						local coords = GetEntityCoords(GetPlayerPed(src))
 						local pos = {["x"] = coords.x + 0.5, ["y"] = coords.y + 0.5, ["z"] = coords.z}
 						print("Player To Drop Inventory", json.encode(fromItemData, {indent = true}))
-						TriggerEvent('mh-stashes:server:dropsuitcase', src, fromItemData, pos)
+						TriggerEvent('mh-stashes:server:dropstash', src, fromItemData, pos)
 					else
 						CreateNewDrop(src, fromSlot, toSlot, fromAmount)
 						TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)	
@@ -469,7 +469,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
 				if Config.Stashes[fromItemData.name:lower()] then
-					local hasItem = QBCore.Functions.HasItem(src, "suitcase", 1)
+					local hasItem = QBCore.Functions.HasItem(src, "stash", 1)
 					if hasItem then
 						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
@@ -532,10 +532,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 		local fromItemData = Stashes[stashId].items[fromSlot]
 		fromAmount = tonumber(fromAmount) or fromItemData.amount
 		-- mh-stashes (start)
-		local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
+		local stash = QBCore.Shared.SplitStr(stashId, "_")[1]
 		local canloot = true
-		if Config.Stashes[suitcase] then
-			if fromItemData and fromItemData.info and fromItemData.info.item == suitcase then
+		if Config.Stashes[stash] then
+			if fromItemData and fromItemData.info and fromItemData.info.item == stash then
 				if not fromItemData.info.canloot then
 					canloot = false
 				else
@@ -736,13 +736,11 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
@@ -972,13 +970,13 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local toItemData = Stashes[stashId].items[toSlot]
 				
 				-- mh-stashes (start)
-				local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
+				local stash = QBCore.Shared.SplitStr(stashId, "_")[1]
 				local canuse = true
-				if Config.Stashes[suitcase] then -- we hebben een koffer
-					if Config.Stashes[suitcase].allowedItems then -- zijn er items die we in de koffer mogen doen?
-						if not Config.Stashes[suitcase].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
+				if Config.Stashes[stash] then -- we hebben een koffer
+					if Config.Stashes[stash].allowedItems then -- zijn er items die we in de koffer mogen doen?
+						if not Config.Stashes[stash].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
 							canuse = false
-							TriggerEvent('mh-stashes:server:allowed_items_error', src, Config.Stashes[suitcase].allowedItems)						
+							TriggerEvent('mh-stashes:server:allowed_items_error', src, Config.Stashes[stash].allowedItems)						
 						end
 					end	
 				end
@@ -1043,7 +1041,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 					if Config.Stashes[fromItemData.name:lower()] then
 						local coords = GetEntityCoords(GetPlayerPed(src))
 						local pos = {["x"] = coords.x + 0.5, ["y"] = coords.y + 0.5, ["z"] = coords.z}
-						TriggerEvent('mh-stashes:server:dropsuitcase', src, fromItemData, pos)
+						TriggerEvent('mh-stashes:server:dropstash', src, fromItemData, pos)
 					else
 						CreateNewDrop(src, fromSlot, toSlot, fromAmount)
 						TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)	
@@ -1329,10 +1327,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 		fromAmount = tonumber(fromAmount) or fromItemData.amount
 		
 		-- mh-stashes (start)
-		local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
+		local stash = QBCore.Shared.SplitStr(stashId, "_")[1]
 		local canloot = true
-		if Config.Stashes[suitcase] then
-			if fromItemData and fromItemData.info and fromItemData.info.item == suitcase then
+		if Config.Stashes[stash] then
+			if fromItemData and fromItemData.info and fromItemData.info.item == stash then
 				if not fromItemData.info.canloot then
 					canloot = false
 				else
@@ -1401,7 +1399,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 						TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "add", true)
 						AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
 					end
-
 				else
 					local toItemData = Stashes[stashId].items[toSlot]
 					RemoveFromStash(stashId, fromSlot, itemInfo["name"], fromAmount)
@@ -1575,13 +1572,11 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
@@ -1693,8 +1688,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 	end
 end)
 ```
-
-
 
 
 
