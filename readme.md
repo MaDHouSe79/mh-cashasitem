@@ -70,6 +70,14 @@ Config.Suitcases = {
     ['wallet'] = {
         allowedItems = {
             ["cash"] = true,
+            ["id_card"] = true,
+            ["driver_license"] = true,
+            ["lawyerpass"] = true,
+            ["weaponlicense"] = true,
+            ["visa"] = true,
+            ["mastercard"] = true,
+            ["security_card_01"] = true,
+            ["security_card_02"] = true,
         },
     },
     ["cashsuitcase"] = {
