@@ -66,7 +66,7 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 ```lua
 -- it works without this, it is for mh-suitecases,
 -- but this is needed in the inventory config, or the trigger can give you errors.
-Config.Suitcases = {
+Config.Stashes = {
     ['wallet'] = {
         allowedItems = {
             ["cash"] = true,
@@ -167,8 +167,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local toItemData = Trunks[plate].items[toSlot]
 				RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
 				TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove")
-				if Config.Suitcases[fromItemData.name:lower()] then
-					TriggerEvent('mh-suitcase:client:RemoveProp', src)
+				if Config.Stashes[fromItemData.name:lower()] then
+					TriggerEvent('mh-stashes:client:RemoveProp', src)
 				end	
 				TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
 				if toItemData then
@@ -192,8 +192,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local plate = QBCore.Shared.SplitStr(toInventory, "-")[2]
 				local toItemData = Gloveboxes[plate].items[toSlot]
 				RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
-					TriggerEvent('mh-suitcase:client:RemoveProp', src)
+				if Config.Stashes[fromItemData.name:lower()] then
+					TriggerEvent('mh-stashes:client:RemoveProp', src)
 				end	
 				TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove")
 				TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
@@ -218,18 +218,18 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			elseif QBCore.Shared.SplitStr(toInventory, "-")[1] == "stash" then
 				local stashId = QBCore.Shared.SplitStr(toInventory, "-")[2]
 				local toItemData = Stashes[stashId].items[toSlot]
-				-- mh-suitcase (start)
+				-- mh-stashes (start)
 				local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
 				local canuse = true
-				if Config.Suitcases[suitcase] then -- we hebben een koffer
-					if Config.Suitcases[suitcase].allowedItems then -- zijn er items die we in de koffer mogen doen?
-						if not Config.Suitcases[suitcase].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
+				if Config.Stashes[suitcase] then -- we hebben een koffer
+					if Config.Stashes[suitcase].allowedItems then -- zijn er items die we in de koffer mogen doen?
+						if not Config.Stashes[suitcase].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
 							canuse = false
-							TriggerEvent('mh-suitcase:server:allowed_items_error', src, Config.Suitcases[suitcase].allowedItems)						
+							TriggerEvent('mh-stashes:server:allowed_items_error', src, Config.Stashes[suitcase].allowedItems)						
 						end
 					end	
 				end
-				-- mh-suitcase (end)	
+				-- mh-stashes (end)	
 				if canuse then
 					RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
 					TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)
@@ -284,11 +284,11 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				-- from player to drop
 				toInventory = tonumber(toInventory)
 				if toInventory == nil or toInventory == 0 then
-					if Config.Suitcases[fromItemData.info.type] then
+					if Config.Stashes[fromItemData.info.type] then
 						local coords = GetEntityCoords(GetPlayerPed(src))
 						local pos = {["x"] = coords.x + 0.5, ["y"] = coords.y + 0.5, ["z"] = coords.z}
 						print("Player To Drop Inventory", json.encode(fromItemData, {indent = true}))
-						TriggerEvent('mh-suitcase:server:dropsuitcase', src, fromItemData, pos)
+						TriggerEvent('mh-stashes:server:dropsuitcase', src, fromItemData, pos)
 					else
 						CreateNewDrop(src, fromSlot, toSlot, fromAmount)
 						TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)	
@@ -332,10 +332,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[toItemData.name] then
+				if Config.Stashes[toItemData.name] then
 					local hasItem = QBCore.Functions.HasItem(src, toItemData.name, 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveItem(playerId, itemInfo["name"], fromAmount, fromSlot)
 						TriggerEvent('mh-cashasitem:server:updateCash', playerId, fromItemData, fromAmount, "remove", true)
@@ -401,10 +401,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name, 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveFromTrunk(plate, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData then
@@ -468,10 +468,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, "suitcase", 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveFromGlovebox(plate, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData then
@@ -531,10 +531,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 		local stashId = QBCore.Shared.SplitStr(fromInventory, "-")[2]
 		local fromItemData = Stashes[stashId].items[fromSlot]
 		fromAmount = tonumber(fromAmount) or fromItemData.amount
-		-- mh-suitcase (start)
+		-- mh-stashes (start)
 		local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
 		local canloot = true
-		if Config.Suitcases[suitcase] then
+		if Config.Stashes[suitcase] then
 			if fromItemData and fromItemData.info and fromItemData.info.item == suitcase then
 				if not fromItemData.info.canloot then
 					canloot = false
@@ -545,17 +545,17 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				end
 			end
 		end
-		-- mh-suitcase (end)
+		-- mh-stashes (end)
 
 		if canloot then
 			if fromItemData and fromItemData.amount >= fromAmount then
 				local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 				if toInventory == "player" or toInventory == "hotbar" then
 					local toItemData = GetItemBySlot(src, toSlot)
-					if Config.Suitcases[fromItemData.name:lower()] then
+					if Config.Stashes[fromItemData.name:lower()] then
 						local hasItem = QBCore.Functions.HasItem(src, fromItemData.name, 1)
 						if hasItem then
-							TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+							TriggerEvent('mh-stashes:server:max_carry_item', src)
 						else
 							RemoveFromStash(stashId, fromSlot, itemInfo["name"], fromAmount)
 							if toItemData then
@@ -622,10 +622,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name, 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						exports['qb-traphouse']:RemoveHouseItem(traphouseId, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData then
@@ -736,11 +736,13 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
@@ -773,10 +775,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name] then
+				if Config.Stashes[fromItemData.name] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name, 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveFromDrop(fromInventory, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData then
@@ -919,9 +921,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
 				TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove")
 				TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
-				if Config.Suitcases[fromItemData.name:lower()] then
-					TriggerEvent('mh-suitcase:client:RemoveProp', src)
-				end	
+				if Config.Stashes[fromItemData.name:lower()] then TriggerEvent('mh-stashes:client:RemoveProp', src) end	
                 if toItemData ~= nil then
 					local itemInfo = QBCore.Shared.Items[toItemData.name:lower()]
                     local toAmount = tonumber(toAmount) ~= nil and tonumber(toAmount) or toItemData.amount
@@ -945,9 +945,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local plate = QBCore.Shared.SplitStr(toInventory, "-")[2]
 				local toItemData = Gloveboxes[plate].items[toSlot]
 				RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
-					TriggerEvent('mh-suitcase:client:RemoveProp', src)
-				end	
+				if Config.Stashes[fromItemData.name:lower()] then TriggerEvent('mh-stashes:client:RemoveProp', src) end	
 				TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove")
 				TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
                 if toItemData ~= nil then
@@ -973,18 +971,18 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				local stashId = QBCore.Shared.SplitStr(toInventory, "-")[2]
 				local toItemData = Stashes[stashId].items[toSlot]
 				
-				-- mh-suitcase (start)
+				-- mh-stashes (start)
 				local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
 				local canuse = true
-				if Config.Suitcases[suitcase] then -- we hebben een koffer
-					if Config.Suitcases[suitcase].allowedItems then -- zijn er items die we in de koffer mogen doen?
-						if not Config.Suitcases[suitcase].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
+				if Config.Stashes[suitcase] then -- we hebben een koffer
+					if Config.Stashes[suitcase].allowedItems then -- zijn er items die we in de koffer mogen doen?
+						if not Config.Stashes[suitcase].allowedItems[fromItemData.name:lower()] then -- als het item niet in de koffer mag?
 							canuse = false
-							TriggerEvent('mh-suitcase:server:allowed_items_error', src, Config.Suitcases[suitcase].allowedItems)						
+							TriggerEvent('mh-stashes:server:allowed_items_error', src, Config.Stashes[suitcase].allowedItems)						
 						end
 					end	
 				end
-				-- mh-suitcase (end)	
+				-- mh-stashes (end)	
 				if canuse then
 					RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
 					TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)
@@ -1042,10 +1040,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				-- drop
 				toInventory = tonumber(toInventory)
 				if toInventory == nil or toInventory == 0 then
-					if Config.Suitcases[fromItemData.name:lower()] then
+					if Config.Stashes[fromItemData.name:lower()] then
 						local coords = GetEntityCoords(GetPlayerPed(src))
 						local pos = {["x"] = coords.x + 0.5, ["y"] = coords.y + 0.5, ["z"] = coords.z}
-						TriggerEvent('mh-suitcase:server:dropsuitcase', src, fromItemData, pos)
+						TriggerEvent('mh-stashes:server:dropsuitcase', src, fromItemData, pos)
 					else
 						CreateNewDrop(src, fromSlot, toSlot, fromAmount)
 						TriggerEvent('mh-cashasitem:server:updateCash', src, fromItemData, fromAmount, "remove", true)	
@@ -1091,10 +1089,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[toItemData.name] then
+				if Config.Stashes[toItemData.name] then
 					local hasItem = QBCore.Functions.HasItem(src, toItemData.name:lower(), 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveItem(playerId, itemInfo["name"], fromAmount, fromSlot)
 						TriggerEvent('mh-cashasitem:server:updateCash', playerId, fromItemData, fromAmount, "remove", true)
@@ -1174,10 +1172,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name:lower(), 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveFromTrunk(plate, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData ~= nil then
@@ -1253,10 +1251,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name:lower(), 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveFromGlovebox(plate, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData ~= nil then
@@ -1330,10 +1328,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 		local fromItemData = Stashes[stashId].items[fromSlot]
 		fromAmount = tonumber(fromAmount) or fromItemData.amount
 		
-		-- mh-suitcase (start)
+		-- mh-stashes (start)
 		local suitcase = QBCore.Shared.SplitStr(stashId, "_")[1]
 		local canloot = true
-		if Config.Suitcases[suitcase] then
+		if Config.Stashes[suitcase] then
 			if fromItemData and fromItemData.info and fromItemData.info.item == suitcase then
 				if not fromItemData.info.canloot then
 					canloot = false
@@ -1344,17 +1342,17 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				end
 			end
 		end
-		-- mh-suitcase (end)
+		-- mh-stashes (end)
 
 		if canloot then
 			if fromItemData and fromItemData.amount >= fromAmount then
 				local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 				if toInventory == "player" or toInventory == "hotbar" then
 					local toItemData = GetItemBySlot(src, toSlot)
-					if Config.Suitcases[fromItemData.name:lower()] then
+					if Config.Stashes[fromItemData.name:lower()] then
 						local hasItem = QBCore.Functions.HasItem(src, fromItemData.name, 1)
 						if hasItem then
-							TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+							TriggerEvent('mh-stashes:server:max_carry_item', src)
 						else
 							RemoveFromStash(stashId, fromSlot, itemInfo["name"], fromAmount)
 							if toItemData ~= nil then
@@ -1426,7 +1424,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 				QBCore.Functions.Notify(src, Lang:t("notify.itemexist"), "error")
 			end
 		else
-			TriggerEvent('mh-suitcase:server:not_allowed_to_loot', src)
+			TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
 		end
 
 	elseif QBCore.Shared.SplitStr(fromInventory, "-")[1] == "traphouse" then
@@ -1437,10 +1435,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name:lower(), 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						exports['qb-traphouse']:RemoveHouseItem(traphouseId, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData ~= nil then
@@ -1577,11 +1575,13 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
@@ -1614,10 +1614,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Suitcases[fromItemData.name:lower()] then
+				if Config.Stashes[fromItemData.name:lower()] then
 					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name:lower(), 1)
 					if hasItem then
-						TriggerEvent('mh-suitcase:server:max_carry_suitcase', src)
+						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
 						RemoveFromDrop(fromInventory, fromSlot, itemInfo["name"], fromAmount)
 						if toItemData ~= nil then
@@ -1693,6 +1693,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 	end
 end)
 ```
+
+
 
 
 
