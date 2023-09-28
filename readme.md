@@ -88,8 +88,8 @@ Config.Suitcases = {
 }
 ```
 
-**qb-inventory**
-# Find in inventory server/main.lua
+# qb-inventory
+- Find in inventory server/main.lua
 - `RegisterNetEvent` `inventory:server:SetInventoryData`
 - Replace the code with this code below, and make sure you backup the old code.
 ```lua
@@ -832,8 +832,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 end)
 ```
 
-**ps-inventory**
-# Find in inventory server/main.lua
+# ps-inventory
+- Find in ps-inventory server/main.lua
 - `RegisterNetEvent` `inventory:server:SetInventoryData`
 - Replace the code with this code below, and make sure you backup the old code.
 ```lua
