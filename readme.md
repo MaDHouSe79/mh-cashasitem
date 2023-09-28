@@ -70,7 +70,7 @@ Config.Stashes = {
     ['walletstash'] = {
         allowedItems = {
             ["cash"] = true,
-            ["markedbills"] = true,
+	["markedbills"] = true,
             ["id_card"] = true,
             ["driver_license"] = true,
             ["lawyerpass"] = true,
@@ -84,7 +84,7 @@ Config.Stashes = {
     ["cashstash"] = {
         allowedItems = {
             ["cash"] = true,
-			["markedbills"] = true,
+	["markedbills"] = true,
         },
     },
     ["drugsstash"] = {
