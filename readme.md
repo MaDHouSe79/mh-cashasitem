@@ -67,10 +67,10 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 -- it works without this, it is for mh-suitecases,
 -- but this is needed in the inventory config, or the trigger can give you errors.
 Config.Stashes = {
-    ['wallet'] = {
+    ['walletstash'] = {
         allowedItems = {
             ["cash"] = true,
-			["markedbills"] = true,
+            ["markedbills"] = true,
             ["id_card"] = true,
             ["driver_license"] = true,
             ["lawyerpass"] = true,
