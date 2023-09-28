@@ -70,6 +70,7 @@ Config.Stashes = {
     ['wallet'] = {
         allowedItems = {
             ["cash"] = true,
+			["markedbills"] = true,
             ["id_card"] = true,
             ["driver_license"] = true,
             ["lawyerpass"] = true,
@@ -80,19 +81,20 @@ Config.Stashes = {
             ["security_card_02"] = true,
         },
     },
-    ["cashsuitcase"] = {
+    ["cashstash"] = {
         allowedItems = {
             ["cash"] = true,
+			["markedbills"] = true,
         },
     },
-    ["drugssuitcase"] = {
+    ["drugsstash"] = {
         allowedItems = {
             ["meth"] = true,
             ["coke"] = true,
             ["weed"] = true,
         },
     },
-    ['weaponsuitcase'] = {
+    ['weaponstash'] = {
         allowedItems = {
             ["weapon_pistol"] = true,
             ["pistol_ammo"] = true,
