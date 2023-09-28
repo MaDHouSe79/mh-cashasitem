@@ -728,13 +728,11 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
@@ -1571,13 +1569,11 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
-				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
