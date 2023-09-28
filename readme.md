@@ -67,6 +67,11 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 -- it works without this, it is for mh-suitecases,
 -- but this is needed in the inventory config, or the trigger can give you errors.
 Config.Suitcases = {
+    ['wallet'] = {
+        allowedItems = {
+            ["cash"] = true,
+        },
+    },
     ["cashsuitcase"] = {
         allowedItems = {
             ["cash"] = true,
@@ -723,11 +728,13 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
@@ -1557,18 +1564,20 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
                 TriggerClientEvent('qb-shops:client:UpdateShop', src, QBCore.Shared.SplitStr(shopType, "_")[2], itemData, fromAmount)
                 QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
-				exports['ps-mdt']:CreateWeaponInfo(serial, imageurl, notes, owner, weapClass, weapModel)
+				--exports['ps-mdt']:CreateWeaponInfo(serial, imageurl, notes, owner, weapClass, weapModel)
                 TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
             else
                 QBCore.Functions.Notify(src, Lang:t('notify.no_cash'), "error")
             end
 		else
 			if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
 			elseif bankBalance >= price then
 				Player.Functions.RemoveMoney("bank", price, "unkown-itemshop-bought-item")
+				if itemData.name:lower() == 'wallet' then itemData.info.walletid = math.random(11111, 99999) end
 				AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
 				QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
 				TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**"..GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $"..price)
