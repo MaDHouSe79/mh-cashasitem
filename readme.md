@@ -27,14 +27,10 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
-- [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory)
-
-# Compatible
-- [ps-inventory](https://github.com/Project-Sloth/ps-inventory)
+- [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory)
 
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
-
 
 # Check in server file config
 - inventory itembox popup when you add or remove items.
