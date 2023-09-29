@@ -9,8 +9,8 @@ local useCashAsItem = true -- true if you want to use cash as item
 local cashItem = "cash"    -- the cash item for the inventory
 
 -- inventory itembox popup when you add or remove items.
-local useItemBox = true    -- true if you want to use the itembox popup 
-local useAddBox = true     -- true if you want to see the add itembox popup (only works if useItemBox = true)
+local useItemBox = false   -- true if you want to use the itembox popup 
+local useAddBox = false    -- true if you want to see the add itembox popup (only works if useItemBox = true)
 local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
 --
 
