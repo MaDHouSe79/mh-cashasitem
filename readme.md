@@ -333,8 +333,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Stashes[toItemData.name] then
-					local hasItem = QBCore.Functions.HasItem(src, toItemData.name, 1)
+				if Config.Stashes[fromItemData.name] then
+					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name, 1)
 					if hasItem then
 						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
@@ -1088,8 +1088,8 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
 			local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
 			if toInventory == "player" or toInventory == "hotbar" then
 				local toItemData = GetItemBySlot(src, toSlot)
-				if Config.Stashes[toItemData.name] then
-					local hasItem = QBCore.Functions.HasItem(src, toItemData.name:lower(), 1)
+				if Config.Stashes[fromItemData.name] then
+					local hasItem = QBCore.Functions.HasItem(src, fromItemData.name:lower(), 1)
 					if hasItem then
 						TriggerEvent('mh-stashes:server:max_carry_item', src)
 					else
