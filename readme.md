@@ -58,10 +58,8 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 },
 ```
 
-
-## 🙈 Youtube & Discord
-- [Youtube](https://www.youtube.com/c/MaDHouSe79)
-- [Discord](https://discord.gg/cEMSeE9dgS)
+## 🙈 Youtube
+- [Youtube](https://www.youtube.com/channel/UC6431XeIqHjswry5OYtim0A)
 
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
