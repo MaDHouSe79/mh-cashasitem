@@ -23,7 +23,7 @@
 </p>
 
 # mh-cashasitem
-- Use cash as item for qb-core servers!
+- Use cash as item for qb-core
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
