@@ -22,6 +22,9 @@
   </a>      
 </p>
 
+# Youtube 🙈
+- [Youtube](https://www.youtube.com/c/@MaDHouSe79)
+
 # mh-cashasitem
 - Use cash as item for qb-core
 
@@ -57,9 +60,6 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
     ['description'] = 'Cash'
 },
 ```
-
-## 🙈 Youtube
-- [Youtube](https://www.youtube.com/channel/UC6431XeIqHjswry5OYtim0A)
 
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
