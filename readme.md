@@ -32,6 +32,12 @@
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory)
 
+# Install
+- Create a ffolder `[mh]` in resources,
+- Put the folder mh-cashasitem in the [mh] folder
+- Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
+- Don't forget to use mh-inventory and read the readme.
+
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
