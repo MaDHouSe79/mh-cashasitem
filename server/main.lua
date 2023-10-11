@@ -14,27 +14,27 @@ local function ItemBox(player, amount, action)
 end
 
 --- Get Player Cash
----@param player object
+---@param player table
 local function GetMoney(player)
     return player.Functions.GetMoney('cash')
 end
 
 --- Add Player Cash
----@param player object
+---@param player table
 ---@param amount int
 local function AddMoney(player, amount)
     return player.Functions.AddMoney("cash", amount, nil)
 end
 
 --- Remove Player Cash
----@param player object
+---@param player table
 ---@param amount int
 local function RemoveMoney(player, amount)
     return player.Functions.RemoveMoney("cash", amount, nil)
 end
 
 ---Add Cash Item
----@param player object
+---@param player table
 ---@param amount int
 ---@param slot int
 local function AddItem(player, amount, slot)
@@ -47,7 +47,7 @@ local function AddItem(player, amount, slot)
 end
 
 ---Remove Cash Item
----@param player object
+---@param player table
 ---@param amount int
 ---@param slot int
 local function RemoveItem(player, amount, slot)
