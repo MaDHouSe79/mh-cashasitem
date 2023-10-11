@@ -5,7 +5,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 --- Inventory ItemBox Popup
----@param amount int
+---@param amount number
 ---@param action string
 local function ItemBox(player, amount, action)
     if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
@@ -21,22 +21,22 @@ end
 
 --- Add Player Cash
 ---@param player table
----@param amount int
+---@param amount number
 local function AddMoney(player, amount)
     return player.Functions.AddMoney("cash", amount, nil)
 end
 
 --- Remove Player Cash
 ---@param player table
----@param amount int
+---@param amount number
 local function RemoveMoney(player, amount)
     return player.Functions.RemoveMoney("cash", amount, nil)
 end
 
 ---Add Cash Item
 ---@param player table
----@param amount int
----@param slot int
+---@param amount number
+---@param slot number
 local function AddItem(player, amount, slot)
     if slot ~= nil or slot ~= 0 then
         player.Functions.AddItem(Config.cashItem:lower(), amount, slot)
@@ -48,14 +48,14 @@ end
 
 ---Remove Cash Item
 ---@param player table
----@param amount int
----@param slot int
+---@param amount number
+---@param slot number
 local function RemoveItem(player, amount, slot)
     return player.Functions.RemoveItem(Config.cashItem:lower(), amount, slot)
 end
 
 ---Update Cash Item
----@param id int
+---@param id number
 local function UpdateCashItem(id)
     local player = QBCore.Functions.GetPlayer(id)
     if player and Config.useCashAsItem then
