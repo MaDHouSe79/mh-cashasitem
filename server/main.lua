@@ -3,7 +3,7 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 local MHCore = exports['mh-core']:GetMHCore()
---- Inventory ItemBox Popup
+---Inventory ItemBox Popup
 ---@param amount number
 ---@param action string
 local function ItemBox(player, amount, action)
@@ -13,20 +13,20 @@ local function ItemBox(player, amount, action)
     end
 end
 
---- Get Player Cash
+---Get Player Cash
 ---@param player table
 local function GetMoney(player)
     return player.Functions.GetMoney('cash')
 end
 
---- Add Player Cash
+---Add Player Cash
 ---@param player table
 ---@param amount number
 local function AddMoney(player, amount)
     return player.Functions.AddMoney("cash", amount, nil)
 end
 
---- Remove Player Cash
+---Remove Player Cash
 ---@param player table
 ---@param amount number
 local function RemoveMoney(player, amount)
@@ -78,7 +78,7 @@ local function UpdateCashItem(id)
     end
 end
 
---- RegisterNetEvent update Cash
+---RegisterNetEvent update Cash
 ---@param id number
 ---@param item table
 ---@param amount number
@@ -100,7 +100,7 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
     end
 end)
 
---- RegisterNetEvent OpenInventory
+---RegisterNetEvent OpenInventory
 ---@param name string
 ---@param id number
 ---@param other table
@@ -111,7 +111,7 @@ RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     end
 end)
 
---- RegisterNetEvent OnMoneyChange
+---RegisterNetEvent OnMoneyChange
 ---@param source number
 ---@param moneyType string
 ---@param amount number
