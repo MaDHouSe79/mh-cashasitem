@@ -1,15 +1,15 @@
---[[ ===================================================== ]]--
---[[           MH Cash As Item Script by MaDHouSe          ]]--
---[[ ===================================================== ]]--
-
+--[[ ===================================================== ]] --
+--[[           MH Cash As Item Script by MaDHouSe          ]] --
+--[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local MHCore = exports['mh-core']:GetMHCore()
 --- Inventory ItemBox Popup
 ---@param amount number
 ---@param action string
 local function ItemBox(player, amount, action)
     if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
-        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, MHCore.QBCore.Shared.Items[Config.cashItem:lower()], action, amount)
+        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source,
+            QBCore.Shared.Items[Config.cashItem:lower()], action, amount)
     end
 end
 
@@ -78,9 +78,17 @@ local function UpdateCashItem(id)
     end
 end
 
+--- RegisterNetEvent update Cash
+---@param id number
+---@param item table
+---@param amount number
+---@param action string
+---@param display boolean
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action, display)
     local player = QBCore.Functions.GetPlayer(id)
-    if display == nil then display = true end
+    if display == nil then
+        display = true
+    end
     if player and Config.useCashAsItem then
         if item and item.name == Config.cashItem and display then
             if action == "add" then
@@ -92,12 +100,26 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
     end
 end)
 
+--- RegisterNetEvent OpenInventory
+---@param name string
+---@param id number
+---@param other table
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
-    if Config.useCashAsItem then UpdateCashItem(src) end
+    if Config.useCashAsItem then
+        UpdateCashItem(src)
+    end
 end)
 
+--- RegisterNetEvent OnMoneyChange
+---@param source number
+---@param moneyType string
+---@param amount number
+---@param set string
+---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     local src = source
-    if Config.useCashAsItem then UpdateCashItem(src) end
+    if Config.useCashAsItem then
+        UpdateCashItem(src)
+    end
 end)
