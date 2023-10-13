@@ -12,7 +12,7 @@ version '1.0'
 server_only 'yes'
 
 server_scripts {
-    'config.lua'
+    'config.lua',
     'server/main.lua',
     'server/update.lua',
 }
