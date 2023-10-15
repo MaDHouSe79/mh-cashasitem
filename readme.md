@@ -32,7 +32,7 @@
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory)
 - [mh-blackmarket](https://github.com/MaDHouSe79/mh-blackmarket)
-- 
+
 # Install
 - Create a folder `[mh]` in resources,
 - Put the folder mh-cashasitem in the [mh] folder
