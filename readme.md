@@ -38,10 +38,13 @@
 - Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
 - Don't forget to use [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) and read the readme.
 
+# Command
+- /blackmoney to see the amount
 
 #Note for using blackmoney as an item
 - how to use the bey with blackmoney trigger
 - first you need to edit the qb-core/config.lua to this below
+
 ```lua
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, blackmoney = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'blackmoney' } -- Money that is not allowed going in minus
