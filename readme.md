@@ -50,13 +50,17 @@ local info = {
     worth = math.random(2300, 3200)
 }
 local amount = math.random(2,3)
-ply.Functions.AddItem('markedbills', amount , false, info)
-TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['markedbills'], "add", amount)
+local Player = QBCore.Functions.GetPlayer(source) 
+Player.Functions.AddItem('markedbills', amount , false, info)
+TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['markedbills'], "add", amount)
 ```
 Into this
 ```lua
 -- this will give you blackmoney item
-ply.Functions.AddItem("blackmoney", 1000, nil)
+local Player = QBCore.Functions.GetPlayer(source)
+local amount = 1000
+Player.Functions.AddItem("blackmoney", amount, nil)
+TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['blackmoney'], "add", amount)
 ```
 
 # Check in server file config
