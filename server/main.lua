@@ -198,7 +198,7 @@ RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function(id, data
         local itemInfo = QBCore.Shared.Items[data.item:lower()]
         QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
         TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green",
-            "**" .. GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $" .. price)
+            "**" .. GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $" .. data.price)
     else
         TriggerClientEvent('QBCore:Notify', src, "You Don't Have Enough money", 'error')
     end
