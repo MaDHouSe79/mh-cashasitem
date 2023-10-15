@@ -132,7 +132,6 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
     end
     if player and Config.useCashAsItem then
         if item and Config.CashItems[item.name] and display then
-            print("2" .. item.name)
             if item.name == 'cash' then
                 if action == "add" then
                     AddMoney(player, amount, nil)
