@@ -131,7 +131,6 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
         display = true
     end
     if player and Config.useCashAsItem then
-        print("1" .. item.name, tostring(Config.CashItems[item.name]))
         if item and Config.CashItems[item.name] and display then
             print("2" .. item.name)
             if item.name == 'cash' then
