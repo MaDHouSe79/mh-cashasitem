@@ -39,9 +39,9 @@ end
 local function AddItem(item, player, amount, slot)
     if item ~= nil then
         if slot ~= nil or slot ~= 0 then
-            player.Functions.AddItem(item:lower(), amount, slot)
+            player.Functions.AddItem(item, amount, slot)
         else
-            player.Functions.AddItem(item:lower(), amount, nil)
+            player.Functions.AddItem(item, amount, nil)
         end
         ItemBox(item.name, player, amount, "add")
     end
@@ -52,7 +52,7 @@ end
 ---@param amount number
 ---@param slot number
 local function RemoveItem(item, player, amount, slot)
-    return player.Functions.RemoveItem(item:lower(), amount, slot)
+    return player.Functions.RemoveItem(item, amount, slot)
 end
 
 ---Update Cash Item
@@ -64,7 +64,7 @@ local function UpdateCashItem(id, moneyType)
         local itemCount = 0
         local lastslot = nil
         for _, item in pairs(player.PlayerData.items) do
-            if item and Config.CashItems[item.name:lower()] then
+            if item and Config.CashItems[item.name] then
                 itemCount = itemCount + item.amount
                 lastslot = item.slot
                 RemoveItem(item.name, player, item.amount, item.slot)
@@ -72,9 +72,9 @@ local function UpdateCashItem(id, moneyType)
         end
         if itemCount >= 1 and amount >= 1 then
             ItemBox(moneyType, player, itemCount, "remove")
-            AddItem(moneyType, player, amount, lastslot)
+            AddItem(moneyType, player, itemCount, lastslot)
         elseif itemCount <= 0 and amount >= 1 then
-            AddItem(moneyType, player, amount, lastslot)
+            AddItem(moneyType, player, itemCount, lastslot)
         end
     end
 end
@@ -91,7 +91,7 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
         display = true
     end
     if player and Config.useCashAsItem then
-        if item and Config.CashItems[item.name:lower()] and display then
+        if item and Config.CashItems[item.name] and display then
             if action == "add" then
                 AddMoney(item.name, player, amount, nil)
             elseif action == "remove" then
