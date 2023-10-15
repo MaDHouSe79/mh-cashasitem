@@ -65,6 +65,18 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
     ['combinable'] = nil,
     ['description'] = 'Cash'
 },
+['blackmoney'] = {
+    ['name'] = 'blackmoney',
+    ['label'] = 'Black Money',
+    ['weight'] = 1000,
+    ['type'] = 'item',
+    ['image'] = 'markedbills.png',
+    ['unique'] = false,
+    ['useable'] = false,
+    ['shouldClose'] = true,
+    ['combinable'] = nil,
+    ['description'] = 'Black Money?'
+},
 ```
 
 # LICENSE
