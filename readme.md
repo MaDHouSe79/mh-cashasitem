@@ -41,7 +41,7 @@
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
-# NOTE
+# NOTE Blackmoney as item
 - If you want to use blackmoney as an item, you don't need to change this script.
 - Change this in the scripts you aleady have.
 ```lua
