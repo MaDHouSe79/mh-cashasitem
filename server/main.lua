@@ -5,31 +5,51 @@ local QBCore = exports['qb-core']:GetCoreObject()
 --- Inventory ItemBox Popup
 ---@param amount number
 ---@param action string
-local function ItemBox(item, player, amount, action)
+local function ItemBox(player, amount, action)
     if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
         TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source,
-            QBCore.Shared.Items[item:lower()], action, amount)
+            QBCore.Shared.Items[Config.cashItem:lower()], action, amount)
     end
 end
 
 --- Get Player Cash
 ---@param player table
-local function GetMoney(player, moneyType)
-    return player.Functions.GetMoney(moneyType)
+local function GetMoney(player)
+    return player.Functions.GetMoney('cash')
 end
 
 --- Add Player Cash
 ---@param player table
 ---@param amount number
-local function AddMoney(moneyType, player, amount)
-    return player.Functions.AddMoney(moneyType, amount, nil)
+local function AddMoney(player, amount)
+    return player.Functions.AddMoney("cash", amount, nil)
 end
 
 --- Remove Player Cash
 ---@param player table
 ---@param amount number
-local function RemoveMoney(moneyType, player, amount)
-    return player.Functions.RemoveMoney(moneyType, amount, nil)
+local function RemoveMoney(player, amount)
+    return player.Functions.RemoveMoney("cash", amount, nil)
+end
+
+--- Get Player Black Money
+---@param player table
+local function GetBlackMoney(player)
+    return player.Functions.GetMoney('blackmoney')
+end
+
+--- Add Player Black Money
+---@param player table
+---@param amount number
+local function AddBlackMoney(player, amount)
+    return player.Functions.AddMoney("blackmoney", amount, nil)
+end
+
+--- Remove Player Black Money
+---@param player table
+---@param amount number
+local function RemoveBlackMoney(player, amount)
+    return player.Functions.RemoveMoney("blackmoney", amount, nil)
 end
 
 ---Add Cash Item
@@ -37,14 +57,12 @@ end
 ---@param amount number
 ---@param slot number
 local function AddItem(item, player, amount, slot)
-    if item ~= nil then
-        if slot ~= nil or slot ~= 0 then
-            player.Functions.AddItem(item, amount, slot)
-        else
-            player.Functions.AddItem(item, amount, nil)
-        end
-        ItemBox(item.name, player, amount, "add")
+    if slot ~= nil or slot ~= 0 then
+        player.Functions.AddItem(item, amount, slot)
+    else
+        player.Functions.AddItem(item, amount, nil)
     end
+    ItemBox(player, amount, "add")
 end
 
 ---Remove Cash Item
@@ -57,24 +75,46 @@ end
 
 ---Update Cash Item
 ---@param id number
-local function UpdateCashItem(id, moneyType)
+local function UpdateCashItem(id)
     local player = QBCore.Functions.GetPlayer(id)
     if player and Config.useCashAsItem then
-        local amount = GetMoney(player, moneyType)
+        local cash = GetMoney(player)
         local itemCount = 0
         local lastslot = nil
         for _, item in pairs(player.PlayerData.items) do
-            if item and Config.CashItems[item.name] then
+            if item and item.name:lower() == 'cash' then
                 itemCount = itemCount + item.amount
                 lastslot = item.slot
                 RemoveItem(item.name, player, item.amount, item.slot)
             end
         end
-        if itemCount >= 1 and amount >= 1 then
-            ItemBox(moneyType, player, itemCount, "remove")
-            AddItem(moneyType, player, itemCount, lastslot)
-        elseif itemCount <= 0 and amount >= 1 then
-            AddItem(moneyType, player, itemCount, lastslot)
+        if itemCount >= 1 and cash >= 1 then
+            ItemBox(player, itemCount, "remove")
+            AddItem('cash', player, cash, lastslot)
+        elseif itemCount <= 0 and cash >= 1 then
+            AddItem('cash', player, cash, lastslot)
+        end
+    end
+end
+
+local function UpdateBlackMoneyItem(id)
+    local player = QBCore.Functions.GetPlayer(id)
+    if player and Config.useCashAsItem then
+        local cash = GetBlackMoney(player)
+        local itemCount = 0
+        local lastslot = nil
+        for _, item in pairs(player.PlayerData.items) do
+            if item and item.name:lower() == 'blackmoney' then
+                itemCount = itemCount + item.amount
+                lastslot = item.slot
+                RemoveItem(item.name, player, item.amount, item.slot)
+            end
+        end
+        if itemCount >= 1 and cash >= 1 then
+            ItemBox(player, itemCount, "remove")
+            AddItem('blackmoney', player, cash, lastslot)
+        elseif itemCount <= 0 and cash >= 1 then
+            AddItem('blackmoney', player, cash, lastslot)
         end
     end
 end
@@ -91,11 +131,21 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
         display = true
     end
     if player and Config.useCashAsItem then
+        print("1" .. item.name, tostring(Config.CashItems[item.name]))
         if item and Config.CashItems[item.name] and display then
-            if action == "add" then
-                AddMoney(item.name, player, amount, nil)
-            elseif action == "remove" then
-                RemoveMoney(item.name, player, amount, nil)
+            print("2" .. item.name)
+            if item.name == 'cash' then
+                if action == "add" then
+                    AddMoney(player, amount, nil)
+                elseif action == "remove" then
+                    RemoveMoney(player, amount, nil)
+                end
+            elseif item.name == 'blackmoney' then
+                if action == "add" then
+                    AddBlackMoney(player, amount, nil)
+                elseif action == "remove" then
+                    RemoveBlackMoney(player, amount, nil)
+                end
             end
         end
     end
@@ -108,8 +158,8 @@ end)
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
     if Config.useCashAsItem then
-        UpdateCashItem(src, "cash")
-        UpdateCashItem(src, "blackmoney")
+        UpdateCashItem(src)
+        UpdateBlackMoneyItem(src)
     end
 end)
 
@@ -122,7 +172,11 @@ end)
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     local src = source
     if Config.useCashAsItem then
-        UpdateCashItem(src, moneyType)
+        if moneyType == 'cash' then
+            UpdateCashItem(src)
+        elseif moneyType == 'blackmoney' then
+            UpdateBlackMoneyItem(src)
+        end
     end
 end)
 
@@ -132,8 +186,8 @@ QBCore.Commands.Add('blackmoney', "Check Your Blackmoney Balance", {}, false, fu
     TriggerClientEvent('hud:client:ShowAccounts', source, 'blackmoney', amount)
 end)
 
-RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function (id, data)
-    local src = id 
+RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function(id, data)
+    local src = id
     local Player = QBCore.Functions.GetPlayer(src)
     local blackmoney = exports['qb-inventory']:GetItemByName(src, "blackmoney")
     if blackmoney.amount >= data.price then
@@ -143,7 +197,8 @@ RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function (id, dat
         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[data.item], "add", data.amount)
         local itemInfo = QBCore.Shared.Items[data.item:lower()]
         QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
-        TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green", "**" .. GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $" .. price)
+        TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green",
+            "**" .. GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $" .. price)
     else
         TriggerClientEvent('QBCore:Notify', src, "You Don't Have Enough money", 'error')
     end
