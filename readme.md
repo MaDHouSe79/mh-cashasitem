@@ -42,7 +42,7 @@
 - /blackmoney to see the amount
 
 #Note for using blackmoney as an item
-- how to use the bey with blackmoney trigger
+- how to use the buy with blackmoney trigger
 - first you need to edit the qb-core/config.lua to this below
 
 ```lua
