@@ -41,6 +41,24 @@
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
+# NOTE
+- If you want to use blackmoney as an item, you don't need to change this script.
+- Change this in the scripts you aleady have.
+```lua
+-- this will give you markedbills item
+local info = {
+    worth = math.random(2300, 3200)
+}
+local amount = math.random(2,3)
+ply.Functions.AddItem('markedbills', amount , false, info)
+TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['markedbills'], "add", amount)
+```
+Into this
+```lua
+-- this will give you blackmoney item
+ply.Functions.AddItem("blackmoney", 1000, nil)
+```
+
 # Check in server file config
 - inventory itembox popup when you add or remove items.
 - set it all to false if you don't want it.
