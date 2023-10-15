@@ -51,12 +51,6 @@ QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, blackmoney = 
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'blackmoney' } -- Money that is not allowed going in minus
 ```
 
-```lua
-TriggerEvent('mh-cashasitem:server:buyitemwithblackmoney', src, {
-    ['item'] = name,     -- the name of the item
-    ['price'] =  price,  -- the price of t he item
-    ['amount'] =  amount -- the amount to buy
-})
 
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
