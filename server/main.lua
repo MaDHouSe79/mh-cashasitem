@@ -12,6 +12,27 @@ local function ItemBox(player, amount, action)
     end
 end
 
+---Add Cash Item
+---@param player table
+---@param amount number
+---@param slot number
+local function AddItem(item, player, amount, slot)
+    if slot ~= nil or slot ~= 0 then
+        player.Functions.AddItem(item, amount, slot)
+    else
+        player.Functions.AddItem(item, amount, nil)
+    end
+    ItemBox(player, amount, "add")
+end
+
+---Remove Cash Item
+---@param player table
+---@param amount number
+---@param slot number
+local function RemoveItem(item, player, amount, slot)
+    return player.Functions.RemoveItem(item, amount, slot)
+end
+
 --- Get Player Cash
 ---@param player table
 local function GetMoney(player)
@@ -98,27 +119,6 @@ local function UpdateBlackMoneyItem(id)
             AddItem('blackmoney', player, cash, lastslot)
         end
     end
-end
-
----Add Cash Item
----@param player table
----@param amount number
----@param slot number
-local function AddItem(item, player, amount, slot)
-    if slot ~= nil or slot ~= 0 then
-        player.Functions.AddItem(item, amount, slot)
-    else
-        player.Functions.AddItem(item, amount, nil)
-    end
-    ItemBox(player, amount, "add")
-end
-
----Remove Cash Item
----@param player table
----@param amount number
----@param slot number
-local function RemoveItem(item, player, amount, slot)
-    return player.Functions.RemoveItem(item, amount, slot)
 end
 
 --- RegisterNetEvent update Cash
