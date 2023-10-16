@@ -12,6 +12,6 @@ server_only 'yes'
 
 server_scripts {'@qb-core/shared/locale.lua', 'locales/en.lua', 'config.lua', 'server/main.lua', 'server/update.lua'}
 
-dependencies {'qb-core', 'qb-inventory', 'mh-core'}
+dependencies {'qb-core', 'qb-inventory'}
 
 lua54 'yes'
