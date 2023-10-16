@@ -1,3 +1,6 @@
+--[[ ===================================================== ]] --
+--[[           MH Cash As Item Script by MaDHouSe          ]] --
+--[[ ===================================================== ]] --
 Config = {}
 
 Config.useCashAsItem = true -- true if you want to use cash as item
@@ -7,6 +10,8 @@ Config.CashItems = {
     ["cash"] = true,
     ["blackmoney"] = true,
 }
+
+Config.BlackmoneyCommand = "blackmoney" -- the command to see your blackmoney, same as cash or bank
 
 -- inventory itembox popup when you add or remove items.
 Config.useItemBox = false -- true if you want to use the itembox popup 
