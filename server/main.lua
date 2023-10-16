@@ -32,47 +32,6 @@ local function RemoveMoney(player, amount)
     return player.Functions.RemoveMoney("cash", amount, nil)
 end
 
---- Get Player Black Money
----@param player table
-local function GetBlackMoney(player)
-    return player.Functions.GetMoney('blackmoney')
-end
-
---- Add Player Black Money
----@param player table
----@param amount number
-local function AddBlackMoney(player, amount)
-    return player.Functions.AddMoney("blackmoney", amount, nil)
-end
-
---- Remove Player Black Money
----@param player table
----@param amount number
-local function RemoveBlackMoney(player, amount)
-    return player.Functions.RemoveMoney("blackmoney", amount, nil)
-end
-
----Add Cash Item
----@param player table
----@param amount number
----@param slot number
-local function AddItem(item, player, amount, slot)
-    if slot ~= nil or slot ~= 0 then
-        player.Functions.AddItem(item, amount, slot)
-    else
-        player.Functions.AddItem(item, amount, nil)
-    end
-    ItemBox(player, amount, "add")
-end
-
----Remove Cash Item
----@param player table
----@param amount number
----@param slot number
-local function RemoveItem(item, player, amount, slot)
-    return player.Functions.RemoveItem(item, amount, slot)
-end
-
 ---Update Cash Item
 ---@param id number
 local function UpdateCashItem(id)
@@ -97,6 +56,28 @@ local function UpdateCashItem(id)
     end
 end
 
+--- Get Player Black Money
+---@param player table
+local function GetBlackMoney(player)
+    return player.Functions.GetMoney('blackmoney')
+end
+
+--- Add Player Black Money
+---@param player table
+---@param amount number
+local function AddBlackMoney(player, amount)
+    return player.Functions.AddMoney("blackmoney", amount, nil)
+end
+
+--- Remove Player Black Money
+---@param player table
+---@param amount number
+local function RemoveBlackMoney(player, amount)
+    return player.Functions.RemoveMoney("blackmoney", amount, nil)
+end
+
+---Update Black Money Item
+---@param id number
 local function UpdateBlackMoneyItem(id)
     local player = QBCore.Functions.GetPlayer(id)
     if player and Config.useCashAsItem then
@@ -117,6 +98,27 @@ local function UpdateBlackMoneyItem(id)
             AddItem('blackmoney', player, cash, lastslot)
         end
     end
+end
+
+---Add Cash Item
+---@param player table
+---@param amount number
+---@param slot number
+local function AddItem(item, player, amount, slot)
+    if slot ~= nil or slot ~= 0 then
+        player.Functions.AddItem(item, amount, slot)
+    else
+        player.Functions.AddItem(item, amount, nil)
+    end
+    ItemBox(player, amount, "add")
+end
+
+---Remove Cash Item
+---@param player table
+---@param amount number
+---@param slot number
+local function RemoveItem(item, player, amount, slot)
+    return player.Functions.RemoveItem(item, amount, slot)
 end
 
 --- RegisterNetEvent update Cash
