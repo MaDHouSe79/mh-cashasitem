@@ -180,10 +180,11 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
     end
 end)
 
-QBCore.Commands.Add('blackmoney', "Check Your Blackmoney Balance", {}, false, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(source)
+QBCore.Commands.Add(Config.BlackmoneyCommand, Lang:t('command.description'), {}, false, function(source, args)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
     local amount = Player.PlayerData.money.blackmoney
-    TriggerClientEvent('hud:client:ShowAccounts', source, 'blackmoney', amount)
+    TriggerClientEvent('hud:client:ShowAccounts', src, 'blackmoney', amount)
 end)
 
 RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function(id, data)
@@ -193,13 +194,16 @@ RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function(id, data
     if blackmoney.amount >= data.price then
         Player.Functions.RemoveItem('blackmoney', data.price)
         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['blackmoney'], "remove", data.price)
-        Player.Functions.AddItem(data.item, data.amount)
+        Player.Functions.AddItem(data.item, data.amount, data.info)
         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[data.item], "add", data.amount)
         local itemInfo = QBCore.Shared.Items[data.item:lower()]
-        QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
-        TriggerEvent("qb-log:server:CreateLog", "shops", "Shop item bought", "green",
-            "**" .. GetPlayerName(src) .. "** bought a " .. itemInfo["label"] .. " for $" .. data.price)
+        QBCore.Functions.Notify(src, Lang:t('notify.item_bought', {item = itemInfo["label"]}), "success")
+        TriggerEvent("qb-log:server:CreateLog", "shops", Lang:t('log.title'), "green", Lang:t('log.txt', {
+            player = GetPlayerName(src),
+            item = itemInfo["label"],
+            price = data.price
+        }))
     else
-        TriggerClientEvent('QBCore:Notify', src, "You Don't Have Enough money", 'error')
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('notify.no_cash'), 'error')
     end
 end)
