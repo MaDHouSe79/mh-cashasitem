@@ -94,6 +94,11 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 },
 ```
 
+# Contributers
+<a href="https://github.com/MaDHouSe79/mh-carlift/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=MaDHouSe79/mh-carlift" />
+</a>
+
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
 &copy; [MaDHouSe79](https://www.youtube.com/@MaDHouSe79)
