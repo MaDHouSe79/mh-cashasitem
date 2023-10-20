@@ -3,6 +3,7 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 --- Inventory ItemBox Popup
+---@param player table
 ---@param amount number
 ---@param action string
 local function ItemBox(player, amount, action)
