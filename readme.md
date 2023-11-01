@@ -30,7 +30,7 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
-- [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory)
+- [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) or [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory)
 
 # Optional
 - [mh-blackmarket](https://github.com/MaDHouSe79/mh-blackmarket)
