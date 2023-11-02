@@ -81,7 +81,7 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 ```
 
 # Add in `[qb]/qb-core/shared/items.lua` 
-- and don't forgot the add the cash.png in to your inventory image folder.
+- and don't forgot the add the `cash.png` and `blackmoney.png` in to your inventory image folder.
 ```lua
 ['cash'] = {
     ['name'] = 'cash', 
