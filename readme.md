@@ -52,8 +52,7 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'blackmoney' } -- Money that
 ```
 
 # Triggers you can use for your own inventory
-- use this server side only!
-- most used in trigger `inventory:server:SetInventoryData` and `inventory:server:GiveItem`
+- use this server side only when you add or delete an item from and to your inventory.
 ```lua
 -- true at the end of the trigger is to display money change at the right top of your screen
 -- if false you don't see a change but it will change the money amount
