@@ -5,25 +5,25 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/MaDHouSe79/mh-cashasitem/issues">
-    <img src="https://img.shields.io/github/issues/MaDHouSe79/mh-cashasitem"/> 
-  </a>
-  <a href="https://github.com/MaDHouSe79/mh-cashasitem/watchers">
-    <img src="https://img.shields.io/github/watchers/MaDHouSe79/mh-cashasitem"/> 
-  </a> 
-  <a href="https://github.com/MaDHouSe79/mh-cashasitem/network/members">
-    <img src="https://img.shields.io/github/forks/MaDHouSe79/mh-cashasitem"/> 
-  </a>  
-  <a href="https://github.com/MaDHouSe79/mh-cashasitem/stargazers">
-    <img src="https://img.shields.io/github/stars/MaDHouSe79/mh-cashasitem?color=white"/> 
-  </a>
-  <a href="https://github.com/MaDHouSe79/mh-cashasitem/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/MaDHouSe79/mh-cashasitem?color=black"/> 
-  </a>      
+    <a href="https://github.com/MaDHouSe79/mh-cashasitem/issues">
+        <img src="https://img.shields.io/github/issues/MaDHouSe79/mh-cashasitem"/> 
+    </a>
+    <a href="https://github.com/MaDHouSe79/mh-cashasitem/watchers">
+        <img src="https://img.shields.io/github/watchers/MaDHouSe79/mh-cashasitem"/> 
+    </a> 
+    <a href="https://github.com/MaDHouSe79/mh-cashasitem/network/members">
+        <img src="https://img.shields.io/github/forks/MaDHouSe79/mh-cashasitem"/> 
+    </a>  
+    <a href="https://github.com/MaDHouSe79/mh-cashasitem/stargazers">
+        <img src="https://img.shields.io/github/stars/MaDHouSe79/mh-cashasitem?color=white"/> 
+    </a>
+    <a href="https://github.com/MaDHouSe79/mh-cashasitem/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/MaDHouSe79/mh-cashasitem?color=black"/> 
+    </a>      
 </p>
 
-# Youtube 🙈
-- [Youtube](https://www.youtube.com/c/@MaDHouSe79)
+# My Youtube Channel
+- [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 
 # mh-cashasitem
 - Use cash as item for qb-core
@@ -39,7 +39,7 @@
 - Create a folder `[mh]` in resources,
 - Put the folder mh-cashasitem in the [mh] folder
 - Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
-- Don't forget to use [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) and read the readme.
+- Don't forget to use [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) or [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory) and read the readme.
 
 # Command
 - /blackmoney to see the amount
@@ -56,11 +56,13 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'blackmoney' } -- Money that
 - use this server side only!
 - most used in trigger `inventory:server:SetInventoryData` and `inventory:server:GiveItem`
 ```lua
--- true at the end is to display money change, if false you dont see a change but it wil change the money amount
-TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "add", true)
+-- true at the end of the trigger is to display money change at the right top of your screen
+-- if false you don't see a change but it will change the money amount
+TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "add", true) -- this true
 
--- true at the end is to display money change, if false you dont see a change but it wil change the money amount
-TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "remove", true) 
+-- true at the end of the trigger is to display money change at the right top of your screen
+-- if false you don't see a change but it will change the money amount
+TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "remove", true) -- this true
 ```
 
 # buy item with blackmoney
@@ -75,8 +77,8 @@ https://www.youtube.com/watch?v=sWYkV-PeqU4
 - inventory itembox popup when you add or remove items.
 - set it all to false if you don't want it.
 ```lua
-local useItemBox = true    -- true if you want to use the itembox popup 
-local useAddBox = true     -- true if you want to see the add itembox popup (only works if useItemBox = true)
+local useItemBox = false   -- true if you want to use the itembox popup 
+local useAddBox = false    -- true if you want to see the add itembox popup (only works if useItemBox = true)
 local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
 ```
 
@@ -109,9 +111,144 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 },
 ```
 
+# To add in your inventory config.lua file.
+```lua
+-- it works but this is for mh-stashes,
+-- this is needed in the inventory config, or the get many errors.
+-- all default true.
+Config.Stashes = { 
+    ["walletstash"] = true, 
+    ["cashstash"] = true, 
+    ["drugsstash"] = true, 
+    ["weaponstash"] = true,
+    ['smallbagstash'] = true,
+    ['mediumbagstash'] = true,
+    ['largebagstash'] = true,
+    ["missionstash"] = true,
+}
+
+-- only jobs can open trunks of job vehicles,
+-- if you are driving a police car you need to be a police to able to open this trunk, same for the amulance
+-- this so other players can't steel stuff.
+Config.OnlyJobCanOpenJobVehicleTrucks = true -- defailt true
+
+-- vehicle class max trunk weight and slots
+Config.TrunkSpace = {
+    ['default'] = { -- All the vehicle class that not listed here will use this as default
+        slots = 35,
+        maxWeight = 60000
+    },
+    [0] = { -- Compacts
+        slots = 30,
+        maxWeight = 38000
+    },
+    [1] = { -- Sedans
+        slots = 40,
+        maxWeight = 50000
+    },
+    [2] = { -- SUVs
+        slots = 50,
+        maxWeight = 75000
+    },
+    [3] = { -- Coupes
+        slots = 35,
+        maxWeight = 42000
+    },
+    [4] = { -- Muscle
+        slots = 30,
+        maxWeight = 38000
+    },
+    [5] = { -- Sports Classics
+        slots = 25,
+        maxWeight = 30000
+    },
+    [6] = { -- Sports
+        slots = 25,
+        maxWeight = 30000
+    },
+    [7] = { -- Super
+        slots = 25,
+        maxWeight = 30000
+    },
+    [8] = { -- Motorcycles
+        slots = 15,
+        maxWeight = 15000
+    },
+    [9] = { -- Off-road
+        slots = 35,
+        maxWeight = 60000
+    },
+    [12] = { -- Vans
+        slots = 35,
+        maxWeight = 120000
+    },
+    [13] = { -- Cycles
+        slots = 0,
+        maxWeight = 0
+    },
+    [14] = { -- Boats
+        slots = 50,
+        maxWeight = 120000
+    },
+    [15] = { -- Helicopters
+        slots = 50,
+        maxWeight = 120000
+    },
+    [16] = { -- Planes
+        slots = 50,
+        maxWeight = 120000
+    },
+}
+```
+
+# Add To your inventory server side someware on the top
+```lua
+local lastUsedStashItem = nil
+
+local function IsItemAllowedToAdd(src, stash, item)
+    if Config.Stashes[stash] then
+        if lastUsedStashItem ~= nil then
+            if lastUsedStashItem.info.allowedItems ~= nil then
+                if not lastUsedStashItem.info.allowedItems[item.name] then
+                    TriggerEvent('mh-stashes:server:allowed_items_error', src, lastUsedStashItem.info.allowedItems)
+                    lastUsedStashItem = nil
+                    return false
+                end
+            end
+        end
+    end
+    return true
+end
+
+local function IsStashItemLootable(src, stash, item)
+    if Config.Stashes[stash] then
+        if lastUsedStashItem ~= nil then
+            if lastUsedStashItem and lastUsedStashItem.info then
+                if not lastUsedStashItem.info.canloot then
+                    TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
+                    lastUsedStashItem = nil
+                    return false
+                elseif lastUsedStashItem.info.isOnMission then
+                    TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
+                    lastUsedStashItem = nil
+                    return false
+                end
+            end
+        end
+    end
+    return true
+end
+```
+
+## **INSTALL FOR QB INVENTORY**
+- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md)
+
+## **INSTALL FOR PS INVENTORY**
+- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/ps_inventory.md)
+
 # Contributers
-<a href="https://github.com/MaDHouSe79/mh-carlift/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=MaDHouSe79/mh-carlift" />
+<a href="https://github.com/MaDHouSe79/mh-cashasitem/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=MaDHouSe79/mh-cashasitem" />
 </a>
 
 # LICENSE
