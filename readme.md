@@ -113,7 +113,7 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 
 # To add in your inventory config.lua file.
 ```lua
--- it works but this is for mh-stashes,
+-- it works but this is for mh-stashes but this script is not released yet.
 -- this is needed in the inventory config, or the get many errors.
 -- all default true.
 Config.Stashes = { 
