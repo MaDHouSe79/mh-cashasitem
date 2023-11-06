@@ -30,7 +30,7 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
-- [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) or [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory)
+- [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) or [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory) or [ps-inventory](https://github.com/Project-Sloth/ps-inventory)
 
 # Optional
 - [mh-blackmarket](https://github.com/MaDHouSe79/mh-blackmarket)
@@ -39,7 +39,6 @@
 - Create a folder `[mh]` in resources,
 - Put the folder mh-cashasitem in the [mh] folder
 - Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
-- Don't forget to use [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) or [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory) or [ps-inventory](https://github.com/Project-Sloth/ps-inventory)
 
 # Command
 - /blackmoney to see the amount
