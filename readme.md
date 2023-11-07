@@ -26,7 +26,7 @@
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 
 # mh-cashasitem
-- Use cash as item for qb-core
+- Use cash and or blackmonmey as item for qb-core
 - It also a blackmoney item as option you can use instead of MarkedBills
 
 # Dependencies
