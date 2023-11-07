@@ -9,7 +9,6 @@ local blackAmount = 0
 - around line 863
 ```lua
 RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
-    print(type)
     if type == 'cash' then
         SendNUIMessage({
             action = 'show',
