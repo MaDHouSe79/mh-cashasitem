@@ -12,5 +12,3 @@ Config.CashItems = {
     ["cash"] = true,
     ["blackmoney"] = true,
 }
-
-Config.BlackmoneyCommand = "blackmoney" -- the command to see your blackmoney, same as cash or bank
