@@ -186,7 +186,7 @@ const moneyHud = Vue.createApp({
 ```
 
 
-# Replace this code below in qb-hud/html/index.html
+# Add this code below in qb-hud/html/index.html
 - around line 205
 ```html
 <div id="money-cash">
