@@ -1,4 +1,4 @@
-
+## **INSTALL FOR QB HUD**
 # Add in top of qb-hud/client.lua
 - around line 15
 ```lua
