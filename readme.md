@@ -27,6 +27,7 @@
 
 # mh-cashasitem
 - Use cash as item for qb-core
+- It also a blackmoney item as option you can use instead of MarkedBills
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
