@@ -176,13 +176,6 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
     end
 end)
 
-QBCore.Commands.Add(Config.BlackmoneyCommand, Lang:t('command.description'), {}, false, function(source, args)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    local amount = Player.PlayerData.money.blackmoney
-    TriggerClientEvent('hud:client:ShowAccounts', src, 'blackmoney', amount)
-end)
-
 RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function(id, data)
     local src = id
     local Player = QBCore.Functions.GetPlayer(src)
