@@ -189,11 +189,10 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                     local toAmount = tonumber(toAmount) ~= nil and tonumber(toAmount) or toItemData.amount
                     if toItemData.amount >= toAmount then
                         if toItemData.name ~= fromItemData.name then
-                            TriggerEvent('mh-cashasitem:server:updateCash', src, toItemData, toAmount, "remove",
-                                false)
+                            TriggerEvent('mh-cashasitem:server:updateCash', src, toItemData, toAmount, "remove", false)
                             RemoveItem(src, toItemData.name, toAmount, toSlot)
-                            TriggerEvent('mh-cashasitem:server:updateCash', src, toItemData, toAmount, "add", false)
                             AddItem(src, toItemData.name, toAmount, fromSlot, toItemData.info)
+                            TriggerEvent('mh-cashasitem:server:updateCash', src, toItemData, toAmount, "add", false)
                         end
                     else
                         TriggerEvent("qb-log:server:CreateLog", "anticheat", "Dupe log", "red",
