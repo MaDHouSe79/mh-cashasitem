@@ -64,11 +64,6 @@ TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "add", tr
 TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "remove", true) -- this true
 ```
 
-# buy item with blackmoney
-```lua
-TriggerEvent('mh-cashasitem:server:buyitemwithblackmoney', src, itemData)
-```
-
 # Video
 https://www.youtube.com/watch?v=sWYkV-PeqU4
 
