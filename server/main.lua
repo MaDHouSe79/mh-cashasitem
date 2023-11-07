@@ -175,24 +175,3 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
         UpdateBlackMoneyItem(src)
     end
 end)
-
-RegisterNetEvent('mh-cashasitem:server:buyitemwithblackmoney', function(id, data)
-    local src = id
-    local Player = QBCore.Functions.GetPlayer(src)
-    local blackmoney = exports['qb-inventory']:GetItemByName(src, "blackmoney")
-    if blackmoney.amount >= data.price then
-        Player.Functions.RemoveItem('blackmoney', data.price)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['blackmoney'], "remove", data.price)
-        Player.Functions.AddItem(data.item, data.amount, data.info)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[data.item], "add", data.amount)
-        local itemInfo = QBCore.Shared.Items[data.item:lower()]
-        QBCore.Functions.Notify(src, Lang:t('notify.item_bought', {item = itemInfo["label"]}), "success")
-        TriggerEvent("qb-log:server:CreateLog", "shops", Lang:t('log.title'), "green", Lang:t('log.txt', {
-            player = GetPlayerName(src),
-            item = itemInfo["label"],
-            price = data.price
-        }))
-    else
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('notify.no_cash'), 'error')
-    end
-end)
