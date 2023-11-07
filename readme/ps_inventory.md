@@ -1728,3 +1728,13 @@ RegisterServerEvent("inventory:server:GiveItem", function(target, name, amount, 
     end
 end)
 ```
+
+# Add this code below in mh-cashasitem/server/main.lua
+- around line 178
+```lua
+QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local amount = Player.PlayerData.money.blackmoney
+    TriggerClientEvent('hud:client:ShowAccounts', source, 'blackmoney', amount)
+end)
+```
