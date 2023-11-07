@@ -6,10 +6,9 @@ local QBCore = exports['qb-core']:GetCoreObject()
 ---@param player table
 ---@param amount number
 ---@param action string
-local function ItemBox(player, amount, action)
+local function ItemBox(player, item, amount, action)
     if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
-        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source,
-            QBCore.Shared.Items[Config.cashItem:lower()], action, amount)
+        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[item], action, amount)
     end
 end
 
@@ -23,7 +22,7 @@ local function AddItem(item, player, amount, slot)
     else
         player.Functions.AddItem(item, amount, nil)
     end
-    ItemBox(player, amount, "add")
+    ItemBox(player, item, amount, "add")
 end
 
 ---Remove Cash Item
@@ -34,20 +33,20 @@ local function RemoveItem(item, player, amount, slot)
     return player.Functions.RemoveItem(item, amount, slot)
 end
 
---- Get Player Cash
+--- Get Cash
 ---@param player table
 local function GetMoney(player)
     return player.Functions.GetMoney('cash')
 end
 
---- Add Player Cash
+--- Add Cash
 ---@param player table
 ---@param amount number
 local function AddMoney(player, amount)
     return player.Functions.AddMoney("cash", amount, nil)
 end
 
---- Remove Player Cash
+--- Remove Cash
 ---@param player table
 ---@param amount number
 local function RemoveMoney(player, amount)
@@ -58,22 +57,22 @@ end
 ---@param id number
 local function UpdateCashItem(id)
     local player = QBCore.Functions.GetPlayer(id)
-    if player and Config.useCashAsItem then
+    if player then
         local cash = GetMoney(player)
-        local itemCount = 0
-        local lastslot = nil
+        local itemCount, lastSlot, lastItem = 0, nil, nil
         for _, item in pairs(player.PlayerData.items) do
             if item and item.name:lower() == 'cash' then
                 itemCount = itemCount + item.amount
-                lastslot = item.slot
+                lastSlot = item.slot
+                lastItem = item.name
                 RemoveItem(item.name, player, item.amount, item.slot)
             end
         end
         if itemCount >= 1 and cash >= 1 then
-            ItemBox(player, itemCount, "remove")
-            AddItem('cash', player, cash, lastslot)
+            ItemBox(player, lastItem, itemCount, "remove")
+            AddItem('cash', player, cash, lastSlot)
         elseif itemCount <= 0 and cash >= 1 then
-            AddItem('cash', player, cash, lastslot)
+            AddItem('cash', player, cash, lastSlot)
         end
     end
 end
@@ -102,22 +101,22 @@ end
 ---@param id number
 local function UpdateBlackMoneyItem(id)
     local player = QBCore.Functions.GetPlayer(id)
-    if player and Config.useCashAsItem then
+    if player then
         local cash = GetBlackMoney(player)
-        local itemCount = 0
-        local lastslot = nil
+        local itemCount, lastSlot, lastItem = 0, nil, nil
         for _, item in pairs(player.PlayerData.items) do
             if item and item.name:lower() == 'blackmoney' then
                 itemCount = itemCount + item.amount
-                lastslot = item.slot
+                lastSlot = item.slot
+                lastItem = item.name
                 RemoveItem(item.name, player, item.amount, item.slot)
             end
         end
         if itemCount >= 1 and cash >= 1 then
             ItemBox(player, itemCount, "remove")
-            AddItem('blackmoney', player, cash, lastslot)
+            AddItem('blackmoney', player, cash, lastSlot)
         elseif itemCount <= 0 and cash >= 1 then
-            AddItem('blackmoney', player, cash, lastslot)
+            AddItem('blackmoney', player, cash, lastSlot)
         end
     end
 end
@@ -133,7 +132,7 @@ RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, a
     if display == nil then
         display = true
     end
-    if player and Config.useCashAsItem then
+    if player then
         if item and Config.CashItems[item.name] and display then
             if item.name == 'cash' then
                 if action == "add" then
@@ -158,10 +157,8 @@ end)
 ---@param other table
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
-    if Config.useCashAsItem then
-        UpdateCashItem(src)
-        UpdateBlackMoneyItem(src)
-    end
+    UpdateCashItem(src)
+    UpdateBlackMoneyItem(src)
 end)
 
 --- RegisterNetEvent OnMoneyChange
@@ -172,12 +169,10 @@ end)
 ---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     local src = source
-    if Config.useCashAsItem then
-        if moneyType == 'cash' then
-            UpdateCashItem(src)
-        elseif moneyType == 'blackmoney' then
-            UpdateBlackMoneyItem(src)
-        end
+    if moneyType == 'cash' then
+        UpdateCashItem(src)
+    elseif moneyType == 'blackmoney' then
+         UpdateBlackMoneyItem(src)
     end
 end)
 
