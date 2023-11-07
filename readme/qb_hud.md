@@ -56,8 +56,8 @@ end)
 ```lua
 QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
-    local blackmoneyamount = Player.PlayerData.money.blackmoney
-    TriggerClientEvent('hud:client:ShowAccounts', source, 'blackmoney', blackmoneyamount)
+    local amount = Player.PlayerData.money.blackmoney
+    TriggerClientEvent('hud:client:ShowAccounts', source, 'blackmoney', amount)
 end)
 ```
 
