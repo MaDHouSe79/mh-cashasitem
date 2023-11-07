@@ -172,7 +172,7 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
     if moneyType == 'cash' then
         UpdateCashItem(src)
     elseif moneyType == 'blackmoney' then
-         UpdateBlackMoneyItem(src)
+        UpdateBlackMoneyItem(src)
     end
 end)
 
