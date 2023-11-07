@@ -238,11 +238,11 @@ local function IsStashItemLootable(src, stash, item)
 end
 ```
 
-## **INSTALL FOR QB INVENTORY**
-- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md)
+## **INSTALL FOR QB INVENTORY AND QB-HUD**
+- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
 
 ## **INSTALL FOR PS INVENTORY**
-- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/ps_inventory.md)
+- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
 
 # Contributers
 <a href="https://github.com/MaDHouSe79/mh-cashasitem/graphs/contributors">
