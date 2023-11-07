@@ -30,6 +30,7 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qb-hud](https://github.com/qbcore-framework/qb-hud)
 - [mh-inventiory](https://github.com/MaDHouSe79/mh-inventory) or [qb-inventiory](https://github.com/MaDHouSe79/qb-inventory) or [ps-inventory](https://github.com/Project-Sloth/ps-inventory)
 
 # Optional
