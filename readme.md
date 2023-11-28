@@ -43,7 +43,7 @@
 - Put the folder mh-cashasitem in the [mh] folder
 - Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
 - Make sure you read the readme files for install, and only when you are done you can restart the server.
-  
+
 # Command
 - /blackmoney to see the amount
 
@@ -78,6 +78,9 @@ local useItemBox = false   -- true if you want to use the itembox popup
 local useAddBox = false    -- true if you want to see the add itembox popup (only works if useItemBox = true)
 local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
 ```
+
+![alttext](https://github.com/MaDHouSe79/mh-cashasitem/tree/main/image/cash.png?raw=true)
+![alttext](https://github.com/MaDHouSe79/mh-cashasitem/tree/main/image/blackmoney.png?raw=true)
 
 # Add in `[qb]/qb-core/shared/items.lua` 
 - and don't forgot the add the `cash.png` and `blackmoney.png` in to your inventory image folder.
