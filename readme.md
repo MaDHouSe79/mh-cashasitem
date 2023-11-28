@@ -26,6 +26,7 @@
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 
 # mh-cashasitem
+- This is the best cash/blackmoney item script for your qbcore server.
 - Use cash and or blackmonmey as item for qb-core
 - It also a blackmoney item as option you can use instead of MarkedBills
 
