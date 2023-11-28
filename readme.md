@@ -68,7 +68,7 @@ TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "remove",
 ```
 
 # Video
-https://www.youtube.com/watch?v=sWYkV-PeqU4
+[Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
 
 # Check in server file config
 - inventory itembox popup when you add or remove items.
