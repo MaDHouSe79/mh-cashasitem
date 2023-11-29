@@ -175,3 +175,23 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
         UpdateBlackMoneyItem(src)
     end
 end)
+
+local error = false
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        if not QBCore.Config.Money.MoneyTypes.blackmoney then
+            error = true
+        end
+    end
+end)
+
+CreateThread(function()
+    while true do
+        local sleep = 1000
+        if error then
+            sleep = 1
+            print("~r~[mh-cashasitem] - ERROR - You forgot to add blackmoney in the qbcore config file.~w~")
+        end
+        Wait(sleep)
+    end
+end)
