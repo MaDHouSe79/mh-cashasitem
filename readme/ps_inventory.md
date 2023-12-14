@@ -1,6 +1,6 @@
 ## **INSTALL FOR PS INVENTORY**
 
-# Add in ps-inventory/client/main.lua drom line 136
+# Add in ps-inventory/client/main.lua from line 136
 ```lua
 local function OpenTrunk()
     local vehicle = QBCore.Functions.GetClosestVehicle()
