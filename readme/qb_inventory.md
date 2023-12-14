@@ -1,4 +1,29 @@
 ## **INSTALL FOR QB INVENTORY**
+
+# Add in qb-inventory/client/main.lua from line 136
+```lua
+local function OpenTrunk()
+    local vehicle = QBCore.Functions.GetClosestVehicle()
+    LoadAnimDict("amb@prop_human_bum_bin@idle_b")
+    TaskPlayAnim(PlayerPedId(), "amb@prop_human_bum_bin@idle_b", "idle_d", 4.0, 4.0, -1, 50, 0, false, false, false)
+    if IsBackEngine(GetEntityModel(vehicle)) then
+        SetVehicleDoorOpen(vehicle, 4, false, false)
+    else
+        SetVehicleDoorOpen(vehicle, 5, false, false)
+    end
+end
+
+local function isAllowToOpen(vehicle)
+    if GetVehicleClass(vehicle) == 18 then
+        if PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance' then
+            return true
+        end
+    else 
+        return true
+    end
+end
+```
+
 # Replace this code below in qb-inventory/client/main.lua
 ```lua
 RegisterCommand('inventory', function()
