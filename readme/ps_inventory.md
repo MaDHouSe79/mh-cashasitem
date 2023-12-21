@@ -103,6 +103,7 @@ end)
 - Change code in ps-inventory/server.lua
 
 # Add 2x this code in ps-inventory/server/main.lua
+- Find: `inventory:server:UseItemSlot`
 ```lua
 if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end
 ```
@@ -152,6 +153,7 @@ end)
 ```
 
 # Add 1x this code in ps-inventory/server/main.lua
+- Find: `inventory:server:UseItem`
 ```lua
 if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end
 ```
