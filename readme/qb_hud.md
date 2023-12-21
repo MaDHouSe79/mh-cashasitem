@@ -124,7 +124,6 @@ const moneyHud = Vue.createApp({
             this.blackmoney = data.blackmoney;
             this.minus = data.minus;
             this.plus = data.plus;
-            console.log(this.blackmoney)
             if (data.type === "cash") {
                 if (data.minus) {
                     this.showCash = true;
