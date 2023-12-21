@@ -114,64 +114,44 @@ end, false)
 
 # Replace this code in qb-inventory/server/main.lua
 ```lua
+if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+
+-- It should look like this
 RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
-    local src = source
-    local itemData = GetItemBySlot(src, slot)
-    if not itemData then
-        return
-    end
-    local itemInfo = QBCore.Shared.Items[itemData.name]
-    if itemData.type == 'weapon' then
-        if itemData.info.quality then
-            if itemData.info.quality > 0 then
-                TriggerClientEvent("inventory:client:UseWeapon", src, itemData, true)
-            else
-                TriggerClientEvent("inventory:client:UseWeapon", src, itemData, false)
-            end
-        else
-            TriggerClientEvent("inventory:client:UseWeapon", src, itemData, true)
-        end
-        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, "use")
-    elseif itemData.useable then
-        if Config.Stashes[itemData.name] then
-            lastUsedStashItem = itemData
-        end
-        UseItem(itemData.name, src, itemData)
-        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
-    end
+	local src = source
+	local itemData = GetItemBySlot(src, slot)
+	if not itemData then return end
+	local itemInfo = QBCore.Shared.Items[itemData.name]
+	if itemData.type == 'weapon' then
+		TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
+		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+	elseif itemData.useable then
+		if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+		UseItem(itemData.name, src, itemData)
+		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+	end
 end)
 ```
 
-# Replace this code in qb-inventory/server/main.lua
+# Add this code in qb-inventory/server/main.lua
 ```lua
+if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+
+-- It should look like this
 RegisterNetEvent('inventory:server:UseItem', function(inventory, item)
-    local src = source
-    if inventory ~= 'player' and inventory ~= 'hotbar' then
-        return
-    end
-    local itemData = GetItemBySlot(src, item.slot)
-    if not itemData then
-        return
-    end
-    local itemInfo = QBCore.Shared.Items[itemData.name]
-    if itemData.type == 'weapon' then
-        if itemData.info.quality then
-            if itemData.info.quality > 0 then
-                TriggerClientEvent("inventory:client:UseWeapon", src, itemData, true)
-            else
-                TriggerClientEvent("inventory:client:UseWeapon", src, itemData, false)
-            end
-        else
-            TriggerClientEvent("inventory:client:UseWeapon", src, itemData, true)
-        end
-        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, "use")
-    else
-        if Config.Stashes[itemData.name] then
-            lastUsedStashItem = itemData
-        end
-        UseItem(itemData.name, src, itemData)
-        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
-    end
+	local src = source
+	if inventory ~= 'player' and inventory ~= 'hotbar' then return end
+	local itemData = GetItemBySlot(src, item.slot)
+	if not itemData then return end
+	local itemInfo = QBCore.Shared.Items[itemData.name]
+	if itemData.type == 'weapon' then
+		TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
+		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+	else
+		if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+		UseItem(itemData.name, src, itemData)
+		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+	end
 end)
 ```
 
