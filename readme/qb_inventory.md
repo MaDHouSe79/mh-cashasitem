@@ -18,7 +18,7 @@ local function isAllowToOpen(vehicle)
         if PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance' then
             return true
         end
-    else 
+    else
         return true
     end
 end
@@ -29,12 +29,14 @@ end
 RegisterCommand('inventory', function()
     if IsNuiFocused() then return end
     if not isCrafting and not inInventory then
-        if not PlayerData.metadata['isdead'] and not PlayerData.metadata['inlaststand'] and not PlayerData.metadata['ishandcuffed'] and not IsPauseMenuActive() then
+        if not PlayerData.metadata['isdead'] and not PlayerData.metadata['inlaststand'] and
+            not PlayerData.metadata['ishandcuffed'] and not IsPauseMenuActive() then
             local ped = PlayerPedId()
             local curVeh = nil
             local VendingMachine = nil
-            if not Config.UseTarget then VendingMachine = GetClosestVending() end
-
+            if not Config.UseTarget then
+                VendingMachine = GetClosestVending()
+            end
             if IsPedInAnyVehicle(ped, false) then -- Is Player In Vehicle
                 local vehicle = GetVehiclePedIsIn(ped, false)
                 CurrentGlovebox = QBCore.Functions.GetPlate(vehicle)
@@ -65,7 +67,6 @@ RegisterCommand('inventory', function()
                     CurrentVehicle = nil
                 end
             end
-
             if CurrentVehicle then -- Trunk
                 local vehicleClass = GetVehicleClass(curVeh)
                 local trunkConfig = Config.TrunkSpace[vehicleClass] or Config.TrunkSpace['default']
@@ -73,15 +74,10 @@ RegisterCommand('inventory', function()
                 local slots = trunkConfig.slots
                 local maxweight = trunkConfig.maxWeight
                 if not slots or not maxweight then return print('Cannot get the vehicle slots and maxweight') end
-
-                local other = {
-                    maxweight = maxweight,
-                    slots = slots,
-                }
-
+                local other = { maxweight = maxweight, slots = slots }
                 if Config.OnlyJobCanOpenJobVehicleTrucks then
                     local canOpen = isAllowToOpen(curVeh)
-                    if canOpen then 
+                    if canOpen then
                         TriggerServerEvent("inventory:server:OpenInventory", "trunk", CurrentVehicle, other)
                         OpenTrunk()
                     else
@@ -91,7 +87,6 @@ RegisterCommand('inventory', function()
                     TriggerServerEvent("inventory:server:OpenInventory", "trunk", CurrentVehicle, other)
                     OpenTrunk()
                 end
-
             elseif CurrentGlovebox then
                 TriggerServerEvent('inventory:server:OpenInventory', 'glovebox', CurrentGlovebox)
             elseif CurrentDrop ~= 0 then
@@ -112,46 +107,48 @@ end, false)
 ```
 - Change code in qb-inventory/server.lua
 
-# Replace this code in qb-inventory/server/main.lua
+# Add this code in qb-inventory/server/main.lua
 ```lua
 if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
-
--- It should look like this
+```
+# It should look like this
+```lua
 RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
-	local src = source
-	local itemData = GetItemBySlot(src, slot)
-	if not itemData then return end
-	local itemInfo = QBCore.Shared.Items[itemData.name]
-	if itemData.type == 'weapon' then
-		TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
-		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
-	elseif itemData.useable then
-		if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
-		UseItem(itemData.name, src, itemData)
-		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
-	end
+    local src = source
+    local itemData = GetItemBySlot(src, slot)
+    if not itemData then return end
+    local itemInfo = QBCore.Shared.Items[itemData.name]
+    if itemData.type == 'weapon' then
+        TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
+        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+    elseif itemData.useable then
+        if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+        UseItem(itemData.name, src, itemData)
+        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+    end
 end)
 ```
 
 # Add this code in qb-inventory/server/main.lua
 ```lua
 if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
-
--- It should look like this
+```
+# It should look like this
+```lua
 RegisterNetEvent('inventory:server:UseItem', function(inventory, item)
-	local src = source
-	if inventory ~= 'player' and inventory ~= 'hotbar' then return end
-	local itemData = GetItemBySlot(src, item.slot)
-	if not itemData then return end
-	local itemInfo = QBCore.Shared.Items[itemData.name]
-	if itemData.type == 'weapon' then
-		TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
-		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
-	else
-		if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
-		UseItem(itemData.name, src, itemData)
-		TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
-	end
+    local src = source
+    if inventory ~= 'player' and inventory ~= 'hotbar' then return end
+    local itemData = GetItemBySlot(src, item.slot)
+    if not itemData then return end
+    local itemInfo = QBCore.Shared.Items[itemData.name]
+    if itemData.type == 'weapon' then
+        TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
+        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+    else
+        if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+        UseItem(itemData.name, src, itemData)
+        TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
+    end
 end)
 ```
 
