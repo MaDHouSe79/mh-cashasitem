@@ -108,6 +108,7 @@ end, false)
 - Change code in qb-inventory/server.lua
 
 # Add this code in qb-inventory/server/main.lua
+-- find: 'inventory:server:UseItemSlot'
 ```lua
 if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
 ```
@@ -130,6 +131,7 @@ end)
 ```
 
 # Add this code in qb-inventory/server/main.lua
+- find: 'inventory:server:UseItem'
 ```lua
 if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
 ```
