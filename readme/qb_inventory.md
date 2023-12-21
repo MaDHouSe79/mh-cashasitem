@@ -108,7 +108,7 @@ end, false)
 - Change code in qb-inventory/server.lua
 
 # Add this code in qb-inventory/server/main.lua
--- find: 'inventory:server:UseItemSlot'
+- find: `inventory:server:UseItemSlot`
 ```lua
 if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
 ```
@@ -123,7 +123,7 @@ RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
         TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
         TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
     elseif itemData.useable then
-        if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+        if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end -- <-- ADD HERE
         UseItem(itemData.name, src, itemData)
         TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
     end
@@ -131,7 +131,7 @@ end)
 ```
 
 # Add this code in qb-inventory/server/main.lua
-- find: 'inventory:server:UseItem'
+- find: `inventory:server:UseItem`
 ```lua
 if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
 ```
@@ -147,7 +147,7 @@ RegisterNetEvent('inventory:server:UseItem', function(inventory, item)
         TriggerClientEvent('inventory:client:UseWeapon', src, itemData, itemData.info.quality and itemData.info.quality > 0)
         TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
     else
-        if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end
+        if Config.Stashes[itemData.name] then lastUsedStashItem = itemData end -- <-- ADD HERE
         UseItem(itemData.name, src, itemData)
         TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, 'use')
     end
