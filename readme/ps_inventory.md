@@ -24,7 +24,6 @@ local function isAllowToOpen(vehicle)
 end
 ```
 
-
 # Replace this code below in ps-inventory/client/main.lua
 ```lua
 RegisterCommand('inventory', function()
@@ -103,7 +102,11 @@ end)
 ```
 - Change code in ps-inventory/server.lua
 
-# Replace this code in ps-inventory/server/main.lua
+# Add 2x this code in ps-inventory/server/main.lua
+```lua
+if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end
+```
+# It should look like this
 ```lua
 RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
     local src = source
@@ -125,9 +128,7 @@ RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
         elseif itemData.useable then
             if itemData.info.quality then
                 if itemData.info.quality > 0 then
-                    if Config.Stashes[itemData.name:lower()] then
-                        lastUsedStashItem = itemData
-                    end
+                    if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end --<-- ADD HERE
                     UseItem(itemData.name, src, itemData)
                     TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, "use")
                 else
@@ -138,13 +139,10 @@ RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
                     end
                 end
             else
-                if itemData.name == "weapon_hazardcan" or itemData.name == "weapon_petrolcan" or itemData.name ==
-                    "weapon_fireextinguisher" then
+                if itemData.name == "weapon_hazardcan" or itemData.name == "weapon_petrolcan" or itemData.name == "weapon_fireextinguisher" then
                     TriggerClientEvent("inventory:client:UseWeapon", src, itemData, true)
                 end
-                if Config.Stashes[itemData.name:lower()] then
-                    lastUsedStashItem = itemData
-                end
+                if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end --<-- ADD HERE
                 UseItem(itemData.name, src, itemData)
                 TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, "use")
             end
@@ -153,7 +151,11 @@ RegisterNetEvent('inventory:server:UseItemSlot', function(slot)
 end)
 ```
 
-# Replace this code in ps-inventory/server/main.lua
+# Add 1x this code in ps-inventory/server/main.lua
+```lua
+if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end
+```
+# It should look like this
 ```lua
 RegisterNetEvent('inventory:server:UseItem', function(inventory, item)
     local src = source
@@ -176,14 +178,11 @@ RegisterNetEvent('inventory:server:UseItem', function(inventory, item)
                     end
                 end
             elseif itemData.type == "weapon" then
-                if itemData.name == "weapon_hazardcan" or itemData.name == "weapon_petrolcan" or itemData.name ==
-                    "weapon_fireextinguisher" then
+                if itemData.name == "weapon_hazardcan" or itemData.name == "weapon_petrolcan" or itemData.name == "weapon_fireextinguisher" then
                     TriggerClientEvent("inventory:client:UseWeapon", src, itemData, true)
                 end
             end
-            if Config.Stashes[itemData.name:lower()] then
-                lastUsedStashItem = itemData
-            end
+            if Config.Stashes[itemData.name:lower()] then lastUsedStashItem = itemData end --<-- ADD HERE
             UseItem(itemData.name, src, itemData)
             TriggerClientEvent('inventory:client:ItemBox', src, itemInfo, "use")
         end
