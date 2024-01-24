@@ -239,6 +239,10 @@ local function IsStashItemLootable(src, stash, item)
     return true
 end
 ```
+# Amount for inventory when you give cash items
+- Check out here, and find min and max.
+[Amount in Inventory](https://github.com/MaDHouSe79/qb-inventory/blob/afdbee97c3b4deeb63ece88b80e4142154f59f35/html/ui.html#L35)
+
 
 ## **INSTALL FOR QB INVENTORY AND QB-HUD**
 - [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
