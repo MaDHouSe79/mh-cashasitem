@@ -243,6 +243,23 @@ end
 - Check out here, and find min and max.
 [Amount in Inventory](https://github.com/MaDHouSe79/qb-inventory/blob/afdbee97c3b4deeb63ece88b80e4142154f59f35/html/ui.html#L35)
 
+# Money Wash from marketbills to blackmoney item
+- The blackmoney uses the item amount as a number, 
+- and the marketbills uses the item mount as a table.
+- so you need to edit that part of the code.
+```lua
+-- from this 
+local worth = {value=10} -- table
+Player.Functions.AddItem('marketbills', worth) -- to add marketbills
+Player.Functions.RemoveItem('marketbills', worth)-- to remove marketbills
+
+
+-- to this
+local amount = 10 -- number
+Player.Functions.AddItem('blackmoney', amount) -- to add blackmoney
+Player.Functions.RemoveItem('blackmoney', amount)  -- to remove blackmoney
+```
+
 
 ## **INSTALL FOR QB INVENTORY AND QB-HUD**
 - [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
