@@ -260,9 +260,8 @@ Player.Functions.AddItem('blackmoney', amount) -- to add blackmoney
 Player.Functions.RemoveItem('blackmoney', amount)  -- to remove blackmoney
 ```
 
-
 # Edit For Item amount in ItemBox popup 
--- Exanple: Used 1x, Received 10x, Removed 10x
+-- Example: Used 1x, Received 10x, Removed 10x
 
 # Replace code 1
 -- Find the trigger 'inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
