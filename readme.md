@@ -247,14 +247,16 @@ end
 - The blackmoney uses the item amount as a number, 
 - and the marketbills uses the item mount as a table.
 - so you need to edit that part of the code.
+
+-- from this
 ```lua
--- from this 
 local worth = {value=10} -- table
 Player.Functions.AddItem('marketbills', worth) -- to add marketbills
 Player.Functions.RemoveItem('marketbills', worth)-- to remove marketbills
-
+```
 
 -- to this
+```lua
 local amount = 10 -- number
 Player.Functions.AddItem('blackmoney', amount) -- to add blackmoney
 Player.Functions.RemoveItem('blackmoney', amount)  -- to remove blackmoney
