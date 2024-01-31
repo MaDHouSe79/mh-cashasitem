@@ -248,14 +248,14 @@ end
 - and the marketbills uses the item mount as a table.
 - so you need to edit that part of the code.
 
--- from this
+- from this
 ```lua
 local worth = {value=10} -- table
 Player.Functions.AddItem('marketbills', worth) -- to add marketbills
 Player.Functions.RemoveItem('marketbills', worth)-- to remove marketbills
 ```
 
--- to this
+- to this
 ```lua
 local amount = 10 -- number
 Player.Functions.AddItem('blackmoney', amount) -- to add blackmoney
@@ -263,11 +263,11 @@ Player.Functions.RemoveItem('blackmoney', amount)  -- to remove blackmoney
 ```
 
 # Edit For Item amount in ItemBox popup 
--- Example: Used 1x, Received 10x, Removed 10x
+- Example: Used 1x, Received 10x, Removed 10x
 
 # Replace code 1
--- Find the trigger 'inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
--- replace the code with below
+- Find the trigger 'inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
+- replace the code with below
 ```lua
 RegisterNetEvent('inventory:client:ItemBox', function(itemData, type, amount)
     SendNUIMessage({
@@ -280,8 +280,8 @@ end)
 ```
 
 # Replace code 2
--- find the function `Inventory.UseItem` in `qb-inventory/html/js/app.js`
--- replace the code below
+- find the function `Inventory.UseItem` in `qb-inventory/html/js/app.js`
+- replace the code below
 ```js
 Inventory.itemBox = function (data) {
     if (itemBoxtimer !== null) {
