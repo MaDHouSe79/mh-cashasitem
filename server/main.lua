@@ -3,39 +3,48 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 
----Add Cash Item
+--- Item Box
+---@param item table
+---@param player table
+---@param amount number
+---@param action string
+local function ItemBox(item, player, amount, action)
+    if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
+        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[item], action, amount)
+    end
+end
+
+--- Add Cash Item
 ---@param player table
 ---@param amount number
 ---@param slot number
 local function AddItem(item, player, amount, slot)
     if slot ~= nil or slot ~= 0 then player.Functions.AddItem(item, amount, slot) else player.Functions.AddItem(item, amount, nil) end
-    if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
-        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[item], "add", amount)
-    end
+    ItemBox(item, player, amount, "add")
 end
 
----Update Cash Item
+--- Update Cash Item
 ---@param id number
-local function UpdateCashItem(id, type)
-    local player = QBCore.Functions.GetPlayer(id)
+local function UpdateCashItem(src, moneyType)
+    local player = QBCore.Functions.GetPlayer(src)
     if player then
-        local cash = player.Functions.GetMoney(type)
-        local itemCount, lastSlot, lastItem = 0, nil, nil
-        for _, item in pairs(player.PlayerData.items) do
-            if item and item.name:lower() == type then
-                itemCount = itemCount + item.amount
-                lastSlot = item.slot
-                lastItem = item.name
-                player.Functions.RemoveItem(item.name, item.amount, item.slot)
+        if moneyType ~= 'bank' then
+            local cash = player.Functions.GetMoney(moneyType)
+            local itemCount, lastSlot, lastItem = 0, nil, nil
+            for _, item in pairs(player.PlayerData.items) do
+                if item and item.name:lower() == moneyType then
+                    itemCount = itemCount + item.amount
+                    lastSlot = item.slot
+                    lastItem = item.name
+                    player.Functions.RemoveItem(item.name, item.amount, item.slot)
+                end
             end
-        end
-        if itemCount >= 1 and cash >= 1 then
-            if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
-                TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[lastItem], "remove", itemCount)
+            if itemCount >= 1 and cash >= 1 then
+                ItemBox(lastItem, player, itemCount, "remove")
+                AddItem(moneyType, player, cash, lastSlot)
+            elseif itemCount <= 0 and cash >= 1 then
+                AddItem(moneyType, player, cash, lastSlot)
             end
-            AddItem(type, player, cash, lastSlot)
-        elseif itemCount <= 0 and cash >= 1 then
-            AddItem(type, player, cash, lastSlot)
         end
     end
 end
@@ -46,23 +55,15 @@ end
 ---@param amount number
 ---@param action string
 ---@param display boolean
-RegisterNetEvent('mh-cashasitem:server:updateCash', function(id, item, amount, action, display)
-    local player = QBCore.Functions.GetPlayer(id)
+RegisterNetEvent('mh-cashasitem:server:updateCash', function(source, item, amount, action, display)
+    local player = QBCore.Functions.GetPlayer(source)
     if display == nil then display = true end
     if player then
         if item and Config.CashItems[item.name] and display then
-            if item.name == 'cash' then
-                if action == "add" then
-                    player.Functions.AddMoney('cash', amount, nil)
-                elseif action == "remove" then
-                    player.Functions.RemoveMoney('cash', amount, nil)
-                end
-            elseif item.name == 'blackmoney' then
-                if action == "add" then
-                    player.Functions.AddMoney('blackmoney', amount, nil)
-                elseif action == "remove" then
-                    player.Functions.RemoveMoney('blackmoney', amount, nil)
-                end
+            if action == "add" then
+                player.Functions.AddMoney(item.name, amount, nil)
+            elseif action == "remove" then
+                player.Functions.RemoveMoney(item.name, amount, nil)
             end
         end
     end
