@@ -311,11 +311,7 @@ TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cash'],
 TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "remove", 10) -- 10 is the item amount, change this to your script needs
 ```
 
-
 ## **INSTALL FOR QB INVENTORY AND QB-HUD**
-- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
-
-## **INSTALL FOR PS INVENTORY**
 - [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
 
 # Contributers
