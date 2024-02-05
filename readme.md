@@ -37,6 +37,7 @@
 
 # Optional
 - [mh-blackmarket](https://github.com/MaDHouSe79/mh-blackmarket)
+- [mh-moneywash](https://github.com/MaDHouSe79/mh-moneywash)
 
 # Install
 - Create a folder `[mh]` in resources,
