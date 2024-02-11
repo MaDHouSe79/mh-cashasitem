@@ -29,8 +29,8 @@ local function UpdateCashItem(src, moneyType)
     local player = QBCore.Functions.GetPlayer(src)
     if player then
         if moneyType ~= 'bank' then
-            local cash = player.Functions.GetMoney(moneyType)
-            local itemCount, lastSlot, lastItem = 0, nil, nil
+            local cash, itemCount, lastSlot, lastItem = 0, 0, nil, nil
+            cash = player.Functions.GetMoney(moneyType)
             for _, item in pairs(player.PlayerData.items) do
                 if item and item.name:lower() == moneyType then
                     itemCount = itemCount + item.amount
