@@ -208,34 +208,20 @@ local lastUsedStashItem = nil
 
 local function IsItemAllowedToAdd(src, stash, item)
     if Config.Stashes[stash] then
-        if lastUsedStashItem ~= nil then
-            if lastUsedStashItem.info.allowedItems ~= nil then
-                if not lastUsedStashItem.info.allowedItems[item.name] then
-                    TriggerEvent('mh-stashes:server:allowed_items_error', src, lastUsedStashItem.info.allowedItems)
-                    lastUsedStashItem = nil
-                    return false
-                end
-            end
+        if lastUsedStashItem ~= nil and lastUsedStashItem.info.allowedItems ~= nil and not lastUsedStashItem.info.allowedItems[item] then
+            TriggerEvent('mh-stashes:server:allowed_items_error', src, lastUsedStashItem.info.allowedItems)
+            lastUsedStashItem = nil
+            return false
         end
     end
     return true
 end
 
-local function IsStashItemLootable(src, stash, item)
-    if Config.Stashes[stash] then
-        if lastUsedStashItem ~= nil then
-            if lastUsedStashItem and lastUsedStashItem.info then
-                if not lastUsedStashItem.info.canloot then
-                    TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
-                    lastUsedStashItem = nil
-                    return false
-                elseif lastUsedStashItem.info.isOnMission then
-                    TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
-                    lastUsedStashItem = nil
-                    return false
-                end
-            end
-        end
+local function IsStashItemLootable(src, stash)
+    if Config.Stashes[stash] and lastUsedStashItem ~= nil and lastUsedStashItem.info and not lastUsedStashItem.info.canloot then
+        lastUsedStashItem = nil
+		TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
+        return false
     end
     return true
 end
