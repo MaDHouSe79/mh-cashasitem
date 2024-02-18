@@ -26,25 +26,23 @@ end
 --- Update Cash Item
 ---@param id number
 local function UpdateCashItem(src, moneyType)
-    local player = QBCore.Functions.GetPlayer(src)
-    if player then
-        if moneyType ~= 'bank' then
-            local cash, itemCount, lastSlot, lastItem = 0, 0, nil, nil
-            cash = player.Functions.GetMoney(moneyType)
-            for _, item in pairs(player.PlayerData.items) do
-                if item and item.name:lower() == moneyType then
-                    itemCount = itemCount + item.amount
-                    lastSlot = item.slot
-                    lastItem = item.name
-                    player.Functions.RemoveItem(item.name, item.amount, item.slot)
-                end
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player then
+        local cash = Player.Functions.GetMoney(moneyType)
+        local itemCount, lastSlot, lastItem = 0, nil, nil
+        for _, item in pairs(Player.PlayerData.items) do
+            if item and item.name:lower() == moneyType then
+                itemCount = itemCount + item.amount
+                lastSlot = item.slot
+                lastItem = item.name
+                Player.Functions.RemoveItem(item.name, item.amount, item.slot)
             end
-            if itemCount >= 1 and cash >= 1 then
-                ItemBox(lastItem, player, itemCount, "remove")
-                AddItem(moneyType, player, cash, lastSlot)
-            elseif itemCount <= 0 and cash >= 1 then
-                AddItem(moneyType, player, cash, lastSlot)
-            end
+        end
+        if itemCount >= 1 and cash >= 1 then
+            ItemBox(lastItem, Player, itemCount, "remove")
+            AddItem(moneyType, Player, cash, lastSlot)
+        elseif itemCount <= 0 and cash >= 1 then
+            AddItem(moneyType, Player, cash, lastSlot)
         end
     end
 end
@@ -56,14 +54,14 @@ end
 ---@param action string
 ---@param display boolean
 RegisterNetEvent('mh-cashasitem:server:updateCash', function(source, item, amount, action, display)
-    local player = QBCore.Functions.GetPlayer(source)
+    local Player = QBCore.Functions.GetPlayer(source)
     if display == nil then display = true end
-    if player then
+    if Player then
         if item and Config.CashItems[item.name] and display then
             if action == "add" then
-                player.Functions.AddMoney(item.name, amount, nil)
+                Player.Functions.AddMoney(item.name, amount, nil)
             elseif action == "remove" then
-                player.Functions.RemoveMoney(item.name, amount, nil)
+                Player.Functions.RemoveMoney(item.name, amount, nil)
             end
         end
     end
@@ -86,6 +84,5 @@ end)
 ---@param set string
 ---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
-    local src = source
-    UpdateCashItem(src, moneyType)
+    if moneyType ~= 'bank' then UpdateCashItem(source, moneyType) end
 end)
