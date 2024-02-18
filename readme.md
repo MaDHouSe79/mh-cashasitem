@@ -158,10 +158,10 @@ Config.TrunkSpace = {
 # Add To your inventory server side someware on the top
 ```lua
 local lastUsedStashItem = nil
-
 local function IsItemAllowedToAdd(src, stash, item)
     if Config.Stashes[stash] then
-        if lastUsedStashItem ~= nil and lastUsedStashItem.info.allowedItems ~= nil and not lastUsedStashItem.info.allowedItems[item] then
+        if lastUsedStashItem ~= nil and lastUsedStashItem.info.allowedItems ~= nil and
+            not lastUsedStashItem.info.allowedItems[item] then
             TriggerEvent('mh-stashes:server:allowed_items_error', src, lastUsedStashItem.info.allowedItems)
             lastUsedStashItem = nil
             return false
@@ -171,9 +171,10 @@ local function IsItemAllowedToAdd(src, stash, item)
 end
 
 local function IsStashItemLootable(src, stash)
-    if Config.Stashes[stash] and lastUsedStashItem ~= nil and lastUsedStashItem.info and not lastUsedStashItem.info.canloot then
+    if Config.Stashes[stash] and lastUsedStashItem ~= nil and lastUsedStashItem.info and
+        not lastUsedStashItem.info.canloot then
         lastUsedStashItem = nil
-		TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
+        TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
         return false
     end
     return true
