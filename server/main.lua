@@ -102,7 +102,7 @@ CreateThread(function()
     while true do
         local sleep = 1000
         if error then
-            sleep = 1
+            sleep = 50
             print("~r~[mh-cashasitem] - ERROR - You forgot to add black_money in the qbcore config file.~w~")
         end
         Wait(sleep)
