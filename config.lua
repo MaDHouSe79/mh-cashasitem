@@ -10,5 +10,5 @@ Config.useRemoveBox = false -- true if you want to see the remove itembox popup 
 
 Config.CashItems = {
     ["cash"] = true,
-    ["blackmoney"] = true,
+    ["black_money"] = true,
 }
