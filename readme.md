@@ -52,8 +52,8 @@
 - first you need to edit the qb-core/config.lua to this below
 - add blackmoney to this table
 ```lua
-QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, blackmoney = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
-QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'blackmoney' } -- Money that is not allowed going in minus
+QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
 ```
 
 # Triggers you can use for your own inventory
@@ -98,8 +98,8 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
     ['combinable'] = nil,
     ['description'] = 'Cash'
 },
-['blackmoney'] = {
-    ['name'] = 'blackmoney',
+['black_money'] = {
+    ['name'] = 'black_money',
     ['label'] = 'Black Money',
     ['weight'] = 0,
     ['type'] = 'item',
@@ -199,8 +199,8 @@ Player.Functions.RemoveItem('marketbills', worth)-- to remove marketbills
 - to this
 ```lua
 local amount = 10 -- number
-Player.Functions.AddItem('blackmoney', amount) -- to add blackmoney
-Player.Functions.RemoveItem('blackmoney', amount)  -- to remove blackmoney
+Player.Functions.AddItem('black_money', amount) -- to add blackmoney
+Player.Functions.RemoveItem('black_money', amount)  -- to remove blackmoney
 ```
 
 # Edit For Item amount in ItemBox popup 
