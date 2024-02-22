@@ -15,7 +15,7 @@ RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
             type = 'cash',
             cash = Round(amount)
         })
-    elseif type == 'blackmoney' then
+    elseif type == 'black_money' then
         SendNUIMessage({
             action = 'show',
             type = 'blackmoney',
@@ -37,7 +37,7 @@ end)
 RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     cashAmount = PlayerData.money['cash']
     bankAmount = PlayerData.money['bank']
-    blackAmount = PlayerData.money['blackmoney']
+    blackAmount = PlayerData.money['black_money']
     SendNUIMessage({
         action = 'updatemoney',
         cash = Round(cashAmount),
@@ -55,8 +55,8 @@ end)
 ```lua
 QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
-    local amount = Player.PlayerData.money.blackmoney
-    TriggerClientEvent('hud:client:ShowAccounts', source, 'blackmoney', amount)
+    local amount = Player.PlayerData.money.black_money
+    TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
 end)
 ```
 
