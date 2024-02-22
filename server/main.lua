@@ -38,11 +38,13 @@ local function UpdateCashItem(src, moneyType)
                 Player.Functions.RemoveItem(item.name, item.amount, item.slot)
             end
         end
-        if itemCount >= 1 and cash >= 1 then
-            ItemBox(lastItem, Player, itemCount, "remove")
-            AddItem(moneyType, Player, cash, lastSlot)
-        elseif itemCount <= 0 and cash >= 1 then
-            AddItem(moneyType, Player, cash, lastSlot)
+        if type(itemCount) == 'number' and type(cash) == 'number' then
+            if itemCount >= 1 and cash >= 1 then
+                ItemBox(lastItem, Player, itemCount, "remove")
+                AddItem(moneyType, Player, cash, lastSlot)
+            elseif itemCount <= 0 and cash >= 1 then
+                AddItem(moneyType, Player, cash, lastSlot)
+            end
         end
     end
 end
