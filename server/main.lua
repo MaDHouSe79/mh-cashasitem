@@ -75,8 +75,8 @@ end)
 ---@param other table
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
-    UpdateCashItem(src, 'cash')
-    UpdateCashItem(src, 'black_money')
+    UpdateCashItem(src, Config.CashItem)
+    UpdateCashItem(src, Config.BlackmoneyItem)
 end)
 
 --- RegisterNetEvent OnMoneyChange
@@ -92,7 +92,7 @@ end)
 local error = false
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-        if not QBCore.Config.Money.MoneyTypes.black_money then
+        if not QBCore.Config.Money.MoneyTypes[Config.BlackmoneyItem] then
             error = true
         end
     end
