@@ -24,7 +24,8 @@ local function AddItem(item, player, amount, slot)
 end
 
 --- Update Cash Item
----@param id number
+---@param src number
+---@param moneyType string
 local function UpdateCashItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
