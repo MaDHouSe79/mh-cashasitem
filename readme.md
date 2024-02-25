@@ -81,7 +81,7 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
 ```
 
 ![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/cash.png?raw=true)
-![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/blackmoney.png?raw=true)
+![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/black_money.png?raw=true)
 
 # Add in `[qb]/qb-core/shared/items.lua` 
 - and don't forgot the add the `cash.png` and `blackmoney.png` in to your inventory image folder.
