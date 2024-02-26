@@ -41,7 +41,7 @@
 
 # Install
 - Create a folder `[mh]` in resources,
-- Put the folder mh-cashasitem in the [mh] folder
+- Put the folder `mh-cashasitem` in the `[mh]` folder
 - Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
 - Make sure you read the readme files for install, and only when you are done you can restart the server.
 
