@@ -30,6 +30,13 @@
 - Use cash and or blackmonmey as item for qb-core
 - It also a blackmoney item as option you can use instead of MarkedBills
 
+# NOTE FOR PS-HUD
+- This script will nolonger support ps scripts, cause we can't edit some files,
+- but they say it is possible, but it is not possible because the files are not easy to read and therefore cannot be edited.
+- it looks like the js files are compressed so you can't edit this js files, and thats the why mh-cashasitem can't support ph-hud or other ps scripts.
+- i ask for it but they closed the ticket and didn't even responds to it, they say this script is not good and will break economy, but every server i use this script did not.
+- so, Great support from ps scripts...
+
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-hud](https://github.com/qbcore-framework/qb-hud)
