@@ -187,9 +187,6 @@ local function IsStashItemLootable(src, stash)
     return true
 end
 ```
-# Amount for inventory when you give cash items
-- Check out here, and find min and max.
-[Amount in Inventory](https://github.com/MaDHouSe79/qb-inventory/blob/afdbee97c3b4deeb63ece88b80e4142154f59f35/html/ui.html#L35)
 
 # Money Wash from marketbills to blackmoney item
 - The blackmoney uses the item amount as a number, 
