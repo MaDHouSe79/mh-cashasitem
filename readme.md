@@ -22,8 +22,9 @@
     </a>      
 </p>
 
-# My Youtube Channel
+# My Youtube Channel and Discord
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
+- [Discord](https://discord.gg/vJ9EukCmJQ)
 
 # mh-cashasitem
 - This is the best cash/blackmoney item script for your qbcore server.
