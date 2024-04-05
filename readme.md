@@ -204,8 +204,8 @@ Player.Functions.RemoveItem('marketbills', worth)-- to remove marketbills
 - to this
 ```lua
 local amount = 10 -- number
-Player.Functions.AddItem('black_money', amount) -- to add blackmoney
-Player.Functions.RemoveItem('black_money', amount)  -- to remove blackmoney
+Player.Functions.AddMoney('black_money', amount) -- to add blackmoney
+Player.Functions.RemoveMoney('black_money', amount)  -- to remove blackmoney
 ```
 
 # Edit For Item amount in ItemBox popup 
