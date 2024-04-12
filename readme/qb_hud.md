@@ -3,6 +3,7 @@
 - around line 15
 ```lua
 local blackAmount = 0
+local cryptoAmount = 0
 ```
 
 # Replace this code below in qb-hud/client.lua
@@ -21,6 +22,12 @@ RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
             type = 'blackmoney',
             blackmoney = Round(amount)
         })
+    elseif type == 'crypto' then
+        SendNUIMessage({
+            action = 'show',
+            type = 'crypto',
+            crypto = Round(amount)
+        })
     else
         SendNUIMessage({
             action = 'show',
@@ -38,11 +45,13 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     cashAmount = PlayerData.money['cash']
     bankAmount = PlayerData.money['bank']
     blackAmount = PlayerData.money['black_money']
+    cryptoAmount = PlayerData.money['crypto']
     SendNUIMessage({
         action = 'updatemoney',
         cash = Round(cashAmount),
         bank = Round(bankAmount),
         blackmoney = Round(blackAmount),
+        crypto = Round(cryptoAmount),
         amount = Round(amount),
         minus = isMinus,
         type = type
@@ -58,19 +67,25 @@ QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, functio
     local amount = Player.PlayerData.money.black_money
     TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
 end)
+
+QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source, _)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local amount = Player.PlayerData.money.crypto
+    TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
+end)
 ```
 
 # Replace this code below in qb-hud/html/app.js
 - around line 622
 ```js
 // MONEY HUD
-
 const moneyHud = Vue.createApp({
     data() {
         return {
             cash: 0,
             bank: 0,
             blackmoney: 0,
+            crypto: 0,
             amount: 0,
             plus: false,
             minus: false,
@@ -212,6 +227,12 @@ const moneyHud = Vue.createApp({
 <div id="money-cash">
     <transition name="slide-fade">
         <p v-if="showBlack"><span id="sign">$&nbsp;</span><span id="money">{{(blackmoney)}}</span></p>
+    </transition>
+</div>
+
+<div id="money-cash">
+    <transition name="slide-fade">
+        <p v-if="showCrypto"><span id="sign">₿&nbsp;</span><span id="money">{{(crypto)}}</span></p>
     </transition>
 </div>
 ```
