@@ -63,6 +63,8 @@ end)
 # Replace this code below in qb-hud/html/app.js
 - around line 622
 ```js
+// MONEY HUD
+
 const moneyHud = Vue.createApp({
     data() {
         return {
@@ -75,6 +77,7 @@ const moneyHud = Vue.createApp({
             showCash: false,
             showBank: false,
             showBlack: false,
+            showCrypto: false,
             showUpdate: false,
         };
     },
@@ -115,6 +118,7 @@ const moneyHud = Vue.createApp({
             this.cash = data.cash;
             this.bank = data.bank;
             this.blackmoney = data.blackmoney;
+            this.crypto = data.crypto;
         },
         update(data) {
             this.showUpdate = true;
@@ -122,6 +126,7 @@ const moneyHud = Vue.createApp({
             this.bank = data.bank;
             this.cash = data.cash;
             this.blackmoney = data.blackmoney;
+            this.crypto = data.crypto;
             this.minus = data.minus;
             this.plus = data.plus;
             if (data.type === "cash") {
@@ -163,6 +168,19 @@ const moneyHud = Vue.createApp({
                     setTimeout(() => (this.showBlack = false), 2000);
                 }
             }
+            if (data.type === "crypto") {
+                if (data.minus) {
+                    this.showCrypto = true;
+                    this.minus = true;
+                    setTimeout(() => (this.showUpdate = false), 1000);
+                    setTimeout(() => (this.showCrypto = false), 2000);
+                } else {
+                    this.showCrypto = true;
+                    this.plus = true;
+                    setTimeout(() => (this.showUpdate = false), 1000);
+                    setTimeout(() => (this.showCrypto = false), 2000);
+                }
+            }
         },
         showAccounts(data) {
             if (data.type === "cash" && !this.showCash) {
@@ -177,6 +195,10 @@ const moneyHud = Vue.createApp({
                 this.showBlack = true;
                 this.blackmoney = data.blackmoney;
                 setTimeout(() => (this.showBlack = false), 3500);
+            }else if (data.type === "crypto" && !this.showCrypto) {
+                this.showCrypto = true;
+                this.crypto = data.crypto;
+                setTimeout(() => (this.showCrypto = false), 3500);
             }
         },
     },
