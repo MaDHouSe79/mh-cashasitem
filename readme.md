@@ -118,6 +118,18 @@ local useRemoveBox = false -- true if you want to see the remove itembox popup (
     ['combinable'] = nil,
     ['description'] = 'Black Money?'
 },
+['crypto'] = {
+    ['name'] = 'crypto',
+    ['label'] = 'Crypto',
+    ['weight'] = 0,
+    ['type'] = 'item',
+    ['image'] = 'crypto.png',
+    ['unique'] = false,
+    ['useable'] = false,
+    ['shouldClose'] = true,
+    ['combinable'] = nil,
+    ['description'] = 'Crypto'
+},
 ```
 
 # To add in your inventory config.lua file.
