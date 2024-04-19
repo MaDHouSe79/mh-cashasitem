@@ -201,7 +201,7 @@ end
 
 # Money Wash from marketbills to blackmoney item
 - The blackmoney uses the item amount as a number, 
-- and the marketbills uses the item mount as a table.
+- and the marketbills uses the item amount as a table.
 - so you need to edit that part of the code.
 
 - from this
