@@ -78,6 +78,7 @@ RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
     UpdateCashItem(src, Config.CashItem)
     UpdateCashItem(src, Config.BlackmoneyItem)
+    UpdateCashItem(src, Config.CryptoItem)
 end)
 
 --- RegisterNetEvent OnMoneyChange
