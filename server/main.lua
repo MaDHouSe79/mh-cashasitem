@@ -56,7 +56,7 @@ end
 ---@param amount number
 ---@param action string
 ---@param display boolean
-RegisterNetEvent('mh-cashasitem:server:updateCash', function(source, item, amount, action, display)
+RegisterNetEvent(Config.UpdateTrigger, function(source, item, amount, action, display)
     local Player = QBCore.Functions.GetPlayer(source)
     if display == nil then display = true end
     if Player then
