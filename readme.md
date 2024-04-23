@@ -174,6 +174,11 @@ Config.TrunkSpace = {
 
 # Add To your inventory server side someware on the top
 ```lua
+-- you can change this trigger for protection.
+-- if you change this dont forget to change,
+-- the `Config.UpdateTrigger` in cashasitem config.lua
+local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
+
 local lastUsedStashItem = nil
 local function IsItemAllowedToAdd(src, stash, item)
     if Config.Stashes[stash] then
