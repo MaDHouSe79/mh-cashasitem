@@ -59,6 +59,13 @@
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
 ```
+$ NOTE FOR SERVER TRIGGER
+- you can change this triggers for more protection.
+```lua
+- be sure that these 2 triggers are the same, otherwise the script will not work.
+Config.UpdateTrigger = "mh-cashasitem:server:updateCash" (in mh-cashasitem/config.lua)
+local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash" --(to add in qb-inventory/server.lua)
+```
 
 # Triggers you can use for your own inventory
 - use this server side only when you add or delete an item from and to your inventory.
