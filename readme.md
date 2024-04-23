@@ -59,7 +59,8 @@
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
 ```
-$ NOTE FOR SERVER TRIGGER
+
+# NOTE FOR SERVER TRIGGER
 - you can change this triggers for more protection.
 ```lua
 - be sure that these 2 triggers are the same, otherwise the script will not work.
