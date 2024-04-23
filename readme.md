@@ -32,7 +32,7 @@
 
 # mh-cashasitem
 - This is the best cash/blackmoney/crypto item script for your qbcore server.
-- Read the [UPDATE.MD](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/update.md) if you have to change something.
+- for Exsisted user: Read the [UPDATE.MD](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/update.md) if you have to change something.
 
 
 # Dependencies
