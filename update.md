@@ -2,8 +2,11 @@
 - you can change this triggers for more protection.
 - be sure that these 2 triggers are the same, otherwise the script will not work.
 ```lua
-Config.UpdateTrigger = "mh-cashasitem:server:updateCash" --(in mh-cashasitem/config.lua)
-local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash" -- (in qb-inventory/server.lua)
+-- to add in mh-cashasitem/config.lua
+Config.UpdateTrigger = "mh-cashasitem:server:updateCash" 
+
+-- to add in qb-inventory/server.lua
+local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 ```
 
 if you already have cashasitem installed you can also use this but you need to replace some lines in qb-inventory/server.lua
