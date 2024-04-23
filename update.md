@@ -12,3 +12,6 @@ first you need to add in `qb-inventory/server.lua` someware at the top of the fi
 local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 ```  
 then you need to replace all the lines from `"mh-cashasitem:server:updateCash"` to `CashAsItemUpdateTrigger`
+
+with this you can now create your own trigger, so people don't know where it is using for.
+this is already a server side script but just in case i want to add this to make it a bit more secure.
