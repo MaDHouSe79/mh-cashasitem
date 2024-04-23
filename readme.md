@@ -176,7 +176,7 @@ Config.TrunkSpace = {
 ```lua
 -- you can change this trigger for protection.
 -- if you change this dont forget to change,
--- the `Config.UpdateTrigger` in cashasitem config.lua
+-- the `Config.UpdateTrigger` in `mh-cashasitem` config.lua
 local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 
 local lastUsedStashItem = nil
