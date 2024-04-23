@@ -17,3 +17,9 @@ Config.CashItems = {
     [Config.BlackmoneyItem] = true,
     [Config.CryptoItem] = true,
 }
+
+
+-- You can change this trigger for more protection.
+-- if you change this don't forget to change the `CashAsItemUpdateTrigger` in qb-inventory server.lua
+-- create an unknow trigger for this.
+Config.UpdateTrigger = "mh-cashasitem:server:updateCash"
