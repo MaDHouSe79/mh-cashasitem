@@ -157,6 +157,7 @@ end)
 ## There are 2 `inventory:server:SetInventoryData` you can use
 - Code 1 is for mh-cashasitem only.
 - Code 2 is for mh-cashasitem and mh-stashes
+- NOTE: USE ONLY ONE for `inventory:server:SetInventoryData`
 
 # (Code 1) Replace this code in qb-inventory/server/main.lua
 ```lua
