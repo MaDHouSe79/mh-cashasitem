@@ -1,6 +1,6 @@
 # This is for exsisted users 
 - if you already have cashasitem installed you don't need to download it again.
-- jusy fallow the sapt below
+- jusy fallow the staps below
 
 # NEW SERVER TRIGGER
 - you can change this triggers for more protection.
