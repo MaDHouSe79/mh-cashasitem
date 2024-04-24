@@ -65,12 +65,7 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 ```
 
 # NOTE FOR SERVER TRIGGER
-- you can change this triggers for more protection.
-```lua
--- be sure that these 2 triggers are the same, otherwise the script will not work.
-Config.UpdateTrigger = "mh-cashasitem:server:updateCash" --(in mh-cashasitem/config.lua)
-local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash" --(to add in qb-inventory/server.lua)
-```
+- Read the [UPDATE.MD](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/update.md)
 
 # Triggers you can use for your own inventory
 - use this server side only when you add or delete an item from and to your inventory.
