@@ -51,11 +51,14 @@
 - Make sure you read the readme files for install, and only when you are done you can restart the server.
 
 # Command
-- /blackmoney to see the amount
+- /cash to see the amount
+- /bank to see the amount
+- /black_money to see the amount
+- /crypto to see the amount
 
 # Note for using blackmoney as an item
 - first you need to edit the qb-core/config.lua to this below
-- add blackmoney to this table
+- add black_money to this table
 ```lua
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
