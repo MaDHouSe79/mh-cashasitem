@@ -1,5 +1,36 @@
 ## **INSTALL FOR QB INVENTORY**
 
+# To Check in qb-inventory config.lua around line 18
+-- If not add this
+```lua
+-- if not this add it to the config.lua.
+Config.VendingObjects = {
+    'prop_vend_soda_01',
+    'prop_vend_soda_02',
+    'prop_vend_water_01'
+}
+```
+
+# Check in qb-inventory/client/main.lua around line 65
+-- If not add this
+```lua
+local function GetClosestVending()
+    local ped = PlayerPedId()
+    local pos = GetEntityCoords(ped)
+    local object = nil
+    for _, machine in pairs(Config.VendingObjects) do
+        local ClosestObject = GetClosestObjectOfType(pos.x, pos.y, pos.z, 0.75, joaat(machine), false, false, false)
+        if ClosestObject ~= 0 then
+            if object == nil then
+                object = ClosestObject
+            end
+        end
+    end
+    return object
+end
+```
+
+
 # Add in qb-inventory/client/main.lua from line 136
 ```lua
 local function OpenTrunk()
