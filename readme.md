@@ -52,7 +52,6 @@
 - Make sure you read the readme files for install, and only when you are done you can restart the server.
 
 # Command
-- `/resetcashdata` reset players data money table (admin only)
 - `/cash` to see the amount
 - `/bank` to see the amount
 - `/blackmoney` to see the amount
