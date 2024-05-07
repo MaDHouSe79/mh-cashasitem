@@ -10,6 +10,7 @@ local cryptoAmount = 0
 - around line 863
 ```lua
 RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
+    if amount == nil then amount = 0 end
     if type == 'cash' then
         SendNUIMessage({
             action = 'show',
