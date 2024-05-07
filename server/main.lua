@@ -110,3 +110,20 @@ CreateThread(function()
         Wait(sleep)
     end
 end)
+
+local function UpdateDatabaseMoney()
+    MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
+        for k, v in pairs(rs) do
+            local list = json.decode(v.money)
+            if not list["black_money"] then 
+                list["black_money"] = 0
+                print(json.encode(list,{indent=true}))
+                MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
+            end  
+        end
+    end)
+end
+
+QBCore.Commands.Add('resetcashdata', 'This checks if black_money if exsisted, if not it wil be added to the player money.', {}, false, function(source, _)
+    UpdateDatabaseMoney()
+end, 'admin')
