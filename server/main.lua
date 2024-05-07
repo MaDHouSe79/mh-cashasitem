@@ -117,7 +117,6 @@ local function UpdateDatabaseMoney()
             local list = json.decode(v.money)
             if not list["black_money"] then 
                 list["black_money"] = 0
-                print(json.encode(list,{indent=true}))
                 MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
             end  
         end
