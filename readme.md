@@ -52,10 +52,11 @@
 - Make sure you read the readme files for install, and only when you are done you can restart the server.
 
 # Command
-- /cash to see the amount
-- /bank to see the amount
-- /black_money to see the amount
-- /crypto to see the amount
+- `/resetcashdata` reset players data money table (admin only)
+- `/cash` to see the amount
+- `/bank` to see the amount
+- `/blackmoney` to see the amount
+- `/crypto` to see the amount
 
 # Note for using blackmoney as an item
 - first you need to edit the qb-core/config.lua to this below
