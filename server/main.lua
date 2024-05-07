@@ -50,6 +50,18 @@ local function UpdateCashItem(src, moneyType)
     end
 end
 
+local function UpdateDatabaseMoney()
+    MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
+        for k, v in pairs(rs) do
+            local list = json.decode(v.money)
+            if not list["black_money"] then 
+                list["black_money"] = 0
+                MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
+            end  
+        end
+    end)
+end
+
 --- RegisterNetEvent update Cash
 ---@param id number
 ---@param item table
@@ -94,6 +106,7 @@ end)
 local error = false
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
+        UpdateDatabaseMoney()
         if not QBCore.Config.Money.MoneyTypes[Config.BlackmoneyItem] then
             error = true
         end
@@ -110,19 +123,3 @@ CreateThread(function()
         Wait(sleep)
     end
 end)
-
-local function UpdateDatabaseMoney()
-    MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
-        for k, v in pairs(rs) do
-            local list = json.decode(v.money)
-            if not list["black_money"] then 
-                list["black_money"] = 0
-                MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
-            end  
-        end
-    end)
-end
-
-QBCore.Commands.Add('resetcashdata', 'This checks if black_money if exsisted, if not it wil be added to the player money.', {}, false, function(source, _)
-    UpdateDatabaseMoney()
-end, 'admin')
