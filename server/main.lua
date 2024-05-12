@@ -3,24 +3,12 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 
---- Item Box
----@param item table
----@param player table
----@param amount number
----@param action string
-local function ItemBox(item, player, amount, action)
-    if Config.useItemBox and (Config.useAddBox or Config.useRemoveBox) then
-        TriggerClientEvent('inventory:client:ItemBox', player.PlayerData.source, QBCore.Shared.Items[item], action, amount)
-    end
-end
-
 --- Add Cash Item
 ---@param player table
 ---@param amount number
 ---@param slot number
 local function AddItem(item, player, amount, slot)
     if slot ~= nil or slot ~= 0 then player.Functions.AddItem(item, amount, slot) else player.Functions.AddItem(item, amount, nil) end
-    ItemBox(item, player, amount, "add")
 end
 
 --- Update Cash Item
@@ -41,7 +29,6 @@ local function UpdateCashItem(src, moneyType)
         end
         if type(itemCount) == 'number' and type(cash) == 'number' then
             if itemCount >= 1 and cash >= 1 then
-                ItemBox(lastItem, Player, itemCount, "remove")
                 AddItem(moneyType, Player, cash, lastSlot)
             elseif itemCount <= 0 and cash >= 1 then
                 AddItem(moneyType, Player, cash, lastSlot)
