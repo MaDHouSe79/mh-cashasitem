@@ -26,15 +26,10 @@
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 - [Discord](https://discord.gg/vJ9EukCmJQ)
 
-# Special Thanks to @Bravedevelopment for this install video
-- [@Bravedevelopment](https://www.youtube.com/@Bravedevelopment)
-- [Install Video](https://www.youtube.com/watch?v=Z_TruT7s-Ec)
-
 # mh-cashasitem
 - Before you start, `BACKUP` your `resources` folder cause when something is wrong you have a backup.
 - This is the best cash/blackmoney/crypto item script for your qbcore server.
 - for Exsisted user: Read the [UPDATE.MD](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/update.md) if you have to change something.
-
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
