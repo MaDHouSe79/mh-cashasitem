@@ -1,3 +1,11 @@
+
+# Fix blackmarket blackmoney, 
+- in your qb-inventory/server/main.lua is a `blackmoney` and it must have the name `black_money`
+- so go to qb-inventory/server/main.lua around line 1534 and change `blackmoney` to `black_money`
+- restart the server.
+
+# -----------------
+
 # This is for exsisted users 
 - if you already have cashasitem installed you don't need to download it again.
 - jusy fallow the staps below
