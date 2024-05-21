@@ -78,15 +78,6 @@ TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "remove",
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
 
-# Check in server file config
-- inventory itembox popup when you add or remove items.
-- set it all to false if you don't want it.
-```lua
-local useItemBox = false   -- true if you want to use the itembox popup 
-local useAddBox = false    -- true if you want to see the add itembox popup (only works if useItemBox = true)
-local useRemoveBox = false -- true if you want to see the remove itembox popup (only works if useItemBox = true)
-```
-
 ![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/cash.png?raw=true)
 ![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/black_money.png?raw=true)
 ![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/crypto.png?raw=true)
