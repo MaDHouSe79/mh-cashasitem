@@ -66,13 +66,14 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 # Triggers you can use for your own inventory
 - use this server side only when you add or delete an item from and to your inventory.
 ```lua
+local CashAsItemUpdateTrigger = 'mh-cashasitem:server:updateCash'
 -- true at the end of the trigger is to display money change at the right top of your screen
 -- if false you don't see a change but it will change the money amount
-TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "add", true) -- this true
+TriggerEvent(CashAsItemUpdateTrigger, src, itemData, amount, "add", true) -- this true
 
 -- true at the end of the trigger is to display money change at the right top of your screen
 -- if false you don't see a change but it will change the money amount
-TriggerEvent('mh-cashasitem:server:updateCash', src, itemData, amount, "remove", true) -- this true
+TriggerEvent(CashAsItemUpdateTrigger, src, itemData, amount, "remove", true) -- this true
 ```
 
 # Video
