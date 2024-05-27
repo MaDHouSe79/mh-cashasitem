@@ -1,4 +1,50 @@
 # New QB Inventory
+
+#edit this code below
+```lua
+function OpenInventoryById(source, targetId)
+    local QBPlayer = QBCore.Functions.GetPlayer(source)
+    local TargetPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
+    if not QBPlayer or not TargetPlayer then return end
+    if Player(targetId).state.inv_busy then CloseInventory(targetId) end
+    local playerItems = QBPlayer.PlayerData.items
+    local targetItems = TargetPlayer.PlayerData.items
+    local formattedInventory = {
+        name = 'otherplayer-' .. targetId,
+        label = GetPlayerName(targetId),
+        maxweight = Config.MaxWeight,
+        slots = Config.MaxSlots,
+        inventory = targetItems
+    }
+    Wait(1500)
+    Player(targetId).state.inv_busy = true
+    TriggerClientEvent('qb-inventory:client:openInventory', source, playerItems, formattedInventory)
+end
+```
+- to 
+```lua
+function OpenInventoryById(source, targetId)
+    local QBPlayer = QBCore.Functions.GetPlayer(source)
+    local TargetPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
+    if not QBPlayer or not TargetPlayer then return end
+    if Player(targetId).state.inv_busy then CloseInventory(targetId) end
+    local playerItems = QBPlayer.PlayerData.items
+    local targetItems = TargetPlayer.PlayerData.items
+    local formattedInventory = {
+        name = 'otherplayer-' .. targetId,
+        label = GetPlayerName(targetId),
+        maxweight = Config.MaxWeight,
+        slots = Config.MaxSlots,
+        inventory = targetItems
+    }
+    Wait(1500)
+    Player(targetId).state.inv_busy = true
+    TriggerEvent('inventory:server:OpenInventory', source) -- ADD HERE
+    TriggerClientEvent('qb-inventory:client:openInventory', source, playerItems, formattedInventory)
+end
+```
+
+
 ```lua
 -- edit this code from (server side)
 local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
