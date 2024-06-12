@@ -46,7 +46,7 @@ end
 ```
 
 # Edit this code from (server side)
--- From
+- From
 ```lua
 local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 
@@ -151,7 +151,7 @@ RegisterNetEvent('qb-inventory:server:useItem', function(item)
     end
 end)
 ```
--- to 
+- to 
 ```lua
 RegisterNetEvent('qb-inventory:server:useItem', function(item)
     local itemData = GetItemBySlot(source, item.slot)
