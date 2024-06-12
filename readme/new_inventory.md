@@ -44,9 +44,8 @@ function OpenInventoryById(source, targetId)
 end
 ```
 
-
+# edit this code from (server side)
 ```lua
--- edit this code from (server side)
 local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
