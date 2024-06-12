@@ -1,6 +1,7 @@
 # New QB Inventory
 
-#edit this code below
+# Edit this code below
+- From
 ```lua
 function OpenInventoryById(source, targetId)
     local QBPlayer = QBCore.Functions.GetPlayer(source)
@@ -21,7 +22,7 @@ function OpenInventoryById(source, targetId)
     TriggerClientEvent('qb-inventory:client:openInventory', source, playerItems, formattedInventory)
 end
 ```
-- to 
+- To 
 ```lua
 function OpenInventoryById(source, targetId)
     local QBPlayer = QBCore.Functions.GetPlayer(source)
@@ -44,7 +45,8 @@ function OpenInventoryById(source, targetId)
 end
 ```
 
-# edit this code from (server side)
+# Edit this code from (server side)
+-- From
 ```lua
 local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 
@@ -134,6 +136,7 @@ end)
 ```
 
 # Edit this code from (server side)
+- From
 ```lua
 RegisterNetEvent('qb-inventory:server:useItem', function(item)
     local itemData = GetItemBySlot(source, item.slot)
