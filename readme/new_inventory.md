@@ -118,6 +118,7 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
                     TriggerEvent(CashAsItemUpdateTrigger, fromId, fromItem, fromAmount, "remove", true)
+                    TriggerEvent(CashAsItemUpdateTrigger, toId, toItem, toAmount, "remove", true)
                     TriggerEvent(CashAsItemUpdateTrigger, toId, fromItem, fromAmount, "add", true)
                     TriggerEvent(CashAsItemUpdateTrigger, fromId, toItem, toAmount, "add", true)
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item')
