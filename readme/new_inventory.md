@@ -1,6 +1,6 @@
 # New QB Inventory
 
-# Edit this code below (SErver side)
+# Edit this code below (Server side)
 - From
 ```lua
 function OpenInventoryById(source, targetId)
