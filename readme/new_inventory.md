@@ -48,7 +48,6 @@ end
 # Edit this code from (server side)
 - From
 ```lua
-local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
 
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     if not fromInventory or not toInventory or not fromSlot or not toSlot or not fromAmount or not toAmount then return end
@@ -89,6 +88,9 @@ end)
 
 - To
 ```lua
+
+local CashAsItemUpdateTrigger = 'mh-cashasitem:server:updateCash'
+
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     if not fromInventory or not toInventory or not fromSlot or not toSlot or not fromAmount or not toAmount then return end
     local src = source
