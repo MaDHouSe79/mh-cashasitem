@@ -69,6 +69,28 @@ RegisterNetEvent(Config.UpdateTrigger, function(source, item, amount, action, di
     end
 end)
 
+-- exports['mh-cashasitem']:UpdateCashItem(source, item, amount, action, display)
+--- UpdateCashItem
+---@param source id of the player
+---@param item the cash item
+---@param amount for the item
+---@param action for add or remove
+---@param display display hud true or false
+local function UpdateCashItem(source, item, amount, action, display)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player then
+        if display == nil then display = true end
+        if item and Config.CashItems[item.name] and display then
+            if action == "add" then
+                Player.Functions.AddMoney(item.name, amount, nil)
+            elseif action == "remove" then
+                Player.Functions.RemoveMoney(item.name, amount, nil)
+            end
+        end
+    end
+end
+exports('UpdateCashItem', UpdateCashItem)
+
 --- RegisterNetEvent OpenInventory
 ---@param name string
 ---@param id number
