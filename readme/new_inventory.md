@@ -1,54 +1,37 @@
 # New QB Inventory
 
-# Edit this code below (Server side)
+# Edit this code below Client side in main.lua around line 163
 - From
 ```lua
-function OpenInventoryById(source, targetId)
-    local QBPlayer = QBCore.Functions.GetPlayer(source)
-    local TargetPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
-    if not QBPlayer or not TargetPlayer then return end
-    if Player(targetId).state.inv_busy then CloseInventory(targetId) end
-    local playerItems = QBPlayer.PlayerData.items
-    local targetItems = TargetPlayer.PlayerData.items
-    local formattedInventory = {
-        name = 'otherplayer-' .. targetId,
-        label = GetPlayerName(targetId),
-        maxweight = Config.MaxWeight,
+RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        action = 'open',
+        inventory = items,
         slots = Config.MaxSlots,
-        inventory = targetItems
-    }
-    Wait(1500)
-    Player(targetId).state.inv_busy = true
-    TriggerClientEvent('qb-inventory:client:openInventory', source, playerItems, formattedInventory)
-end
+        maxweight = Config.MaxWeight,
+        other = other
+    })
+end)
 ```
 - To 
 ```lua
-function OpenInventoryById(source, targetId)
-    local QBPlayer = QBCore.Functions.GetPlayer(source)
-    local TargetPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
-    if not QBPlayer or not TargetPlayer then return end
-    if Player(targetId).state.inv_busy then CloseInventory(targetId) end
-    local playerItems = QBPlayer.PlayerData.items
-    local targetItems = TargetPlayer.PlayerData.items
-    local formattedInventory = {
-        name = 'otherplayer-' .. targetId,
-        label = GetPlayerName(targetId),
-        maxweight = Config.MaxWeight,
+RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
+    TriggerServerEvent('inventory:server:OpenInventory') -- ADD HERE
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        action = 'open',
+        inventory = items,
         slots = Config.MaxSlots,
-        inventory = targetItems
-    }
-    Wait(1500)
-    Player(targetId).state.inv_busy = true
-    TriggerEvent('inventory:server:OpenInventory', source) -- ADD HERE
-    TriggerClientEvent('qb-inventory:client:openInventory', source, playerItems, formattedInventory)
-end
+        maxweight = Config.MaxWeight,
+        other = other
+    })
+end)
 ```
 
-# Edit this code from (server side)
+# Edit this code on server side around line 410
 - From
 ```lua
-
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     if not fromInventory or not toInventory or not fromSlot or not toSlot or not fromAmount or not toAmount then return end
     local src = source
@@ -88,9 +71,6 @@ end)
 
 - To
 ```lua
-
-local CashAsItemUpdateTrigger = 'mh-cashasitem:server:updateCash'
-
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     if not fromInventory or not toInventory or not fromSlot or not toSlot or not fromAmount or not toAmount then return end
     local src = source
@@ -106,30 +86,30 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         local toId = getIdentifier(toInventory, src)
         if toItem and fromItem.name == toItem.name then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
-                TriggerEvent(CashAsItemUpdateTrigger, fromId, fromItem, toAmount, "remove", true)
-                TriggerEvent(CashAsItemUpdateTrigger, toId, toItem, toAmount, "add", true)
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, "remove", true)
+                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, "add", true)
                 AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
-                TriggerEvent(CashAsItemUpdateTrigger, fromId, fromItem, toAmount, "remove", true)
-                TriggerEvent(CashAsItemUpdateTrigger, toId, toItem, toAmount, "add", true)
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, "remove", true)
+                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, "add", true)
                 AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
             end
         else
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
-                    TriggerEvent(CashAsItemUpdateTrigger, fromId, fromItem, fromAmount, "remove", true)
-                    TriggerEvent(CashAsItemUpdateTrigger, toId, toItem, toAmount, "remove", true)
-                    TriggerEvent(CashAsItemUpdateTrigger, toId, fromItem, fromAmount, "add", true)
-                    TriggerEvent(CashAsItemUpdateTrigger, fromId, toItem, toAmount, "add", true)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, "remove", true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, "remove", true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, "add", true)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, "add", true)
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item')
                     AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
-                    TriggerEvent(CashAsItemUpdateTrigger, fromId, fromItem, toAmount, "remove", false)
-                    TriggerEvent(CashAsItemUpdateTrigger, toId, fromItem, toAmount, "add", false)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, "remove", true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, "add", true)
                     AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
                 end
             end
