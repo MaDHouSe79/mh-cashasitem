@@ -1,5 +1,19 @@
 # New QB Inventory
 
+# Server.cfg
+```conf
+# QBCore & Extra stuff
+ensure qb-core
+ensure mh-cashasitem -- ADD HERE
+ensure [qb]
+ensure [standalone]
+ensure [voice]
+ensure [defaultmaps]
+
+ensure [mh]
+```
+
+
 # Edit this code below Client side in main.lua around line 163
 - From
 ```lua
