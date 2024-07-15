@@ -41,8 +41,8 @@ local function UpdateDatabaseMoney()
     MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
         for k, v in pairs(rs) do
             local list = json.decode(v.money)
-            if not list[Config.BlackmoneyItem] then 
-                list[Config.BlackmoneyItem] = 0
+            if not list['black_money'] then 
+                list['black_money'] = 0
                 MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
             end  
         end
