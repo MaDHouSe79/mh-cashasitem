@@ -14,7 +14,8 @@ ensure [mh]
 ```
 
 
-# Edit this code below Client side in main.lua around line 163
+# Edit this code below Client side 
+- in qb-inventory/client/main.lua around line 163
 - From
 ```lua
 RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
@@ -43,7 +44,8 @@ RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
 end)
 ```
 
-# Edit this code from (server side)
+# Edit this code from (server side) 
+- in `qb-inventory/server/main.lua` around line 416
 - From
 ```lua
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
