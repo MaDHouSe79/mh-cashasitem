@@ -69,14 +69,13 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 # Triggers you can use for your own inventory
 - use this server side only when you add or delete an item from and to your inventory.
 ```lua
-local CashAsItemUpdateTrigger = 'mh-cashasitem:server:updateCash'
--- true at the end of the trigger is to display money change at the right top of your screen
--- if false you don't see a change but it will change the money amount
-TriggerEvent(CashAsItemUpdateTrigger, src, itemData, amount, "add", true) -- this true
+-- true at the end of the export is to display money change at the right top of your screen
+-- if false you don't see a change but it will change the money amount.
+exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'add', true)
 
--- true at the end of the trigger is to display money change at the right top of your screen
--- if false you don't see a change but it will change the money amount
-TriggerEvent(CashAsItemUpdateTrigger, src, itemData, amount, "remove", true) -- this true
+-- true at the end of the export is to display money change at the right top of your screen
+-- if false you don't see a change but it will change the money amount.
+exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'remove', true)
 ```
 
 # Video
@@ -92,80 +91,6 @@ TriggerEvent(CashAsItemUpdateTrigger, src, itemData, amount, "remove", true) -- 
 cash                         = { name = 'cash', label = 'Cash', weight = 0, type = 'item', image = 'cash.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Cash'  },
 black_money                  = { name = 'black_money', label = 'Black Money', weight = 0, type = 'item', image = 'black_money.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Black Money?' },
 crypto                       = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
-```
-
-# To add in your inventory config.lua file.
-```lua
--- it works but this is for mh-stashes but this script is not released yet.
--- this is needed in the inventory config, or the get many errors.
--- all default true.
-Config.Stashes = { 
-    ["walletstash"] = true, 
-    ["cashstash"] = true, 
-    ["drugsstash"] = true, 
-    ["weaponstash"] = true,
-    ['smallbagstash'] = true,
-    ['mediumbagstash'] = true,
-    ['largebagstash'] = true,
-    ["missionstash"] = true,
-}
-
--- only jobs can open trunks of job vehicles,
--- if you are driving a police car you need to be a police to able to open this trunk, same for the amulance
--- this so other players can't steel stuff.
-Config.OnlyJobCanOpenJobVehicleTrucks = true -- defailt true
-
--- vehicle class max trunk weight and slots
- 
-Config.TrunkSpace = {
-    ['default'] = {  slots = 35, maxWeight = 60000 }, -- All the vehicle class that not listed here will use this as default
-    [0] = { slots = 30, maxWeight = 38000 },   -- Compacts
-    [1] = { slots = 40, maxWeight = 50000 },   -- Sedans
-    [2] = { slots = 50, maxWeight = 75000 },   -- SUVs
-    [3] = { slots = 35, maxWeight = 42000 },   -- Coupes
-    [4] = { slots = 30, maxWeight = 38000 },   -- Muscle
-    [5] = { slots = 25, maxWeight = 30000 },   -- Sports Classics
-    [6] = { slots = 25, maxWeight = 30000 },   -- Sports
-    [7] = { slots = 25, maxWeight = 30000 },   -- Super
-    [8] = { slots = 15, maxWeight = 15000 },   -- Motorcycles
-    [9] = { slots = 35, maxWeight = 60000 },   -- Off-road
-    [12] = { slots = 35, maxWeight = 120000 }, -- Vans
-    [13] = { slots = 0, maxWeight = 0 },       -- Cycles
-    [14] = { slots = 50, maxWeight = 120000 }, -- Boats
-    [15] = { slots = 50, maxWeight = 120000 }, -- Helicopters
-    [16] = { slots = 50, maxWeight = 120000 }, -- Planes
-}
-```
-
-# Add To your inventory server side someware on the top
-```lua
--- you can change this trigger for protection.
--- if you change this dont forget to change,
--- the `Config.UpdateTrigger` in `mh-cashasitem` config.lua
-local CashAsItemUpdateTrigger = "mh-cashasitem:server:updateCash"
-
-local lastUsedStashItem = nil
-local function IsItemAllowedToAdd(src, stash, item)
-    if Config.Stashes[stash] then
-        if lastUsedStashItem ~= nil and lastUsedStashItem.info.allowedItems ~= nil and
-            not lastUsedStashItem.info.allowedItems[item] then
-            TriggerEvent('mh-stashes:server:allowed_items_error', src, lastUsedStashItem.info.allowedItems)
-            lastUsedStashItem = nil
-            return false
-        end
-    end
-    return true
-end
-
-local function IsStashItemLootable(src, stash)
-    if Config.Stashes[stash] and lastUsedStashItem ~= nil and lastUsedStashItem.info and
-        not lastUsedStashItem.info.canloot then
-        lastUsedStashItem = nil
-        TriggerEvent('mh-stashes:server:not_allowed_to_loot', src)
-        return false
-    end
-    return true
-end
 ```
 
 # Money Wash from marketbills to blackmoney item
@@ -187,12 +112,12 @@ Player.Functions.AddMoney('black_money', amount) -- to add blackmoney
 Player.Functions.RemoveMoney('black_money', amount)  -- to remove blackmoney
 ```
 
-# Edit For Item amount in ItemBox popup 
+# Edit For Item amount in ItemBox popup in qb-inventory
 - Example: Used 1x, Received 10x, Removed 10x
 
-# Replace code 1
+# Replace code
 - Find the trigger 'inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
-- replace the code with below
+- Replace it with the code below
 ```lua
 RegisterNetEvent('inventory:client:ItemBox', function(itemData, type, amount)
     SendNUIMessage({
@@ -204,9 +129,9 @@ RegisterNetEvent('inventory:client:ItemBox', function(itemData, type, amount)
 end)
 ```
 
-# Replace code 2
+# Replace code
 - find the function `Inventory.UseItem` in `qb-inventory/html/js/app.js`
-- replace the code below
+- Replace it with the code below
 ```js
 Inventory.itemBox = function (data) {
     if (itemBoxtimer !== null) {
