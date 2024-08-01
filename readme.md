@@ -29,7 +29,6 @@
 # mh-cashasitem
 - Before you start, `BACKUP` your `resources` folder cause when something is wrong you have a backup.
 - This is the best cash/blackmoney/crypto item script for your qbcore server.
-- for Exsisted user: Read the [UPDATE.MD](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/update.md) if you have to change something.
 
 # NOTE you need coding experience.
 - This is not just a plug and play script, you need some coding experience to install this script.
