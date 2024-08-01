@@ -71,8 +71,8 @@ QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money =
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
 ```
 
-# Triggers you can use for your own inventory
-- use this server side only when you add or delete an item from and to your inventory.
+# Exports you can use for your own inventory.
+- use this server side only when you add or delete an item from and to a inventory.
 ```lua
 -- true at the end of the export is to display money change at the right top of your screen
 -- if false you don't see a change but it will change the money amount.
