@@ -54,6 +54,7 @@ ensure [qb]
 ensure [standalone]
 ensure [voice]
 ensure [defaultmaps]
+ensure [mh]
 ```
 
 # Command
