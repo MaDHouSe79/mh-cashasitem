@@ -63,9 +63,6 @@ QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money =
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
 ```
 
-# NOTE FOR SERVER TRIGGER
-- Read the [UPDATE.MD](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/update.md)
-
 # Triggers you can use for your own inventory
 - use this server side only when you add or delete an item from and to your inventory.
 ```lua
