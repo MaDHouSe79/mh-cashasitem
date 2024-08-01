@@ -43,10 +43,18 @@
 - [mh-moneywash](https://github.com/MaDHouSe79/mh-moneywash)
 
 # Install
-- Create a folder `[mh]` in resources,
-- Put the folder `mh-cashasitem` in the `[mh]` folder
-- Add in your server.cfg `ensure [mh]`, make sure this is below `ensure [standalone]`
+- Add in your server.cfg `ensure mh-cashasitem`, make sure this is above `ensure [qb]`
 - Make sure you read the readme files for install, and only when you are done you can restart the server.
+
+# Server.cfg example
+```conf
+ensure qb-core
+ensure mh-cashasitem -- add here
+ensure [qb]
+ensure [standalone]
+ensure [voice]
+ensure [defaultmaps]
+```
 
 # Command
 - `/cash` to see the amount
