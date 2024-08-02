@@ -49,20 +49,6 @@ local function UpdateDatabaseMoney()
     end)
 end
 
-RegisterNetEvent(Config.UpdateTrigger, function(source, item, amount, action, display)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if display == nil then display = true end
-    if Player then
-        if item and Config.CashItems[item.name] and display then
-            if action == "add" then
-                Player.Functions.AddMoney(item.name, amount, nil)
-            elseif action == "remove" then
-                Player.Functions.RemoveMoney(item.name, amount, nil)
-            end
-        end
-    end
-end)
-
 -- exports['mh-cashasitem']:UpdateCashItem(source, item, amount, action, display)
 --- UpdateCashItem
 ---@param source id of the player
