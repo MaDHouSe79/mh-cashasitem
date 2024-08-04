@@ -52,10 +52,10 @@ end
 -- exports['mh-cashasitem']:UpdateCashItem(source, itemData, itemAmount, action, display)
 --- UpdateCashItem
 ---@param source id of the player
----@param item the cash item
+---@param item the cash itemData
 ---@param amount for the item
----@param action for add or remove
----@param display display hud true or false
+---@param action for `add` or `remove`
+---@param display display hud `true` or `false`
 local function UpdateCashItem(source, item, amount, action, display)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player then
