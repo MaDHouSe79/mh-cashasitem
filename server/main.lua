@@ -3,7 +3,7 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 
---- Add Cash Item
+--- Add Item
 ---@param player table
 ---@param amount number
 ---@param slot number
@@ -11,7 +11,7 @@ local function AddItem(item, player, amount, slot)
     if slot ~= nil or slot ~= 0 then player.Functions.AddItem(item, amount, slot) else player.Functions.AddItem(item, amount, nil) end
 end
 
---- Update Cash Item
+--- Update Item
 ---@param src number
 ---@param moneyType string
 local function UpdateItem(src, moneyType)
@@ -49,7 +49,7 @@ local function UpdateDatabaseMoney()
     end)
 end
 
--- exports['mh-cashasitem']:UpdateCashItem(source, item, amount, action, display)
+-- exports['mh-cashasitem']:UpdateCashItem(source, itemData, itemAmount, action, display)
 --- UpdateCashItem
 ---@param source id of the player
 ---@param item the cash item
@@ -77,7 +77,6 @@ exports('UpdateCashItem', UpdateCashItem)
 ---@param other table
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
-    print(src)
     UpdateItem(src, Config.CashItem)
     UpdateItem(src, Config.BlackmoneyItem)
     UpdateItem(src, Config.CryptoItem)
