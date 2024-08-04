@@ -357,12 +357,14 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         cb(false)
         return
     end
-    
+    exports['mh-cashasitem']:UpdateCashItem(target, itemInfo, giveAmount, 'add', true)
+
     local removeItem = RemoveItem(source, item, giveAmount)
     if not removeItem then
         cb(false)
         return
     end
+    exports['mh-cashasitem']:UpdateCashItem(source, itemInfo, giveAmount, 'remove', true)
     
     if itemInfo.type == 'weapon' then checkWeapon(source, item) end
     TriggerClientEvent('qb-inventory:client:giveAnim', source)
@@ -370,9 +372,6 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
     TriggerClientEvent('qb-inventory:client:giveAnim', target)
     TriggerClientEvent('qb-inventory:client:ItemBox', target, itemInfo, 'add', giveAmount)
     if Player(target).state.inv_busy then TriggerClientEvent('qb-inventory:client:updateInventory', target) end
-
-    exports['mh-cashasitem']:UpdateCashItem(target, itemInfo, giveAmount, 'add', true)
-    exports['mh-cashasitem']:UpdateCashItem(source, itemInfo, giveAmount, 'remove', true)
     cb(true)
 end)
 ```
