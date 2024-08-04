@@ -44,7 +44,7 @@ RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
 end)
 ```
 
-# Edit this code from (server side) 
+# Edit this code (server side) 
 - in `qb-inventory/server/main.lua` around line 416
 - From
 ```lua
