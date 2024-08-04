@@ -121,7 +121,7 @@ Player.Functions.RemoveMoney('black_money', amount)  -- to remove blackmoney
 - Example: Used 1x, Received 10x, Removed 10x
 
 # Replace code
-- Find the trigger 'inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
+- Find the trigger 'qb-inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
 - Replace it with the code below
 ```lua
 RegisterNetEvent('qb-inventory:client:ItemBox', function(itemData, type, amount)
