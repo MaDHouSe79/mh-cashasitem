@@ -124,7 +124,7 @@ Player.Functions.RemoveMoney('black_money', amount)  -- to remove blackmoney
 - Find the trigger 'inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
 - Replace it with the code below
 ```lua
-RegisterNetEvent('inventory:client:ItemBox', function(itemData, type, amount)
+RegisterNetEvent('qb-inventory:client:ItemBox', function(itemData, type, amount)
     SendNUIMessage({
         action = 'itemBox',
         item = itemData,
@@ -162,8 +162,8 @@ Inventory.itemBox = function (data) {
 
 # Example.
 ```lua
-TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "add", 10)  -- 10 is the item amount, change this to your script needs
-TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "remove", 10) -- 10 is the item amount, change this to your script needs
+TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "add", 10)  -- 10 is the item amount, change this to your script needs
+TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "remove", 10) -- 10 is the item amount, change this to your script needs
 ```
 
 ## **INSTALL FOR QB INVENTORY AND QB-HUD**
