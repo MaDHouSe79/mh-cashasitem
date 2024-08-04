@@ -14,7 +14,7 @@ end
 --- Update Cash Item
 ---@param src number
 ---@param moneyType string
-local function UpdateCashItem(src, moneyType)
+local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local cash = Player.Functions.GetMoney(moneyType)
@@ -77,9 +77,10 @@ exports('UpdateCashItem', UpdateCashItem)
 ---@param other table
 RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     local src = source
-    UpdateCashItem(src, Config.CashItem)
-    UpdateCashItem(src, Config.BlackmoneyItem)
-    UpdateCashItem(src, Config.CryptoItem)
+    print(src)
+    UpdateItem(src, Config.CashItem)
+    UpdateItem(src, Config.BlackmoneyItem)
+    UpdateItem(src, Config.CryptoItem)
 end)
 
 --- RegisterNetEvent OnMoneyChange
@@ -89,7 +90,7 @@ end)
 ---@param set string
 ---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
-    if moneyType ~= 'bank' then UpdateCashItem(source, moneyType) end
+    if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
 end)
 
 local error = false
