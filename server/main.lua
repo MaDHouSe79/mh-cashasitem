@@ -48,23 +48,32 @@ local function UpdateDatabaseMoney()
         end
     end)
 end
-
--- exports['mh-cashasitem']:UpdateCashItem(source, itemData, itemAmount, action, display)
+-- exports['mh-cashasitem']:UpdateCashItem(source, item, amount, action, display)
 --- UpdateCashItem
 ---@param source id of the player
----@param item the cash itemData
+---@param item the cash item
 ---@param amount for the item
----@param action for `add` or `remove`
----@param display display hud `true` or `false`
+---@param action for add or remove
+---@param display display hud true or false
 local function UpdateCashItem(source, item, amount, action, display)
     local Player = QBCore.Functions.GetPlayer(source)
+    if display == nil then display = true end
     if Player then
-        if display == nil then display = true end
-        if item and Config.CashItems[item.name] and display then
-            if action == "add" then
-                Player.Functions.AddMoney(item.name, amount, nil)
-            elseif action == "remove" then
-                Player.Functions.RemoveMoney(item.name, amount, nil)
+        if type(item) == 'string' then
+            if item ~= nil and Config.CashItems[item] and display then
+                if action == "add" then
+                    Player.Functions.AddMoney(item, amount, nil)
+                elseif action == "remove" then
+                    Player.Functions.RemoveMoney(item, amount, nil)
+                end
+            end
+        elseif type(item) == 'table' then
+            if item.name ~= nil and Config.CashItems[item.name] and display then
+                if action == "add" then
+                    Player.Functions.AddMoney(item.name, amount, nil)
+                elseif action == "remove" then
+                    Player.Functions.RemoveMoney(item.name, amount, nil)
+                end
             end
         end
     end
