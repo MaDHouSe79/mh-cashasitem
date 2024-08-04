@@ -306,7 +306,7 @@ end)
 ```
 - to
 ```lua
-QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source, cb, target, item, amount)
+QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source, cb, target, item, amount, slot, info)
     local player = QBCore.Functions.GetPlayer(source)
     if not player or player.PlayerData.metadata['isdead'] or player.PlayerData.metadata['inlaststand'] or player.PlayerData.metadata['ishandcuffed'] then
         cb(false)
@@ -352,26 +352,28 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         return
     end
 
-    local giveItem = AddItem(target, item, giveAmount)
-    if not giveItem then
-        cb(false)
-        return
-    end
-    exports['mh-cashasitem']:UpdateCashItem(target, itemInfo, giveAmount, 'add', true)
-
-    local removeItem = RemoveItem(source, item, giveAmount)
+    local removeItem = RemoveItem(source, item, giveAmount, slot, 'Item given to ID #' .. target)
     if not removeItem then
         cb(false)
         return
     end
-    exports['mh-cashasitem']:UpdateCashItem(source, itemInfo, giveAmount, 'remove', true)
+    exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
+
+    local giveItem = AddItem(target, item, giveAmount, false, info, 'Item given from ID #' .. source)
+    if not giveItem then
+        cb(false)
+        return
+    end
+    exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add', true)
     
     if itemInfo.type == 'weapon' then checkWeapon(source, item) end
     TriggerClientEvent('qb-inventory:client:giveAnim', source)
     TriggerClientEvent('qb-inventory:client:ItemBox', source, itemInfo, 'remove', giveAmount)
     TriggerClientEvent('qb-inventory:client:giveAnim', target)
     TriggerClientEvent('qb-inventory:client:ItemBox', target, itemInfo, 'add', giveAmount)
+    
     if Player(target).state.inv_busy then TriggerClientEvent('qb-inventory:client:updateInventory', target) end
+
     cb(true)
 end)
 ```
