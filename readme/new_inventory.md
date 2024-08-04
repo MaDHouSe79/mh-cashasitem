@@ -98,7 +98,7 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
     local fromItem = getItem(fromInventory, src, fromSlot)
     local toItem = getItem(toInventory, src, toSlot)
 
-    if toInventory:find('glovebox-') or toInventory:find('trunk-') then
+    if toInventory:find('glovebox-') or toInventory:find('trunk-') or toInventory:find('drop-') then
         if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then 
             return 
         end
