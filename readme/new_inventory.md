@@ -129,8 +129,8 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
                     exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
                     exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
-                    AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
                     exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                    AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
                     exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
                 end
             else
