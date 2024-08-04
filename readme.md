@@ -35,10 +35,10 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
-- [qb-hud](https://github.com/qbcore-framework/qb-hud)
 - [qb-inventory](https://github.com/qbcore-framework/qb-inventory)
 
 # Optional
+- [qb-hud](https://github.com/qbcore-framework/qb-hud)
 - [mh-blackmarket](https://github.com/MaDHouSe79/mh-blackmarket)
 - [mh-moneywash](https://github.com/MaDHouSe79/mh-moneywash)
 
