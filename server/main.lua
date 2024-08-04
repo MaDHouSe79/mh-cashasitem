@@ -59,25 +59,22 @@ local function UpdateCashItem(source, item, amount, action, display)
     local Player = QBCore.Functions.GetPlayer(source)
     if display == nil then display = true end
     if Player then
+        local tmpItem = nil
         if type(item) == 'string' then
-            if item ~= nil and Config.CashItems[item] and display then
-                if action == "add" then
-                    Player.Functions.AddMoney(item, amount, nil)
-                elseif action == "remove" then
-                    Player.Functions.RemoveMoney(item, amount, nil)
-                end
-            end
+            tmpItem = item
         elseif type(item) == 'table' then
-            if item.name ~= nil and Config.CashItems[item.name] and display then
-                if action == "add" then
-                    Player.Functions.AddMoney(item.name, amount, nil)
-                elseif action == "remove" then
-                    Player.Functions.RemoveMoney(item.name, amount, nil)
-                end
+            tmpItem = item.name
+        end
+        if tmpItem ~= nil and Config.CashItems[tmpItem] and display then
+            if action == "add" then
+                Player.Functions.AddMoney(tmpItem, amount, nil)
+            elseif action == "remove" then
+                Player.Functions.RemoveMoney(tmpItem, amount, nil)
             end
         end
     end
 end
+exports('UpdateCashItem', UpdateCashItem)
 exports('UpdateCashItem', UpdateCashItem)
 
 --- RegisterNetEvent OpenInventory
