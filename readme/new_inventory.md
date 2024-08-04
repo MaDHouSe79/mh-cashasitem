@@ -98,6 +98,12 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
     local fromItem = getItem(fromInventory, src, fromSlot)
     local toItem = getItem(toInventory, src, toSlot)
 
+    if toInventory:find('glovebox-') or toInventory:find('trunk-') then
+        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then 
+            return 
+        end
+    end
+
     if fromItem then
         if not toItem and toAmount > fromItem.amount then return end
         if fromInventory == 'player' and toInventory ~= 'player' then checkWeapon(src, fromItem) end
@@ -108,33 +114,30 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         if toItem and fromItem.name == toItem.name then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
                 exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
-                if AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item') then
-                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
-                end
+                AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
+                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
                 exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
-                if AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item') then
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
-                end
+                AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
+                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
             end
         else
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
                     exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
                     exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
-                    if AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') and AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item') then
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                        exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
-                    end
+                    AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
+                    AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
                     exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', false)
-                    if AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item') then
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', false)
-                    end
+                    AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', false)
                 end
             end
         end
