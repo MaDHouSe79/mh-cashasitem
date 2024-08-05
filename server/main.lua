@@ -75,7 +75,6 @@ local function UpdateCashItem(source, item, amount, action, display)
     end
 end
 exports('UpdateCashItem', UpdateCashItem)
-exports('UpdateCashItem', UpdateCashItem)
 
 --- RegisterNetEvent OpenInventory
 ---@param name string
