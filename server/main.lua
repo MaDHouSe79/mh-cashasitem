@@ -48,6 +48,7 @@ local function UpdateDatabaseMoney()
         end
     end)
 end
+
 -- exports['mh-cashasitem']:UpdateCashItem(source, item, amount, action, display)
 --- UpdateCashItem
 ---@param source id of the player
@@ -76,7 +77,7 @@ local function UpdateCashItem(source, item, amount, action, display)
 end
 exports('UpdateCashItem', UpdateCashItem)
 
---- RegisterNetEvent OpenInventory
+--- OpenInventory
 ---@param name string
 ---@param id number
 ---@param other table
@@ -87,7 +88,7 @@ RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)
     UpdateItem(src, Config.CryptoItem)
 end)
 
---- RegisterNetEvent OnMoneyChange
+--- OnMoneyChange
 ---@param source number
 ---@param moneyType string
 ---@param amount number
