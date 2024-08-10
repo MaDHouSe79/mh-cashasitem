@@ -98,8 +98,8 @@ black_money                  = { name = 'black_money', label = 'Black Money', we
 crypto                       = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
 ```
 
-# Money Wash from marketbills to blackmoney item
-- The blackmoney uses the item amount as a number, 
+# How to change marketbills to black_money 
+- The black_money uses the item amount as a number, 
 - and the marketbills uses the item amount as a table.
 - so you need to edit that part of the code.
 
