@@ -200,11 +200,6 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     local playerPed = GetPlayerPed(src)
     local playerCoords = GetEntityCoords(playerPed)
 
-    if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then 
-        cb(false) 
-        return 
-    end
-
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
         if item.type == 'weapon' then checkWeapon(src, item) end
         TaskPlayAnim(playerPed, 'pickup_object', 'pickup_low', 8.0, -8.0, 2000, 0, 0, false, false, false)
@@ -227,7 +222,11 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
         else
             table.insert(Drops[newDropId].items, item)
         end
+        if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
+            exports['mh-cashasitem']:UpdateCashItem(src, item, item.amount, 'remove', true)
+        end
         cb(dropId)
+
     else
         cb(false)
     end
