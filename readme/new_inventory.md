@@ -98,9 +98,10 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
     local fromItem = getItem(fromInventory, src, fromSlot)
     local toItem = getItem(toInventory, src, toSlot)
 
-    if toInventory:find('glovebox-') or toInventory:find('trunk-') or toInventory:find('drop-') or toInventory:find('safe-') then
-        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then 
-            return 
+    if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('drop-') or toInventory:find('safe-') then
+        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+            CloseInventory(src)
+            return
         end
     end
 
@@ -201,8 +202,9 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     local playerCoords = GetEntityCoords(playerPed)
 
     if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-        cb(false)
-        return
+        CloseInventory(src)
+        cb(false) 
+        return 
     end
 
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
