@@ -113,7 +113,7 @@ CreateThread(function()
         local sleep = 1000
         if error then
             sleep = 50
-            print("~r~[mh-cashasitem] - ERROR - You forgot to add "..Config.BlackmoneyItem.." in the qbcore config file.~w~")
+            print("~r~[mh-cashasitem] - ERROR - You forgot to add "..Config.BlackmoneyItem.." in the qb-core config.lua file.~w~")
         end
         Wait(sleep)
     end
