@@ -35,10 +35,10 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qb-hud](https://github.com/qbcore-framework/qb-hud)
 - [qb-inventory](https://github.com/qbcore-framework/qb-inventory)
 
 # Optional
-- [qb-hud](https://github.com/qbcore-framework/qb-hud)
 - [mh-blackmarket](https://github.com/MaDHouSe79/mh-blackmarket)
 - [mh-moneywash](https://github.com/MaDHouSe79/mh-moneywash)
 
@@ -63,9 +63,16 @@ ensure [mh]
 - `/blackmoney` to see the amount
 - `/crypto` to see the amount
 
-# Note for using blackmoney as an item
+# Video
+[Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
+
+![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/cash.png?raw=true)
+![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/black_money.png?raw=true)
+![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/crypto.png?raw=true)
+
+# Note for using blackmoney
 - first you need to edit the qb-core/config.lua to this below
-- add black_money to this table
+- add black_money to this tables
 ```lua
 QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
@@ -82,13 +89,6 @@ exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'add', true)
 -- if false you don't see a change but it will change the money amount.
 exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'remove', true)
 ```
-
-# Video
-[Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
-
-![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/cash.png?raw=true)
-![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/black_money.png?raw=true)
-![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/crypto.png?raw=true)
 
 # Add in `[qb]/qb-core/shared/items.lua` 
 - and don't forgot the add the `cash.png` and `blackmoney.png` and `crypto.png` in to your inventory image folder.
@@ -109,7 +109,6 @@ local worth = {value=10} -- table
 Player.Functions.AddItem('marketbills', worth) -- to add marketbills
 Player.Functions.RemoveItem('marketbills', worth)-- to remove marketbills
 ```
-
 - to this
 ```lua
 local amount = 10 -- number
@@ -117,62 +116,8 @@ Player.Functions.AddMoney('black_money', amount) -- to add blackmoney
 Player.Functions.RemoveMoney('black_money', amount)  -- to remove blackmoney
 ```
 
-# Edit For Item amount in ItemBox popup in qb-inventory
-- Example: Used 1x, Received 10x, Removed 10x
-
-# Replace code
-- Find the trigger 'qb-inventory:client:ItemBox' in 'qb-inventory/client/main.lua'
-- Replace it with the code below
-```lua
-RegisterNetEvent('qb-inventory:client:ItemBox', function(itemData, type, amount)
-    SendNUIMessage({
-        action = 'itemBox',
-        item = itemData,
-        amount = amount,
-        type = type
-    })
-end)
-```
-
-# Replace code
-- find the function `Inventory.UseItem` in `qb-inventory/html/js/app.js`
-- Replace it with the code below
-```js
-Inventory.itemBox = function (data) {
-    if (itemBoxtimer !== null) {
-        clearTimeout(itemBoxtimer);
-    }
-    var type = "Used " + data.amount + "x";
-    if (data.type == "add") {
-        type = "Received " + data.amount + "x";
-    } else if (data.type == "remove") {
-        type = "Removed " + data.amount + "x";
-    }
-    var itemboxHTML = '<div class="item-slot"><div class="item-slot-amount"><p>' + type + '</p></div><div class="item-slot-label"><p>' + data.item.label + '</p></div><div class="item-slot-img"><img src="images/' + data.item.image + '" alt="' + data.item.name + '" /></div></div>';
-    var $itembox = $(itemboxHTML);
-    $(".itemboxes-container").prepend($itembox);
-    $itembox.fadeIn(250);
-    setTimeout(function () {
-        $.when($itembox.fadeOut(300)).done(function () {
-            $itembox.remove();
-        });
-    }, 3000);
-};
-```
-
-# Example.
-```lua
-TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "add", 10)  -- 10 is the item amount, change this to your script needs
-TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items['cash'], "remove", 10) -- 10 is the item amount, change this to your script needs
-```
-
 ## **INSTALL FOR QB INVENTORY AND QB-HUD**
 - [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
-
-# Contributers
-<a href="https://github.com/MaDHouSe79/mh-cashasitem/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=MaDHouSe79/mh-cashasitem" />
-</a>
 
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
