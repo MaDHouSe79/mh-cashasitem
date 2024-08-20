@@ -98,8 +98,17 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
     local fromItem = getItem(fromInventory, src, fromSlot)
     local toItem = getItem(toInventory, src, toSlot)
 
-    if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('drop-') or toInventory:find('safe-') then
-        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+    if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+        local message, fail = nil, false
+        if toInventory:find('trunk-') then
+            message, fail = 'Cannot put cash items into the trunk', true
+        elseif toInventory:find('glovebox-') then
+            message, fail = 'Cannot put cash items into the glovebox', true
+        elseif toInventory:find('safe-') then
+            message, fail = 'Cannot put cash items into the safe', true
+        end
+        if fail and message ~= nil then
+            TriggerClientEvent('QBCore:Notify', src, message, 'error')
             CloseInventory(src)
             return
         end
@@ -203,6 +212,7 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
 
     if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
         CloseInventory(src)
+        TriggerClientEvent('QBCore:Notify', src, 'Cannot drop cash items on the ground', 'error')
         cb(false) 
         return 
     end
