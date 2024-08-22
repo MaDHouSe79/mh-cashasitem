@@ -221,8 +221,8 @@ end)
 ```
 
 # Replace code in app.js around line 217
-- find the function `handleMouseDown(event, slot, inventory)`
-- and replace with code below
+- `qb-inventory/html/app.js` and find `handleMouseDown(event, slot, inventory)`
+- replace with code below
 ```js
 handleMouseDown(event, slot, inventory) {
     if (event.button === 1) return; // skip middle mouse
