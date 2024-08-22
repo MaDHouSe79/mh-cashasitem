@@ -219,3 +219,36 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
     cb(true)
 end)
 ```
+
+# Add snippet app.js around line 217
+- find `handleMouseDown(event, slot, inventory)`
+- and replace with code below
+```js
+handleMouseDown(event, slot, inventory) {
+    if (event.button === 1) return; // skip middle mouse
+    event.preventDefault();
+    const itemInSlot = this.getItemInSlot(slot, inventory);
+    if (event.button === 0) {
+        if (event.shiftKey && itemInSlot) {
+            this.splitAndPlaceItem(itemInSlot, inventory);
+        } else {
+            this.startDrag(event, slot, inventory);
+        }
+    } else if (event.button === 2 && itemInSlot) {
+        if (this.otherInventoryName.startsWith("shop-")) {
+            this.handlePurchase(slot, itemInSlot.slot, itemInSlot, 1);
+            return;
+        }
+
+        if (itemInSlot.name == 'cash' || itemInSlot.name == 'black_money' || itemInSlot.name == 'crypto') {
+            return;
+        }
+        
+        if (!this.isOtherInventoryEmpty) {
+            this.moveItemBetweenInventories(itemInSlot, inventory);
+        } else {
+            this.showContextMenuOptions(event, itemInSlot);
+        }
+    }
+},
+```
