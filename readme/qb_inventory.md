@@ -67,35 +67,80 @@ end)
 - in `qb-inventory/server/main.lua` around line 416
 ```lua
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
+    if toInventory:find('shop-') then return end
     if not fromInventory or not toInventory or not fromSlot or not toSlot or not fromAmount or not toAmount then return end
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
+
     fromSlot, toSlot, fromAmount, toAmount = tonumber(fromSlot), tonumber(toSlot), tonumber(fromAmount), tonumber(toAmount)
+    
     local fromItem = getItem(fromInventory, src, fromSlot)
     local toItem = getItem(toInventory, src, toSlot)
+
     if fromItem then
         if not toItem and toAmount > fromItem.amount then return end
         if fromInventory == 'player' and toInventory ~= 'player' then checkWeapon(src, fromItem) end
         local fromId = getIdentifier(fromInventory, src)
         local toId = getIdentifier(toInventory, src)
+
+        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+            --print("From Inventory: "..json.encode(fromInventory,{indent=true}))
+            --print("From Item: "..json.encode(fromItem,{indent=true}))
+            if fromInventory == 'player' then
+                if toInventory:find('trunk-') then
+                    print("Update Cash - from player to trunk Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                elseif toInventory:find('glovebox-') then
+                    print("Update Cash - from player to glovebox Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')                    
+                end
+            elseif toInventory == 'player' then
+                if fromInventory:find('trunk-') then
+                    print("Update Cash - from trunk to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                elseif fromInventory:find('glovebox-') then
+                    print("Update Cash - from glovebox to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                elseif fromInventory:find('drop-') then
+                    print("Update Cash - from player to drop Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                end
+            end
+        end
+
         if toItem and fromItem.name == toItem.name then
+
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
+
                 AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
+                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add')
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
+
                 AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
+                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add')
             end
         else
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
-                    AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item')
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove')
+
+                    AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
                     AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add')
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add')
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
+
                     AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add')
                 end
             end
         end
