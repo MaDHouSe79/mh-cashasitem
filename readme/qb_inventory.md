@@ -24,14 +24,12 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     local playerPed = GetPlayerPed(src)
     local playerCoords = GetEntityCoords(playerPed)
 
-    if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-        CloseInventory(src)
-        TriggerClientEvent('QBCore:Notify', src, 'Cannot drop cash items on the ground', 'error')
-        cb(false) 
-        return 
-    end
-
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
+        if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
+            print("Update Cash - from player to drop Item:" .. item.name .." Amount:".. item.amount)
+            exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove')
+        end
+
         if item.type == 'weapon' then checkWeapon(src, item) end
         TaskPlayAnim(playerPed, 'pickup_object', 'pickup_low', 8.0, -8.0, 2000, 0, 0, false, false, false)
         local bag = CreateObjectNoOffset(Config.ItemDropObject, playerCoords.x + 0.5, playerCoords.y + 0.5, playerCoords.z, true, true, false)
@@ -52,9 +50,6 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
             TriggerClientEvent('qb-inventory:client:setupDropTarget', -1, dropId)
         else
             table.insert(Drops[newDropId].items, item)
-        end
-        if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-            exports['mh-cashasitem']:UpdateCashItem(src, item, item.amount, 'remove', true)
         end
         cb(dropId)
     else
