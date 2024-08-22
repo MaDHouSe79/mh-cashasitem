@@ -80,8 +80,6 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         local toId = getIdentifier(toInventory, src)
 
         if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
-            --print("From Inventory: "..json.encode(fromInventory,{indent=true}))
-            --print("From Item: "..json.encode(fromItem,{indent=true}))
             if fromInventory == 'player' then
                 if toInventory:find('trunk-') then
                     print("Update Cash - from player to trunk Item:" .. fromItem.name .." Amount:".. fromItem.amount)
