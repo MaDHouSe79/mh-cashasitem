@@ -12,7 +12,7 @@ ensure [defaultmaps]
 ```
 
 # Replace this code below (Server side)
-- in `qb-inventory/server/main.lua` around line 230
+- in `qb-inventory/server/main.lua` around line 282
 ```lua
 QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(source, cb, item)
     local src = source
@@ -59,7 +59,7 @@ end)
 ```
 
 # Replace this code below (server side) 
-- in `qb-inventory/server/main.lua` around line 416
+- in `qb-inventory/server/main.lua` around line 472
 ```lua
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
     if toInventory:find('shop-') then return end
