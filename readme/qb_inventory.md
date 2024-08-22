@@ -80,24 +80,34 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         local toId = getIdentifier(toInventory, src)
 
         if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+            print("From Inventory: "..json.encode(fromInventory,{indent=true}))
+            --print("From Item: "..json.encode(fromItem,{indent=true}))
             if fromInventory == 'player' then
                 if toInventory:find('trunk-') then
                     print("Update Cash - from player to trunk Item:" .. fromItem.name .." Amount:".. fromItem.amount)
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
                 elseif toInventory:find('glovebox-') then
                     print("Update Cash - from player to glovebox Item:" .. fromItem.name .." Amount:".. fromItem.amount)
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')                    
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
+                elseif toInventory:find('otherplayer-') then
+                    print("Update Cash - from player to otherplayer Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                 end
             elseif toInventory == 'player' then
                 if fromInventory:find('trunk-') then
                     print("Update Cash - from trunk to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                 elseif fromInventory:find('glovebox-') then
                     print("Update Cash - from glovebox to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                 elseif fromInventory:find('drop-') then
-                    print("Update Cash - from player to drop Item:" .. fromItem.name .." Amount:".. fromItem.amount)
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                    print("Update Cash - from drop to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                elseif fromInventory:find('otherplayer-') then
+                    print("Update Cash - from otherplayer to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                 end
             end
         end
