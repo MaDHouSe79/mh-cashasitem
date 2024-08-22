@@ -83,14 +83,14 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         if GetResourceState("mh-cashasitem") ~= 'missing' then
             if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
                 if fromInventory == 'player' then
-                    if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('safe-') then
+                    if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('safe-') or toInventory:find('stash-') then
                         exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
                     elseif toInventory:find('otherplayer-') then
                         exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                         exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
                     end
                 elseif toInventory == 'player' then
-                    if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or toInventory:find('safe-') or fromInventory:find('drop-') then
+                    if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or toInventory:find('safe-') or toInventory:find('stash-') or fromInventory:find('drop-') then
                         exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                     elseif fromInventory:find('otherplayer-') then
                         exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
