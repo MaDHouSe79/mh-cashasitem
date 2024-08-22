@@ -189,7 +189,7 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
 
         if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
             print("Update Cash - from player to drop Item:" .. item.name .." Amount:".. item.amount)
-            exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove')
+            exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove', true)
         end
 
         if item.type == 'weapon' then checkWeapon(src, item) end
