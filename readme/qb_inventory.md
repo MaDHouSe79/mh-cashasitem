@@ -26,7 +26,6 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
 
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
         if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-            print("Update Cash - from player to drop Item:" .. item.name .." Amount:".. item.amount)
             exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove', true)
         end
 
@@ -79,23 +78,16 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         local fromId = getIdentifier(fromInventory, src)
         local toId = getIdentifier(toInventory, src)
 
-        -- mh-cashasitem snippet (start)
         if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
             if fromInventory == 'player' then
-                if toInventory:find('trunk-') then
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
-                elseif toInventory:find('glovebox-') then
+                if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('safe-') then
                     exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
                 elseif toInventory:find('otherplayer-') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
                     exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
                 end
             elseif toInventory == 'player' then
-                if fromInventory:find('trunk-') then
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                elseif fromInventory:find('glovebox-') then
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                elseif fromInventory:find('drop-') then
+                if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or toInventory:find('safe-') or fromInventory:find('drop-') then
                     exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                 elseif fromInventory:find('otherplayer-') then
                     exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
@@ -103,7 +95,6 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
                 end
             end
         end
-        -- mh-cashasitem snippet (end)
 
         if toItem and fromItem.name == toItem.name then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
