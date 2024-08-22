@@ -25,8 +25,10 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     local playerCoords = GetEntityCoords(playerPed)
 
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
-        if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-            exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove', true)
+        if GetResourceState("mh-cashasitem") ~= 'missing' then
+            if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
+                exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove', true)
+            end
         end
 
         if item.type == 'weapon' then checkWeapon(src, item) end
@@ -78,51 +80,61 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         local fromId = getIdentifier(fromInventory, src)
         local toId = getIdentifier(toInventory, src)
 
-        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
-            if fromInventory == 'player' then
-                if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('safe-') then
-                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
-                elseif toInventory:find('otherplayer-') then
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
-                end
-            elseif toInventory == 'player' then
-                if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or toInventory:find('safe-') or fromInventory:find('drop-') then
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                elseif fromInventory:find('otherplayer-') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+        if GetResourceState("mh-cashasitem") ~= 'missing' then
+            if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+                if fromInventory == 'player' then
+                    if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('safe-') then
+                        exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
+                    elseif toInventory:find('otherplayer-') then
+                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                    end
+                elseif toInventory == 'player' then
+                    if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or toInventory:find('safe-') or fromInventory:find('drop-') then
+                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                    elseif fromInventory:find('otherplayer-') then
+                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                    end
                 end
             end
         end
 
         if toItem and fromItem.name == toItem.name then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
-                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
                 AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
-                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
+                if GetResourceState("mh-cashasitem") ~= 'missing' then
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
+                end
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
-                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
                 AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
-                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                if GetResourceState("mh-cashasitem") ~= 'missing' then
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                end
             end
         else
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
-                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
                     AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
+                    if GetResourceState("mh-cashasitem") ~= 'missing' then
+                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                        exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
+                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                        exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
+                    end
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
                     AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                    if GetResourceState("mh-cashasitem") ~= 'missing' then
+                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
+                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                    end
                 end
             end
         end
@@ -184,15 +196,18 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         cb(false)
         return
     end
-    exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
+    if GetResourceState("mh-cashasitem") ~= 'missing' then
+        exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
+    end
 
     local giveItem = AddItem(target, item, giveAmount, false, info, 'Item given from ID #' .. source)
     if not giveItem then
         cb(false)
         return
     end
-    exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add', true)
-    
+    if GetResourceState("mh-cashasitem") ~= 'missing' then
+        exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add', true)
+    end
     if itemInfo.type == 'weapon' then checkWeapon(source, item) end
     TriggerClientEvent('qb-inventory:client:giveAnim', source)
     TriggerClientEvent('qb-inventory:client:ItemBox', source, itemInfo, 'remove', giveAmount)
