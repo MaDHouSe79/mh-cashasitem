@@ -220,8 +220,8 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
 end)
 ```
 
-# Add snippet app.js around line 217
-- find `handleMouseDown(event, slot, inventory)`
+# Replace code in app.js around line 217
+- find the function `handleMouseDown(event, slot, inventory)`
 - and replace with code below
 ```js
 handleMouseDown(event, slot, inventory) {
