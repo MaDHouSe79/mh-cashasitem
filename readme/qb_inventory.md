@@ -90,7 +90,7 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
                         exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
                     end
                 elseif toInventory == 'player' then
-                    if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or toInventory:find('safe-') or toInventory:find('stash-') or fromInventory:find('drop-') then
+                    if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or fromInventory:find('safe-') or fromInventory:find('stash-') or fromInventory:find('drop-') then
                         exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                     elseif fromInventory:find('otherplayer-') then
                         exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
