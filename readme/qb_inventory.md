@@ -13,36 +13,6 @@ ensure [defaultmaps]
 ensure [mh]
 ```
 
-# Edit this code below Client side 
-- in `qb-inventory/client/main.lua` around line 163
-- From
-```lua
-RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
-    SetNuiFocus(true, true)
-    SendNUIMessage({
-        action = 'open',
-        inventory = items,
-        slots = Config.MaxSlots,
-        maxweight = Config.MaxWeight,
-        other = other
-    })
-end)
-```
-- To 
-```lua
-RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
-    TriggerServerEvent('inventory:server:OpenInventory') -- ADD THIS HERE
-    SetNuiFocus(true, true)
-    SendNUIMessage({
-        action = 'open',
-        inventory = items,
-        slots = Config.MaxSlots,
-        maxweight = Config.MaxWeight,
-        other = other
-    })
-end)
-```
-
 # Edit this code (server side) 
 - in `qb-inventory/server/main.lua` around line 416
 - From
@@ -93,60 +63,66 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
     if not Player then return end
 
     fromSlot, toSlot, fromAmount, toAmount = tonumber(fromSlot), tonumber(toSlot), tonumber(fromAmount), tonumber(toAmount)
-
+    
     local fromItem = getItem(fromInventory, src, fromSlot)
     local toItem = getItem(toInventory, src, toSlot)
-
-    if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
-        local message, fail = nil, false
-        if toInventory:find('trunk-') then
-            message, fail = 'Cannot put cash items into the trunk', true
-        elseif toInventory:find('glovebox-') then
-            message, fail = 'Cannot put cash items into the glovebox', true
-        elseif toInventory:find('safe-') then
-            message, fail = 'Cannot put cash items into the safe', true
-        end
-        if fail and message ~= nil then
-            TriggerClientEvent('QBCore:Notify', src, message, 'error')
-            CloseInventory(src)
-            return
-        end
-    end
 
     if fromItem then
         if not toItem and toAmount > fromItem.amount then return end
         if fromInventory == 'player' and toInventory ~= 'player' then checkWeapon(src, fromItem) end
-
         local fromId = getIdentifier(fromInventory, src)
         local toId = getIdentifier(toInventory, src)
 
+        if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
+            if fromInventory == 'player' then
+                if toInventory:find('trunk-') then
+                    print("Update Cash - from player to trunk Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                elseif toInventory:find('glovebox-') then
+                    print("Update Cash - from player to glovebox Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')                    
+                end
+            elseif toInventory == 'player' then
+                if fromInventory:find('trunk-') then
+                    print("Update Cash - from trunk to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                elseif fromInventory:find('glovebox-') then
+                    print("Update Cash - from glovebox to player Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                elseif fromInventory:find('drop-') then
+                    print("Update Cash - from player to drop Item:" .. fromItem.name .." Amount:".. fromItem.amount)
+                    exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove')
+                end
+            end
+        end
+
         if toItem and fromItem.name == toItem.name then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
-                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
                 AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
-                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
+                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add')
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
-                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
                 AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
-                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add')
             end
         else
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
-                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove')
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
                     AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add')
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add')
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', false)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
                     AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', false)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add')
                 end
             end
         end
@@ -208,14 +184,13 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     local playerPed = GetPlayerPed(src)
     local playerCoords = GetEntityCoords(playerPed)
 
-    if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-        CloseInventory(src)
-        TriggerClientEvent('QBCore:Notify', src, 'Cannot drop cash items on the ground', 'error')
-        cb(false) 
-        return 
-    end
-
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
+
+        if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
+            print("Update Cash - from player to drop Item:" .. item.name .." Amount:".. item.amount)
+            exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove')
+        end
+
         if item.type == 'weapon' then checkWeapon(src, item) end
         TaskPlayAnim(playerPed, 'pickup_object', 'pickup_low', 8.0, -8.0, 2000, 0, 0, false, false, false)
         local bag = CreateObjectNoOffset(Config.ItemDropObject, playerCoords.x + 0.5, playerCoords.y + 0.5, playerCoords.z, true, true, false)
@@ -370,14 +345,14 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         cb(false)
         return
     end
-    exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
+    exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove')
 
     local giveItem = AddItem(target, item, giveAmount, false, info, 'Item given from ID #' .. source)
     if not giveItem then
         cb(false)
         return
     end
-    exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add', true)
+    exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add')
     
     if itemInfo.type == 'weapon' then checkWeapon(source, item) end
     TriggerClientEvent('qb-inventory:client:giveAnim', source)
