@@ -113,37 +113,32 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
         end
 
         if toItem and fromItem.name == toItem.name then
-
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
-                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
-
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
                 AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
-                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add')
+                exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
-                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
-
+                exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
                 AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
-                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add')
+                exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
             end
         else
             if toItem then
                 if RemoveItem(fromId, fromItem.name, fromAmount, fromSlot, 'swapped item') and RemoveItem(toId, toItem.name, toAmount, toSlot, 'swapped item') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove')
-                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove')
-
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
                     AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add')
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove')
-
+                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
                     AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add')
+                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
                 end
             end
         end
