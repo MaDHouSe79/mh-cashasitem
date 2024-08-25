@@ -102,6 +102,18 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
     if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
 end)
 
+QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local amount = Player.PlayerData.money.black_money
+    TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
+end)
+
+QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source, _)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local amount = Player.PlayerData.money.crypto
+    TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
+end)
+
 local error = false
 local function UpdateDatabaseMoney()
     MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
