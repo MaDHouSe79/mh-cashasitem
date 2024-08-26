@@ -1106,23 +1106,6 @@ const InventoryContainer = Vue.createApp({
                         if (key === "attachments") {
                             valueStr = Object.keys(value).length > 0 ? "true" : "false";
                         }
-                        if (key !== 'allowedItems') {
-                            content += `<div class="tooltip-info"><span class="tooltip-info-key">${this.formatKey(key)}:</span> ${valueStr}</div>`;
-                        }
-                        if (key == 'allowedItems') {
-                            if (Object.keys(value).length > 0) {
-                                content += `<div class="tooltip-info"><span class="tooltip-info-key">${this.formatKey(key)}:</span><br>`;
-                                if (Object.keys(item.info.allowedItems).length > 0) {
-                                    for (const [key1, value1] of Object.entries(item.info.allowedItems)) {
-                                        content += `${this.formatKey(key1).replace("_", " ").replace("_", " ").replace("_", " ").replace("_", " ")}<br>`;
-                                    }
-                                }
-                                content += `</div>`;
-                            }
-                            if (Object.keys(value).length == 0) {
-                                content += `<div class="tooltip-info"><span class="tooltip-info-key">${this.formatKey(key)}:</span> All</div>`;
-                            }
-                        }
                     }
                 }
             }
