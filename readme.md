@@ -93,9 +93,11 @@ exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'remove', tr
 
 # Example
 ```lua
+-- Add Item
 AddItem(playerId, itemInfo["name"], toAmount, fromSlot, toItemData.info)
 exports['mh-cashasitem']:UpdateCashItem(playerId, toItemData, toAmount, "add")
 
+-- Remove Item
 RemoveItem(src, toItemData.name, toAmount, toSlot)
 exports['mh-cashasitem']:UpdateCashItem(src, toItemData, toAmount, "remove")
 ```
