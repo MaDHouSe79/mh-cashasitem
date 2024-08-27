@@ -63,12 +63,11 @@ end
 ---@param amount for the item
 ---@param action for add or remove
 ---@param display display hud true or false
-local function UpdateCashItem(source, item, amount, action, display)
+local function UpdateCashItem(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player then
         local tmpItem = GetItemType(item)
-        if display == nil then display = true end
-        if tmpItem ~= nil and (tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto') and display then
+        if tmpItem ~= nil and (tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto') then
             if action == "add" then
                 Player.Functions.AddMoney(tmpItem, amount, nil)
             elseif action == "remove" then
