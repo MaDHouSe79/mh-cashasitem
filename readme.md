@@ -82,13 +82,8 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 - use this server side only when you add or delete an item from and to a inventory.
 - use this for item movment in the inventory
 ```lua
--- true at the end of the export is to display money change at the right top of your screen
--- if false you don't see a change but it will change the money amount.
-exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'add', true)
-
--- true at the end of the export is to display money change at the right top of your screen
--- if false you don't see a change but it will change the money amount.
-exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'remove', true)
+exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'add')
+exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'remove')
 ```
 
 # Example
