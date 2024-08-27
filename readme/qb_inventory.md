@@ -195,14 +195,15 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         cb(false)
         return
     end
-    if GetResourceState("mh-cashasitem") ~= 'missing' then
-        exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
-    end
-
+    
     local giveItem = AddItem(target, item, giveAmount, false, info, 'Item given from ID #' .. source)
     if not giveItem then
         cb(false)
         return
+    end
+
+    if GetResourceState("mh-cashasitem") ~= 'missing' then
+        exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
     end
     if GetResourceState("mh-cashasitem") ~= 'missing' then
         exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add', true)
