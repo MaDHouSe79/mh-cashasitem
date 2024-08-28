@@ -19,7 +19,7 @@ end
 ---@param source number id of the player
 ---@param item string or table for the cash item
 ---@param amount number for the item
----@param action string for add or remove
+---@param action string `add` or `remove`
 local function UpdateCash(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
     -- get item name as sting
