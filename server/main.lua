@@ -5,7 +5,7 @@ QBCore = exports['qb-core']:GetCoreObject()
 
 --- Get Item Name
 ---@param item string or table
----@return string - the current item name as string.
+---@return string as the current item name as lowercase string format.
 local function GetItemName(item)
     local tmpItem = nil
     if type(item) == 'string' then tmpItem = item:lower()
