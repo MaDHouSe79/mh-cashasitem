@@ -26,10 +26,10 @@ local function UpdateCashItem(source, item, amount, action)
         if tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
             if action == "add" then
                 Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
-                -- in the function `Addmoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
+                -- in the function `Player.Functions.Addmoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
             elseif action == "remove" then
                 Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
-                -- in the function `RemoveMoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
+                -- in the function `Player.Functions.RemoveMoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
             end
         end
     end
