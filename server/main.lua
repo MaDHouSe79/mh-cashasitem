@@ -100,9 +100,11 @@ AddEventHandler('onResourceStart', function(resource)
             MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
                 for k, v in pairs(rs) do
                     local list = json.decode(v.money)
-                    -- if black_money is not found than add black_money to the currency
-                    if not list['black_money'] then 
+                    -- if black_money is not found
+                    if not list['black_money'] then
+                        -- add black_money to player currency
                         list['black_money'] = 0
+                        -- update player currency
                         MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
                     end  
                 end
