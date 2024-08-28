@@ -22,14 +22,16 @@ end
 ---@param action string for add or remove
 local function UpdateCash(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
+    -- get item name as sting
     local tmpItem = GetItemName(item)
     if Player and tmpItem ~= nil then
+        -- if tmpItem is a cash item
         if tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
             if action == "add" then
-                -- in the function `Player.Functions.Addmoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
+                -- In the function `Player.Functions.Addmoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
                 Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
             elseif action == "remove" then
-                -- in the function `Player.Functions.RemoveMoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
+                -- In the function `Player.Functions.RemoveMoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
                 Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
             end
         end
@@ -84,6 +86,8 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
 end)
 
 --- onResourceStart
+--- This execute every server start of script load.
+--- it does nothing if all data is already set.
 ---@param resource any
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
