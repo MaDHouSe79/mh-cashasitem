@@ -3,7 +3,6 @@
 --[[ ===================================================== ]] --
 QBCore = exports['qb-core']:GetCoreObject()
 
---- Get Item Name
 ---@param item string or table
 ---@return string as the current item name as lowercase string format.
 local function GetItemName(item)
@@ -14,7 +13,7 @@ local function GetItemName(item)
     return tmpItem
 end
 
---- Update Cash, only to use when moving items in the inventory. (server side only)
+--- Only to use when moving items in the inventory. (server side only)
 --- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
 ---@param source number id of the player
 ---@param item string or table for the cash item
@@ -39,7 +38,6 @@ local function UpdateCash(source, item, amount, action)
 end
 exports('UpdateCash', UpdateCash)
 
---- Update Item
 --- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
 --- This function gets automaticly triggered,
 --- when money changes happens `QBCore:Server:OnMoneyChange`
@@ -87,7 +85,6 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
     UpdateItem(source, moneyType)
 end)
 
---- onResourceStart
 --- This execute every server start of script load.
 --- it does nothing if all data is already set.
 ---@param resource any
