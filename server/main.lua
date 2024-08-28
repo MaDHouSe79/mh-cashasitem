@@ -16,10 +16,10 @@ end
 
 --- Update Cash, only to use when moving items in the inventory.
 --- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
----@param source id of the player
----@param item the cash item
----@param amount for the item
----@param action for add or remove
+---@param source number id of the player
+---@param item string or table for the cash item
+---@param amount number for the item
+---@param action string for add or remove
 local function UpdateCash(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
     local tmpItem = GetItemName(item)
