@@ -45,10 +45,10 @@ exports('UpdateCash', UpdateCash)
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
-        local lastSlot = nil
         
         -- Remove all related moneyType items
         -- we only want to know the last slot, cause we need this to add a new item on that slot.
+        local lastSlot = nil
         for _, item in pairs(Player.PlayerData.items) do
             if item and item.name:lower() == moneyType:lower() then
                 lastSlot = item.slot
