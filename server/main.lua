@@ -23,13 +23,7 @@ end
 ---@param slot number
 local function AddItem(src, item, amount, slot)
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        if slot ~= nil or slot ~= 0 then 
-            Player.Functions.AddItem(item, amount, slot)
-        else
-            Player.Functions.AddItem(item, amount, nil)
-        end
-    end
+    if Player then Player.Functions.AddItem(item, amount, slot) end
 end
 
 local function RemoveItem(src, item, amount, slot)
