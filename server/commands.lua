@@ -1,7 +1,6 @@
 --[[ ===================================================== ]] --
 --[[           MH Cash As Item Script by MaDHouSe          ]] --
 --[[ ===================================================== ]] --
-
 QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = Player.PlayerData.money.black_money
