@@ -45,7 +45,6 @@ local function UpdateItem(src, moneyType)
             if item and item.name:lower() == moneyType:lower() then
                 lastSlot = item.slot
                 Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
-                UpdateCashItem(src, item.name, item.amount, "remove")
             end
         end
         local amount = Player.Functions.GetMoney(moneyType)
