@@ -82,19 +82,19 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 - use this server side only when you add or delete an item from and to a inventory.
 - use this for item movment in the inventory
 ```lua
-exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'add')
-exports['mh-cashasitem']:UpdateCashItem(targetId, itemData, amount, 'remove')
+exports['mh-cashasitem']:UpdateCash(targetId, itemData, amount, 'add')
+exports['mh-cashasitem']:UpdateCash(targetId, itemData, amount, 'remove')
 ```
 
 # Example
 ```lua
 -- Add Item
 Player.Functions.AddItem(playerId, itemInfo["name"], toAmount, fromSlot, toItemData.info)
-exports['mh-cashasitem']:UpdateCashItem(playerId, toItemData, toAmount, "add")
+exports['mh-cashasitem']:UpdateCash(playerId, toItemData, toAmount, "add")
 
 -- Remove Item
 Player.Functions.RemoveItem(src, toItemData.name, toAmount, toSlot)
-exports['mh-cashasitem']:UpdateCashItem(src, toItemData, toAmount, "remove")
+exports['mh-cashasitem']:UpdateCash(src, toItemData, toAmount, "remove")
 ```
 
 
