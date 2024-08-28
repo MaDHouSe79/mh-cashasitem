@@ -56,7 +56,7 @@ local function UpdateItem(src, moneyType)
             end
         end
         
-        -- We now have zero moneyType items and we want to add one item moneyType with the amount of moneyType we have left.
+        -- We now have zero moneyType items and we want to add one new item moneyType with the amount of moneyType we have left.
         local amount = Player.Functions.GetMoney(moneyType)
         if amount >= 1 then Player.Functions.AddItem(src, moneyType, amount, lastSlot) end
     end
