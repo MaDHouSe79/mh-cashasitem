@@ -17,20 +17,6 @@ local function GetItemType(item)
     return tmpItem
 end
 
---- Get Free Slot
----@param src number
-local function GetFreeSlot(src)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        for i = 1, 40 do
-            if Player.PlayerData.items[i] == nil then
-                return tonumber(i)
-            end
-        end
-    end
-    return nil
-end
-
 --- Add Item
 ---@param player table
 ---@param amount number
@@ -41,8 +27,7 @@ local function AddItem(src, item, amount, slot)
         if slot ~= nil or slot ~= 0 then 
             Player.Functions.AddItem(item, amount, slot)
         else
-            local freeSlot = GetFreeSlot(src)
-            Player.Functions.AddItem(item, amount, freeSlot)
+            Player.Functions.AddItem(item, amount, nil)
         end
     end
 end
