@@ -101,6 +101,26 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
     if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
 end)
 
+--- onResourceStart
+---@param resource any
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        if not QBCore.Config.Money.MoneyTypes['black_money'] then
+            print("~r~["..GetCurrentResourceName().."] - ERROR - You forgot to add 'black_money' in the 'resources/[qb]/qb-core/config.lua' file at line 9 and 10.~w~")
+        elseif QBCore.Config.Money.MoneyTypes['black_money'] then
+            MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
+                for k, v in pairs(rs) do
+                    local list = json.decode(v.money)
+                    if not list['black_money'] then 
+                        list['black_money'] = 0
+                        MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
+                    end  
+                end
+            end)
+        end
+    end
+end)
+
 QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = Player.PlayerData.money.black_money
@@ -111,37 +131,4 @@ QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = Player.PlayerData.money.crypto
     TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
-end)
-
-local error = false
-local function UpdateDatabaseMoney()
-    MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
-        for k, v in pairs(rs) do
-            local list = json.decode(v.money)
-            if not list['black_money'] then 
-                list['black_money'] = 0
-                MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
-            end  
-        end
-    end)
-end
-
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        UpdateDatabaseMoney()
-        if not QBCore.Config.Money.MoneyTypes['black_money'] then
-            error = true
-        end
-    end
-end)
-
-CreateThread(function()
-    while true do
-        local sleep = 1000
-        if error then
-            sleep = 50
-            print("~r~[mh-cashasitem] - ERROR - You forgot to add 'black_money' in the qbcore config file.~w~")
-        end
-        Wait(sleep)
-    end
 end)
