@@ -41,6 +41,9 @@ exports('UpdateCash', UpdateCash)
 
 --- Update Item
 --- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
+--- This function gets automaticly triggered,
+--- when money changes happens `QBCore:Server:OnMoneyChange`
+--- or when open the inventory `mh-cashasitem:server:openInventory`
 --- NOTE do not update money here, this is only to update the item for the inventory.
 ---@param src number
 ---@param moneyType string ('cash', 'black_money', 'crypto')
