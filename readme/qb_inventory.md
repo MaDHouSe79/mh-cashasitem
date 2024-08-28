@@ -11,6 +11,22 @@ ensure [voice]
 ensure [defaultmaps]
 ```
 
+# Replace this code below (client side)
+- in `qb-inventory/client/main.lua` around line 164
+```lua
+RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
+    TriggerServerEvent('mh-cashasitem:server:openInventory') -- To Add for mh-cashasitem
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        action = 'open',
+        inventory = items,
+        slots = Config.MaxSlots,
+        maxweight = Config.MaxWeight,
+        other = other
+    })
+end)
+```
+
 # Replace this code below (Server side)
 - in `qb-inventory/server/main.lua` around line 282
 ```lua
