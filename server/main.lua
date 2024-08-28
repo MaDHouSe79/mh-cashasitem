@@ -37,7 +37,7 @@ end
 exports('UpdateCashItem', UpdateCashItem)
 
 --- Update Item
---- Remove all related moneyType items and add 1 item moneyType with the total cash amount left.
+--- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
 --- NOTE do not update money here, this is only to update the item for the inventory.
 ---@param src number
 ---@param moneyType string
