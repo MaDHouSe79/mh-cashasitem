@@ -49,10 +49,9 @@ local function UpdateItem(src, moneyType)
                 UpdateCashItem(src, item.name, item.amount, 'remove')
             end
         end
-        local amount = Player.Functions.GetMoney(moneyType) - itemAmount
-        if type(amount) == 'number' and amount >= 1 then
-            Player.Functions.AddItem(moneyType, amount, lastSlot)
-        end
+         local amount = Player.Functions.GetMoney(moneyType) - itemAmount
+        if amount < 0 then amount = 0 end
+        if amount >= 1 then Player.Functions.AddItem(src, moneyType, amount, lastSlot) end
     end
 end
 
