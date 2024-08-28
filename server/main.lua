@@ -77,7 +77,6 @@ local function UpdateCashItem(source, item, amount, action)
         tmpItem = nil
     end
 end
--- exports['mh-cashasitem']:UpdateCashItem(source, itemData, amount, action)
 exports('UpdateCashItem', UpdateCashItem)
 
 --- Open Inventory
