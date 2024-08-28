@@ -5,6 +5,7 @@ QBCore = exports['qb-core']:GetCoreObject()
 
 --- Get Item Name
 ---@param item string or table
+---@return string - the current item name as string.
 local function GetItemName(item)
     local tmpItem = nil
     if type(item) == 'string' then tmpItem = item:lower()
@@ -40,7 +41,7 @@ exports('UpdateCash', UpdateCash)
 --- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
 --- NOTE do not update money here, this is only to update the item for the inventory.
 ---@param src number
----@param moneyType string
+---@param moneyType string ('cash', 'black_money', 'crypto')
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
