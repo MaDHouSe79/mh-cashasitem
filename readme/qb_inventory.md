@@ -43,7 +43,7 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
 
         if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-            exports['mh-cashasitem']:UpdateCashItem(src, item.name, item.amount, 'remove', true)
+            exports['mh-cashasitem']:UpdateCash(src, item.name, item.amount, 'remove')
         end
 
         if item.type == 'weapon' then checkWeapon(src, item) end
@@ -99,17 +99,17 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
             if fromItem.name == 'cash' or fromItem.name == 'black_money' or fromItem.name == 'crypto' then
                 if fromInventory == 'player' then
                     if toInventory:find('trunk-') or toInventory:find('glovebox-') or toInventory:find('safe-') or toInventory:find('stash-') then
-                        exports['mh-cashasitem']:UpdateCashItem(src, fromItem, fromAmount, 'remove', true)
+                        exports['mh-cashasitem']:UpdateCash(src, fromItem, fromAmount, 'remove')
                     elseif toInventory:find('otherplayer-') then
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
+                        exports['mh-cashasitem']:UpdateCash(toId, fromItem, fromAmount, 'add')
+                        exports['mh-cashasitem']:UpdateCash(fromId, fromItem, fromAmount, 'remove')
                     end
                 elseif toInventory == 'player' then
                     if fromInventory:find('trunk-') or fromInventory:find('glovebox-') or fromInventory:find('safe-') or fromInventory:find('stash-') or fromInventory:find('drop-') then
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                        exports['mh-cashasitem']:UpdateCash(toId, fromItem, fromAmount, 'add')
                     elseif fromInventory:find('otherplayer-') then
-                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
+                        exports['mh-cashasitem']:UpdateCash(fromId, fromItem, fromAmount, 'remove')
+                        exports['mh-cashasitem']:UpdateCash(toId, fromItem, fromAmount, 'add')
                     end
                 end
             end
@@ -119,16 +119,16 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'stacked item') then
                 AddItem(toId, toItem.name, toAmount, toSlot, toItem.info, 'stacked item')
                 if GetResourceState("mh-cashasitem") ~= 'missing' then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
-                    exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'add', true)
+                    exports['mh-cashasitem']:UpdateCash(fromId, fromItem, toAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCash(toId, toItem, toAmount, 'add')
                 end
             end
         elseif not toItem and toAmount < fromAmount then
             if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'split item') then
                 AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'split item')
                 if GetResourceState("mh-cashasitem") ~= 'missing' then
-                    exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
-                    exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                    exports['mh-cashasitem']:UpdateCash(fromId, fromItem, toAmount, 'remove')
+                    exports['mh-cashasitem']:UpdateCash(toId, fromItem, toAmount, 'add')
                 end
             end
         else
@@ -137,18 +137,18 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
                     AddItem(toId, fromItem.name, fromAmount, toSlot, fromItem.info, 'swapped item') 
                     AddItem(fromId, toItem.name, toAmount, fromSlot, toItem.info, 'swapped item')
                     if GetResourceState("mh-cashasitem") ~= 'missing' then
-                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, fromAmount, 'remove', true)
-                        exports['mh-cashasitem']:UpdateCashItem(toId, toItem, toAmount, 'remove', true)
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, fromAmount, 'add', true)
-                        exports['mh-cashasitem']:UpdateCashItem(fromId, toItem, toAmount, 'add', true)
+                        exports['mh-cashasitem']:UpdateCash(fromId, fromItem, fromAmount, 'remove')
+                        exports['mh-cashasitem']:UpdateCash(toId, toItem, toAmount, 'remove')
+                        exports['mh-cashasitem']:UpdateCash(toId, fromItem, fromAmount, 'add')
+                        exports['mh-cashasitem']:UpdateCash(fromId, toItem, toAmount, 'add')
                     end
                 end
             else
                 if RemoveItem(fromId, fromItem.name, toAmount, fromSlot, 'moved item') then
                     AddItem(toId, fromItem.name, toAmount, toSlot, fromItem.info, 'moved item')
                     if GetResourceState("mh-cashasitem") ~= 'missing' then
-                        exports['mh-cashasitem']:UpdateCashItem(fromId, fromItem, toAmount, 'remove', true)
-                        exports['mh-cashasitem']:UpdateCashItem(toId, fromItem, toAmount, 'add', true)
+                        exports['mh-cashasitem']:UpdateCash(fromId, fromItem, toAmount, 'remove')
+                        exports['mh-cashasitem']:UpdateCash(toId, fromItem, toAmount, 'add')
                     end
                 end
             end
@@ -211,7 +211,7 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         cb(false)
         return
     end
-    
+
     local giveItem = AddItem(target, item, giveAmount, false, info, 'Item given from ID #' .. source)
     if not giveItem then
         cb(false)
@@ -219,10 +219,11 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
     end
 
     if GetResourceState("mh-cashasitem") ~= 'missing' then
-        exports['mh-cashasitem']:UpdateCashItem(source, item, giveAmount, 'remove', true)
+        exports['mh-cashasitem']:UpdateCash(source, item, giveAmount, 'remove')
     end
+
     if GetResourceState("mh-cashasitem") ~= 'missing' then
-        exports['mh-cashasitem']:UpdateCashItem(target, item, giveAmount, 'add', true)
+        exports['mh-cashasitem']:UpdateCash(target, item, giveAmount, 'add')
     end
 
     if itemInfo.type == 'weapon' then checkWeapon(source, item) end
@@ -1122,6 +1123,23 @@ const InventoryContainer = Vue.createApp({
                         let valueStr = value;
                         if (key === "attachments") {
                             valueStr = Object.keys(value).length > 0 ? "true" : "false";
+                        }
+                        if (key !== 'allowedItems') {
+                            content += `<div class="tooltip-info"><span class="tooltip-info-key">${this.formatKey(key)}:</span> ${valueStr}</div>`;
+                        }
+                        if (key == 'allowedItems') {
+                            if (Object.keys(value).length > 0) {
+                                content += `<div class="tooltip-info"><span class="tooltip-info-key">${this.formatKey(key)}:</span><br>`;
+                                if (Object.keys(item.info.allowedItems).length > 0) {
+                                    for (const [key1, value1] of Object.entries(item.info.allowedItems)) {
+                                        content += `${this.formatKey(key1).replace("_", " ").replace("_", " ").replace("_", " ").replace("_", " ")}<br>`;
+                                    }
+                                }
+                                content += `</div>`;
+                            }
+                            if (Object.keys(value).length == 0) {
+                                content += `<div class="tooltip-info"><span class="tooltip-info-key">${this.formatKey(key)}:</span> All</div>`;
+                            }
                         }
                     }
                 }
