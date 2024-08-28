@@ -69,7 +69,7 @@ RegisterNetEvent('mh-cashasitem:server:openInventory', function()
 end)
 
 --- On Money Change
---- This will trigger when money changes happens
+--- This will trigger when money changes happens in other scripts
 ---@param source number
 ---@param moneyType string
 ---@param amount number
