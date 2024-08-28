@@ -35,7 +35,7 @@
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
-- [qb-inventory](https://github.com/qbcore-framework/qb-inventory)
+- [qb-inventory](https://github.com/qbcore-framework/qb-inventory) 2.0.0
 
 # Optional
 - [qb-hud](https://github.com/qbcore-framework/qb-hud)
