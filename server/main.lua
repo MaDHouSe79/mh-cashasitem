@@ -13,13 +13,13 @@ local function GetItemName(item)
     return tmpItem
 end
 
---- Update Cash Item, only to use when moving items in the inventory.
+--- Update Cash, only to use when moving items in the inventory.
 --- Use: exports['mh-cashasitem']:UpdateCashItem(source, itemData, amount, action)
 ---@param source id of the player
 ---@param item the cash item
 ---@param amount for the item
 ---@param action for add or remove
-local function UpdateCashItem(source, item, amount, action)
+local function UpdateCash(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
     local tmpItem = GetItemName(item)
     if Player and tmpItem ~= nil then
@@ -34,7 +34,7 @@ local function UpdateCashItem(source, item, amount, action)
         end
     end
 end
-exports('UpdateCashItem', UpdateCashItem)
+exports('UpdateCash', UpdateCash)
 
 --- Update Item
 --- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
