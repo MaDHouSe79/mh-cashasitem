@@ -10,7 +10,7 @@ version '1.0'
 
 server_only 'yes'
 
-server_scripts {'@oxmysql/lib/MySQL.lua', 'server/main.lua', 'server/update.lua'}
+server_scripts {'@oxmysql/lib/MySQL.lua', 'server/main.lua', 'server/commands.lua', 'server/update.lua'}
 
 dependencies {'qb-core', 'qb-inventory'}
 
