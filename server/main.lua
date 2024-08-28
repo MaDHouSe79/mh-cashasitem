@@ -4,32 +4,35 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
 --- Get Item Type
----@param item any
+---@param item string or table
 local function GetItemType(item)
     local tmpItem = nil
-    if type(item) == 'string' then
-        tmpItem = item
-    elseif type(item) == 'table' then
-        tmpItem = item.name
-    else
-        tmpItem = nil
-    end
+    if type(item) == 'string' then tmpItem = item
+    elseif type(item) == 'table' then tmpItem = item.name
+    else tmpItem = nil end
     return tmpItem
 end
 
---- Add Item
----@param player table
----@param amount number
----@param slot number
-local function AddItem(src, item, amount, slot)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player then Player.Functions.AddItem(item, amount, slot) end
+--- Update Cash Item, only to use when moving items in the inventory.
+--- Use: exports['mh-cashasitem']:UpdateCashItem(source, itemData, amount, action)
+---@param source id of the player
+---@param item the cash item
+---@param amount for the item
+---@param action for add or remove
+local function UpdateCashItem(source, item, amount, action)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local tmpItem = GetItemType(item)
+    if Player and tmpItem ~= nil then
+        if tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
+            if action == "add" then
+                Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+            elseif action == "remove" then
+                Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+            end
+        end
+    end
 end
-
-local function RemoveItem(src, item, amount, slot)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player then Player.Functions.RemoveItem(item, amount, slot) end
-end
+exports('UpdateCashItem', UpdateCashItem)
 
 --- Update Item
 ---@param src number
@@ -41,37 +44,16 @@ local function UpdateItem(src, moneyType)
         for _, item in pairs(Player.PlayerData.items) do
             if item and item.name:lower() == moneyType:lower() then
                 lastSlot = item.slot
-                RemoveItem(src, item.name, item.amount, item.slot)
+                Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
+                UpdateCashItem(src, item.name, item.amount, "remove")
             end
         end
         local amount = Player.Functions.GetMoney(moneyType)
         if type(amount) == 'number' and amount >= 1 then
-            AddItem(src, moneyType, amount, lastSlot)
+            Player.Functions.AddItem(moneyType, amount, lastSlot)
         end
     end
 end
-
---- UpdateCashItem, only to use when moving items in the inventory.
----@param source id of the player
----@param item the cash item
----@param amount for the item
----@param action for add or remove
----@param display display hud true or false
-local function UpdateCashItem(source, item, amount, action)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player then
-        local tmpItem = GetItemType(item)
-        if tmpItem ~= nil and (tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto') then
-            if action == "add" then
-                Player.Functions.AddMoney(tmpItem, amount, nil)
-            elseif action == "remove" then
-                Player.Functions.RemoveMoney(tmpItem, amount, nil)
-            end
-        end
-        tmpItem = nil
-    end
-end
-exports('UpdateCashItem', UpdateCashItem)
 
 --- Open Inventory
 RegisterNetEvent('mh-cashasitem:server:openInventory', function()
@@ -88,7 +70,7 @@ end)
 ---@param set string
 ---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
-    if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
+    UpdateItem(source, moneyType)
 end)
 
 --- onResourceStart
