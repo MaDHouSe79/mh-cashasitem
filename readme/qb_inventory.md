@@ -1,4 +1,4 @@
-# QB Inventory
+# QB Inventory 2.0.0
 
 # Example Server.cfg
 ```conf
