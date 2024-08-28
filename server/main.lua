@@ -1,7 +1,7 @@
 --[[ ===================================================== ]] --
 --[[           MH Cash As Item Script by MaDHouSe          ]] --
 --[[ ===================================================== ]] --
-local QBCore = exports['qb-core']:GetCoreObject()
+QBCore = exports['qb-core']:GetCoreObject()
 
 --- Get Item Type
 ---@param item any
@@ -80,10 +80,7 @@ end
 exports('UpdateCashItem', UpdateCashItem)
 
 --- Open Inventory
----@param name string
----@param id number
----@param other table
-RegisterNetEvent('qb-inventory:client:openInventory', function()
+RegisterNetEvent('mh-cashasitem:server:openInventory', function()
     local src = source
     UpdateItem(src, 'cash')
     UpdateItem(src, 'black_money')
