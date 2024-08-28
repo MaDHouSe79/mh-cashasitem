@@ -46,7 +46,6 @@ local function UpdateItem(src, moneyType)
                 itemAmount = itemAmount + item.amount
                 lastSlot = item.slot
                 Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
-                UpdateCashItem(src, item.name, item.amount, 'remove')
             end
         end
          local amount = Player.Functions.GetMoney(moneyType) - itemAmount
