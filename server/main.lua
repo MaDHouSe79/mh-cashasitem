@@ -7,8 +7,8 @@ QBCore = exports['qb-core']:GetCoreObject()
 ---@param item string or table
 local function GetItemType(item)
     local tmpItem = nil
-    if type(item) == 'string' then tmpItem = item
-    elseif type(item) == 'table' then tmpItem = item.name
+    if type(item) == 'string' then tmpItem = item:lower()
+    elseif type(item) == 'table' then tmpItem = item.name:lower()
     else tmpItem = nil end
     return tmpItem
 end
