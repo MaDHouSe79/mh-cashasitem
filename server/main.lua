@@ -13,6 +13,26 @@ local function GetItemType(item)
     return tmpItem
 end
 
+--- Update Item
+---@param src number
+---@param moneyType string
+local function UpdateItem(src, moneyType)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player then
+        local lastSlot = nil
+        for _, item in pairs(Player.PlayerData.items) do
+            if item and item.name:lower() == moneyType:lower() then
+                lastSlot = item.slot
+                Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
+            end
+        end
+        local amount = Player.Functions.GetMoney(moneyType)
+        if type(amount) == 'number' and amount >= 1 then
+            Player.Functions.AddItem(moneyType, amount, lastSlot)
+        end
+    end
+end
+
 --- Update Cash Item, only to use when moving items in the inventory.
 --- Use: exports['mh-cashasitem']:UpdateCashItem(source, itemData, amount, action)
 ---@param source id of the player
@@ -33,26 +53,6 @@ local function UpdateCashItem(source, item, amount, action)
     end
 end
 exports('UpdateCashItem', UpdateCashItem)
-
---- Update Item
----@param src number
----@param moneyType string
-local function UpdateItem(src, moneyType)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        local lastSlot = nil
-        for _, item in pairs(Player.PlayerData.items) do
-            if item and item.name:lower() == moneyType:lower() then
-                lastSlot = item.slot
-                Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
-            end
-        end
-        local amount = Player.Functions.GetMoney(moneyType)
-        if type(amount) == 'number' and amount >= 1 then
-            Player.Functions.AddItem(moneyType, amount, lastSlot)
-        end
-    end
-end
 
 --- Open Inventory
 RegisterNetEvent('mh-cashasitem:server:openInventory', function()
