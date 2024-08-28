@@ -42,8 +42,10 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
 
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
 
-        if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
-            exports['mh-cashasitem']:UpdateCash(src, item.name, item.amount, 'remove')
+        if GetResourceState("mh-cashasitem") ~= 'missing' then
+            if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
+                exports['mh-cashasitem']:UpdateCash(src, item.name, item.amount, 'remove')
+            end
         end
 
         if item.type == 'weapon' then checkWeapon(src, item) end
