@@ -14,7 +14,7 @@ local function GetItemName(item)
     return tmpItem
 end
 
---- Update Cash, only to use when moving items in the inventory.
+--- Update Cash, only to use when moving items in the inventory. (server side only)
 --- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
 ---@param source number id of the player
 ---@param item string or table for the cash item
