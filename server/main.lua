@@ -35,6 +35,7 @@ end
 exports('UpdateCashItem', UpdateCashItem)
 
 --- Update Item
+--- Remove all related moneyType items and add 1 item moneyType with the total cash amount left.
 ---@param src number
 ---@param moneyType string
 local function UpdateItem(src, moneyType)
