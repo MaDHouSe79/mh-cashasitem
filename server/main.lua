@@ -3,9 +3,9 @@
 --[[ ===================================================== ]] --
 QBCore = exports['qb-core']:GetCoreObject()
 
---- Get Item Type
+--- Get Item Name
 ---@param item string or table
-local function GetItemType(item)
+local function GetItemName(item)
     local tmpItem = nil
     if type(item) == 'string' then tmpItem = item:lower()
     elseif type(item) == 'table' then tmpItem = item.name:lower()
@@ -21,7 +21,7 @@ end
 ---@param action for add or remove
 local function UpdateCashItem(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
-    local tmpItem = GetItemType(item)
+    local tmpItem = GetItemName(item)
     if Player and tmpItem ~= nil then
         if tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
             if action == "add" then
@@ -70,6 +70,7 @@ end)
 
 --- On Money Change
 --- This will trigger when money changes happens in other scripts
+--- React on `Player.Functions.Addmoney` and Player.Functions.RemoveMoney
 ---@param source number
 ---@param moneyType string
 ---@param amount number
