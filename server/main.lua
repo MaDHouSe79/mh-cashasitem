@@ -48,7 +48,7 @@ local function UpdateItem(src, moneyType)
         local lastSlot = nil
         
         -- Remove all related moneyType items
-        -- we only want to know the last slot, cause we need this to add a now item on that slot.
+        -- we only want to know the last slot, cause we need this to add a new item on that slot.
         for _, item in pairs(Player.PlayerData.items) do
             if item and item.name:lower() == moneyType:lower() then
                 lastSlot = item.slot
