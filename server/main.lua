@@ -91,9 +91,9 @@ end)
 ---@param resource any
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-        if not QBCore.Config.Money.MoneyTypes['black_money'] then
+        if not QBCore.Config.Money.MoneyTypes['black_money'] then -- check if qb-core does not have a black_money currency
             print("~r~["..GetCurrentResourceName().."] - ERROR - You forgot to add 'black_money' in the 'resources/[qb]/qb-core/config.lua' file at line 9 and 10.~w~")
-        elseif QBCore.Config.Money.MoneyTypes['black_money'] then
+        elseif QBCore.Config.Money.MoneyTypes['black_money'] then -- check if qb-core have a black_money currency
             -- check if player has a black_money currency
             MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
                 for k, v in pairs(rs) do
