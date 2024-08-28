@@ -26,11 +26,11 @@ local function UpdateCash(source, item, amount, action)
     if Player and tmpItem ~= nil then
         if tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
             if action == "add" then
-                Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
                 -- in the function `Player.Functions.Addmoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
+                Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
             elseif action == "remove" then
-                Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
                 -- in the function `Player.Functions.RemoveMoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
+                Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
             end
         end
     end
@@ -46,6 +46,7 @@ local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local lastSlot = nil
+        
         -- Remove all related moneyType items
         -- we only want to know the last slot, cause we need this to add a now item on that slot.
         for _, item in pairs(Player.PlayerData.items) do
@@ -54,6 +55,7 @@ local function UpdateItem(src, moneyType)
                 Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
             end
         end
+        
         -- We now have zero moneyType items and we want to add one item moneyType with the amount of moneyType we have left.
         local amount = Player.Functions.GetMoney(moneyType)
         if amount >= 1 then Player.Functions.AddItem(src, moneyType, amount, lastSlot) end
