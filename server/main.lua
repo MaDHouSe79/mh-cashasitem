@@ -57,7 +57,7 @@ local function UpdateItem(src, moneyType)
 end
 
 --- Open Inventory
---- This wil trigger when the inventory gets open.
+--- This will trigger when the inventory gets open.
 RegisterNetEvent('mh-cashasitem:server:openInventory', function()
     local src = source
     UpdateItem(src, 'cash')
@@ -66,7 +66,7 @@ RegisterNetEvent('mh-cashasitem:server:openInventory', function()
 end)
 
 --- On Money Change
---- This wil trigger when money changes happens
+--- This will trigger when money changes happens
 ---@param source number
 ---@param moneyType string
 ---@param amount number
