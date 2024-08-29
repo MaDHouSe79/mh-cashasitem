@@ -82,11 +82,13 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 
 # Exports you can use for your own inventory.
 - use this server side only when you add or delete an item from and to a inventory.
-- use this for item movment in the inventory
+- use this for item movment in the inventory.
+- Fisrt you need to add or remove an item in your inventory before you use `exports['mh-cashasitem']:UpdateCash`
 ```lua
 exports['mh-cashasitem']:UpdateCash(targetId, itemData, amount, 'add')
 exports['mh-cashasitem']:UpdateCash(targetId, itemData, amount, 'remove')
 ```
+
 
 # Add in `[qb]/qb-core/shared/items.lua` 
 - and don't forgot the add the `cash.png` and `blackmoney.png` and `crypto.png` in to your inventory image folder.
