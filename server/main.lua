@@ -82,7 +82,7 @@ end)
 ---@param set string
 ---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
-    UpdateItem(source, moneyType)
+    if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
 end)
 
 --- This execute every server start of script load.
