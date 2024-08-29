@@ -1,5 +1,16 @@
 ## **INSTALL FOR OLD QB INVENTORY**
 
+# Add Code in qb-inventory/server/main.lua
+- find `RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)`
+- add this code below `if not ply.state.inv_busy then`
+```lua
+if GetResourceState("mh-cashasitem") ~= 'missing' then
+    exports['mh-cashasitem']:UpdateItem(src, 'cash')
+    exports['mh-cashasitem']:UpdateItem(src, 'black_money')
+    exports['mh-cashasitem']:UpdateItem(src, 'crypto')
+end
+```
+
 # Replace this code in qb-inventory/server/main.lua
 ```lua
 RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
