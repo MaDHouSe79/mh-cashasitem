@@ -85,11 +85,11 @@ QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money tha
 - use this for item movment in the inventory.
 - Fisrt you need to add or remove an item in your inventory before you use the exports.
 ```lua
--- Example Add Item
+-- Add Item Example
 Player.Functions.AddItem(ItemData.name, amount, toSlot, ItemData.info)
 exports['mh-cashasitem']:UpdateCash(source, ItemData, amount, "add")
 
--- Example Remove Item
+-- Remove Item Example
 Player.Functions.RemoveItem(ItemData.name, amount, toSlot)
 exports['mh-cashasitem']:UpdateCash(source, ItemData, amount, "remove")
 ```
