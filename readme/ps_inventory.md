@@ -11,7 +11,14 @@ end
 ```
 
 # Check in mh-cashasitem in file fxmanifest.lua 
-- rename `qb-inventory` to `ps-invnetory`
+-- From
+```lua
+dependencies {'qb-core', 'qb-inventory'}
+```
+-- To
+```lua
+dependencies {'qb-core', 'ps-inventory'}
+```
 
 # Replace this code in ps-inventory/server/main.lua
 ```lua
