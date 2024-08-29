@@ -11,20 +11,15 @@ ensure [voice]
 ensure [defaultmaps]
 ```
 
-# Replace this code below (client side)
-- in `qb-inventory/client/main.lua` around line 164
+# Replace this code below (server side)
+- in `qb-inventory/server/functions.lua` and find the finction `function OpenInventory(source, identifier, data)`
+- add below `if Player(source).state.inv_busy then return end`
 ```lua
-RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
-    TriggerServerEvent('qb-inventory:server:openInventory') -- To Add for mh-cashasitem
-    SetNuiFocus(true, true)
-    SendNUIMessage({
-        action = 'open',
-        inventory = items,
-        slots = Config.MaxSlots,
-        maxweight = Config.MaxWeight,
-        other = other
-    })
-end)
+if GetResourceState("mh-cashasitem") ~= 'missing' then
+    exports['mh-cashasitem']:UpdateItem(source, 'cash')
+    exports['mh-cashasitem']:UpdateItem(source, 'black_money')
+    exports['mh-cashasitem']:UpdateItem(source, 'crypto')
+end
 ```
 
 # Replace this code below (Server side)
