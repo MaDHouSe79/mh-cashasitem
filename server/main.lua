@@ -61,7 +61,6 @@ local function UpdateCash(source, item, amount, action)
         end
     end
 end
---- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
 exports('UpdateCash', UpdateCash)
 
 --- On Money Change
