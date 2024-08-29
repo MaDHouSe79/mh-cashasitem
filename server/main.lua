@@ -15,7 +15,7 @@ end
 
 --- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
 --- This function gets automaticly triggered,
---- when money changes happens `QBCore:Server:OnMoneyChange`, or when open the inventory 
+--- when money changes happens `QBCore:Server:OnMoneyChange`, or when open the inventory(server side only)
 --- NOTE do not update money here, this is only to update the item for the inventory.
 ---@param src number
 ---@param moneyType string ('cash', 'black_money', 'crypto')
