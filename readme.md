@@ -88,18 +88,6 @@ exports['mh-cashasitem']:UpdateCash(targetId, itemData, amount, 'add')
 exports['mh-cashasitem']:UpdateCash(targetId, itemData, amount, 'remove')
 ```
 
-# Example
-```lua
--- Add Item
-Player.Functions.AddItem(playerId, itemInfo["name"], toAmount, fromSlot, toItemData.info)
-exports['mh-cashasitem']:UpdateCash(playerId, toItemData, toAmount, "add")
-
--- Remove Item
-Player.Functions.RemoveItem(src, toItemData.name, toAmount, toSlot)
-exports['mh-cashasitem']:UpdateCash(src, toItemData, toAmount, "remove")
-```
-
-
 # Add in `[qb]/qb-core/shared/items.lua` 
 - and don't forgot the add the `cash.png` and `blackmoney.png` and `crypto.png` in to your inventory image folder.
 ```lua
