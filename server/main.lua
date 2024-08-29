@@ -64,15 +64,6 @@ local function UpdateItem(src, moneyType)
     end
 end
 
---- Open Inventory
---- This will trigger when the inventory gets open.
-RegisterNetEvent('qb-inventory:server:openInventory', function(source)
-    local src = source
-    UpdateItem(src, 'cash')
-    UpdateItem(src, 'black_money')
-    UpdateItem(src, 'crypto')
-end)
-
 --- On Money Change
 --- This will trigger when money changes happens in other scripts
 --- React on `Player.Functions.Addmoney` and Player.Functions.RemoveMoney
