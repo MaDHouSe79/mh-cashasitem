@@ -1,5 +1,16 @@
 ## **INSTALL FOR PS INVENTORY**
 
+
+# Add code to in `ps-inventory/server/main.lua`
+- find `local function OpenInventory(name, id, other, origin)`, and add this below
+```lua
+if GetResourceState("mh-cashasitem") ~= 'missing' then
+    exports['mh-cashasitem']:UpdateItem(origin, 'cash')
+    exports['mh-cashasitem']:UpdateItem(origin, 'black_money')
+    exports['mh-cashasitem']:UpdateItem(origin, 'crypto')
+end
+```
+
 # Replace this code in ps-inventory/server/main.lua
 ```lua
 RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
