@@ -113,11 +113,21 @@ end)
 QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = Player.PlayerData.money.black_money
-    TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
+    if amount < 0 then amount = 0 end
+    if GetResourceState("qb-hud") ~= 'missing' then
+        TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
+    elseif GetResourceState("qb-hud") == 'missing' then
+        QBCore.Functions.Notify(source, 'You have '..amount..' blackmoney', 'primary')
+    end
 end)
 
 QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = Player.PlayerData.money.crypto
-    TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
+    if amount < 0 then amount = 0 end
+    if GetResourceState("es_extended") ~= 'missing' then
+        TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
+    elseif GetResourceState("qb-hud") == 'missing' then
+        QBCore.Functions.Notify(source, 'You have '..amount..' crypto', 'primary')
+    end
 end)
