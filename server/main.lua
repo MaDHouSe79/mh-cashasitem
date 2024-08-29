@@ -37,6 +37,7 @@ local function UpdateItem(src, moneyType)
         if amount >= 1 then Player.Functions.AddItem(moneyType, amount, lastSlot) end
     end
 end
+exports('UpdateItem', UpdateItem)
 
 --- Only use when move/add/remove items in the inventory. (server side only)
 ---@param source number id of the player
