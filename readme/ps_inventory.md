@@ -11,11 +11,11 @@ end
 ```
 
 # Check in mh-cashasitem in file fxmanifest.lua 
--- From
+- From
 ```lua
 dependencies {'qb-core', 'qb-inventory'}
 ```
--- To
+- To
 ```lua
 dependencies {'qb-core', 'ps-inventory'}
 ```
