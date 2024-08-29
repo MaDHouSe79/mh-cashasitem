@@ -54,13 +54,13 @@ local function UpdateItem(src, moneyType)
         for _, item in pairs(Player.PlayerData.items) do
             if item and item.name:lower() == moneyType:lower() then
                 lastSlot = item.slot
-                Player.Functions.RemoveItem(src, item.name, item.amount, item.slot)
+                Player.Functions.RemoveItem(item.name, item.amount, item.slot)
             end
         end
         
         -- We now have zero moneyType items and we want to add one item moneyType with the amount of moneyType we have left.
         local amount = Player.Functions.GetMoney(moneyType)
-        if amount >= 1 then Player.Functions.AddItem(src, moneyType, amount, lastSlot) end
+        if amount >= 1 then Player.Functions.AddItem(moneyType, amount, lastSlot) end
     end
 end
 
