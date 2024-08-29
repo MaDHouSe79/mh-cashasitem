@@ -10,6 +10,9 @@ if GetResourceState("mh-cashasitem") ~= 'missing' then
 end
 ```
 
+# Check in mh-cashasitem in file fxmanifest.lua 
+- rename qb-inventory to ps-invnetory
+
 # Replace this code in ps-inventory/server/main.lua
 ```lua
 RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
