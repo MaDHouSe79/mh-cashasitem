@@ -93,9 +93,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "remove")
                 TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
-                if Config.Stashes[fromItemData.name:lower()] then
-                    TriggerEvent('mh-stashes:client:RemoveProp', src)
-                end
                 if toItemData ~= nil then
                     local itemInfo = QBCore.Shared.Items[toItemData.name:lower()]
                     local toAmount = tonumber(toAmount) ~= nil and tonumber(toAmount) or toItemData.amount
@@ -167,7 +164,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             elseif QBCore.Shared.SplitStr(toInventory, "-")[1] == "stash" then
                 local stashId = QBCore.Shared.SplitStr(toInventory, "-")[2]
                 local toItemData = Stashes[stashId].items[toSlot]
-
                 RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "remove")
                 TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
@@ -198,7 +194,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 end
                 local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
                 AddToStash(stashId, toSlot, fromSlot, itemInfo["name"], fromAmount, fromItemData.info)
-
             elseif QBCore.Shared.SplitStr(toInventory, "-")[1] == "traphouse" then
                 -- Traphouse
                 local traphouseId = QBCore.Shared.SplitStr(toInventory, "_")[2]
@@ -250,13 +245,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                     CreateNewDrop(src, fromSlot, toSlot, fromAmount)
                     exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "remove")
                 else
-                    local toItemData = Drops[toInventory].items[toSlot]
-                    -- mh-stashes (start)
-                    local stash = QBCore.Shared.SplitStr(stashId, "_")[1]
-                    local canuse = IsStashItemLootable(src, stash, fromItemData)
-                    print("To stash: " .. stash, "Can Use: " .. tostring(canuse))
-                    -- mh-stashes (end)
-                    -- if canuse then
                     RemoveItem(src, fromItemData.name, fromAmount, fromSlot)
                     exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "remove")
                     TriggerClientEvent("inventory:client:CheckWeapon", src, fromItemData.name)
@@ -294,7 +282,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                     if itemInfo["name"] == "radio" then
                         TriggerClientEvent('Radio.Set', src, false)
                     end
-                    -- end
                 end
             end
         else
@@ -388,7 +375,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
             if toInventory == "player" or toInventory == "hotbar" then
                 local toItemData = GetItemBySlot(src, toSlot)
-
                 RemoveFromTrunk(plate, fromSlot, itemInfo["name"], fromAmount)
                 if toItemData ~= nil then
                     itemInfo = QBCore.Shared.Items[toItemData.name:lower()]
@@ -425,7 +411,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 end
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
                 AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
-
             else
                 local toItemData = Trunks[plate].items[toSlot]
                 RemoveFromTrunk(plate, fromSlot, itemInfo["name"], fromAmount)
@@ -461,7 +446,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
             if toInventory == "player" or toInventory == "hotbar" then
                 local toItemData = GetItemBySlot(src, toSlot)
-
                 RemoveFromGlovebox(plate, fromSlot, itemInfo["name"], fromAmount)
                 if toItemData ~= nil then
                     itemInfo = QBCore.Shared.Items[toItemData.name:lower()]
@@ -498,7 +482,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 end
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
                 AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
-
             else
                 local toItemData = Gloveboxes[plate].items[toSlot]
                 RemoveFromGlovebox(plate, fromSlot, itemInfo["name"], fromAmount)
@@ -571,7 +554,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 SaveStashItems(stashId, Stashes[stashId].items)
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
                 AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
-
             else
                 local toItemData = Stashes[stashId].items[toSlot]
                 RemoveFromStash(stashId, fromSlot, itemInfo["name"], fromAmount)
@@ -644,7 +626,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 end
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
                 AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
-
             else
                 local toItemData = exports['qb-traphouse']:GetInventoryData(traphouseId, toSlot)
                 exports['qb-traphouse']:RemoveHouseItem(traphouseId, fromSlot, itemInfo["name"], fromAmount)
@@ -761,7 +742,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             else
                 QBCore.Functions.Notify(src, "You don't have blackmoney", "error")
             end
-
         else
             if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
                 if itemData.name:lower() == 'wallet' then
@@ -814,7 +794,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
                 if toInventory == "player" or toInventory == "hotbar" then
                     local toItemData = GetItemBySlot(src, toSlot)
-
                     RemoveFromDrop(fromInventory, fromSlot, itemInfo["name"], fromAmount)
                     if toItemData ~= nil then
                         toAmount = tonumber(toAmount) and tonumber(toAmount) or toItemData.amount
@@ -856,7 +835,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                     end
                     exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
                     AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
-
                 else
                     toInventory = tonumber(toInventory)
                     local toItemData = Drops[toInventory].items[toSlot]
@@ -897,7 +875,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
                 if toInventory == "player" or toInventory == "hotbar" then
                     local toItemData = GetItemBySlot(src, toSlot)
-
                     RemoveFromDrop(fromInventory, fromSlot, itemInfo["name"], fromAmount)
                     if toItemData ~= nil then
                         toAmount = tonumber(toAmount) and tonumber(toAmount) or toItemData.amount
@@ -939,7 +916,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                     end
                     exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
                     AddItem(src, fromItemData.name, fromAmount, toSlot, fromItemData.info, fromItemData["created"])
-
                 else
                     toInventory = tonumber(toInventory)
                     local toItemData = Drops[toInventory].items[toSlot]
