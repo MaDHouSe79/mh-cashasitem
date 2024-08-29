@@ -39,7 +39,6 @@ local function UpdateItem(src, moneyType)
 end
 
 --- Only use when move/add/remove items in the inventory. (server side only)
---- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
 ---@param source number id of the player
 ---@param item string or table for the cash item
 ---@param amount number for the item
@@ -61,6 +60,7 @@ local function UpdateCash(source, item, amount, action)
         end
     end
 end
+--- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
 exports('UpdateCash', UpdateCash)
 
 --- On Money Change
