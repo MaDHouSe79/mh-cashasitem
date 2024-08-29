@@ -13,6 +13,32 @@ local function GetItemName(item)
     return tmpItem
 end
 
+--- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
+--- This function gets automaticly triggered,
+--- when money changes happens `QBCore:Server:OnMoneyChange`
+--- or when open the inventory `qb-inventory:client:openInventory`
+--- NOTE do not update money here, this is only to update the item for the inventory.
+---@param src number
+---@param moneyType string ('cash', 'black_money', 'crypto')
+local function UpdateItem(src, moneyType)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player then
+
+        -- Remove all related moneyType items, we only want to know the last slot where the item was, cause we need this to add a new item on that slot.
+        local lastSlot = nil
+        for _, item in pairs(Player.PlayerData.items) do
+            if item and item.name:lower() == moneyType:lower() then
+                lastSlot = item.slot
+                Player.Functions.RemoveItem(item.name, item.amount, item.slot)
+            end
+        end
+
+        -- We now have zero moneyType items and we want to add one item moneyType with the amount of moneyType we have left.
+        local amount = Player.Functions.GetMoney(moneyType)
+        if amount >= 1 then Player.Functions.AddItem(moneyType, amount, lastSlot) end
+    end
+end
+
 --- Only to use when move/add/remove items in the inventory. (server side only)
 --- Use: exports['mh-cashasitem']:UpdateCash(source, itemData, amount, action)
 ---@param source number id of the player
@@ -38,44 +64,19 @@ local function UpdateCash(source, item, amount, action)
 end
 exports('UpdateCash', UpdateCash)
 
---- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
---- This function gets automaticly triggered,
---- when money changes happens `QBCore:Server:OnMoneyChange`
---- or when open the inventory `qb-inventory:client:openInventory`
---- NOTE do not update money here, this is only to update the item for the inventory.
----@param src number
----@param moneyType string ('cash', 'black_money', 'crypto')
-local function UpdateItem(src, moneyType)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        
-        -- Remove all related moneyType items, we only want to know the last used item.slot, cause we need this to add a new item on that slot.
-        local lastSlot = nil
-        for _, item in pairs(Player.PlayerData.items) do
-            if item and item.name:lower() == moneyType:lower() then
-                lastSlot = item.slot
-                Player.Functions.RemoveItem(item.name, item.amount, item.slot)
-            end
-        end
-        
-        -- We now have zero moneyType items and we want to add one item moneyType with the amount of moneyType we have left.
-        local amount = Player.Functions.GetMoney(moneyType)
-        if amount >= 1 then Player.Functions.AddItem(moneyType, amount, lastSlot) end
-    end
-end
-
 --- On Money Change
 --- This will trigger when money changes happens in other scripts
 --- React on `Player.Functions.Addmoney` and Player.Functions.RemoveMoney
 ---@param source number
----@param moneyType string
+---@param moneyType string 
 ---@param amount number
----@param set string
+---@param set string 
 ---@param reason string
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
 end)
 
+--- onResourceStart
 --- This execute every server start of script load.
 --- it does nothing if all data is already set.
 ---@param resource any
