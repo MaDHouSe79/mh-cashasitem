@@ -403,7 +403,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             local itemInfo = QBCore.Shared.Items[fromItemData.name:lower()]
             if toInventory == "player" or toInventory == "hotbar" then
                 local toItemData = Player.Functions.GetItemBySlot(toSlot)
-
                 RemoveFromStash(stashId, fromSlot, itemInfo["name"], fromAmount)
                 if toItemData ~= nil then
                     local itemInfo = QBCore.Shared.Items[toItemData.name:lower()]
@@ -432,7 +431,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
                 SaveStashItems(stashId, Stashes[stashId].items)
                 Player.Functions.AddItem(fromItemData.name, fromAmount, toSlot, fromItemData.info)
                 exports['mh-cashasitem']:UpdateCash(src, fromItemData, fromAmount, "add")
-
             else
                 local toItemData = Stashes[stashId].items[toSlot]
                 RemoveFromStash(stashId, fromSlot, itemInfo["name"], fromAmount)
@@ -586,7 +584,6 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             else
                 QBCore.Functions.Notify(src, "You don't have blackmoney", "error")
             end
-
         else
             if Player.Functions.RemoveMoney("cash", price, "unkown-itemshop-bought-item") then
                 Player.Functions.AddItem(itemData.name, fromAmount, toSlot, itemData.info)
