@@ -12,7 +12,7 @@ ensure [defaultmaps]
 ```
 
 # Replace this code below (server side)
-- in `qb-inventory/server/functions.lua` and find the finction `function OpenInventory(source, identifier, data)`
+- in `qb-inventory/server/functions.lua` and find the function `function OpenInventory(source, identifier, data)`
 - add below `if Player(source).state.inv_busy then return end`
 ```lua
 if GetResourceState("mh-cashasitem") ~= 'missing' then
