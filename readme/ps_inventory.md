@@ -1,6 +1,6 @@
 ## **INSTALL FOR PS INVENTORY**
 
-# Add code to in `ps-inventory/server/main.lua`
+# Add code to in ps-inventory/server/main.lua
 - find `local function OpenInventory(name, id, other, origin)`, and add this below
 ```lua
 if GetResourceState("mh-cashasitem") ~= 'missing' then
