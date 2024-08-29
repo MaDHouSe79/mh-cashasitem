@@ -36,7 +36,9 @@ local function UpdateItem(src, moneyType)
         local amount = Player.Functions.GetMoney(moneyType)
         -- Check if amount is higher then 0 or is 1.
         if amount >= 1 then
-            -- Add a single item with the amount of moneyType we have left, this moneyType is 'cash' or 'black_money' or 'crypto'.
+            -- Add a single item with the amount of moneyType we have left. 
+            -- This moneyType is 'cash' or 'black_money' or 'crypto', 
+            -- see https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme.md#note-for-using-blackmoney
             Player.Functions.AddItem(moneyType, amount, lastSlot)
         end
     end
