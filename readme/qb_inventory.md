@@ -15,7 +15,7 @@ ensure [defaultmaps]
 - in `qb-inventory/client/main.lua` around line 164
 ```lua
 RegisterNetEvent('qb-inventory:client:openInventory', function(items, other)
-    TriggerServerEvent('mh-cashasitem:server:openInventory') -- To Add for mh-cashasitem
+    TriggerServerEvent('qb-inventory:server:openInventory') -- To Add for mh-cashasitem
     SetNuiFocus(true, true)
     SendNUIMessage({
         action = 'open',
