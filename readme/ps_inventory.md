@@ -11,7 +11,7 @@ end
 ```
 
 # Check in mh-cashasitem in file fxmanifest.lua 
-- rename qb-inventory to ps-invnetory
+- rename `qb-inventory` to `ps-invnetory`
 
 # Replace this code in ps-inventory/server/main.lua
 ```lua
