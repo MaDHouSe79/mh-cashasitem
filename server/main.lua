@@ -66,7 +66,7 @@ end
 
 --- Open Inventory
 --- This will trigger when the inventory gets open.
-RegisterNetEvent('mh-cashasitem:server:openInventory', function()
+RegisterNetEvent('qb-inventory:server:openInventory', function(source)
     local src = source
     UpdateItem(src, 'cash')
     UpdateItem(src, 'black_money')
