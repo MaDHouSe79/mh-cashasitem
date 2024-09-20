@@ -13,15 +13,33 @@ local function GetItemName(item)
     return tmpItem
 end
 
+--- SetItemData
+---@param source any
+---@param itemName string
+---@param key string
+---@param val any
+local function SetItemData(source, itemName, key, val)
+    if not itemName or not key then return false end
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return end
+    local item = exports['qb-inventory']:GetItemByName(source, itemName)
+    if not item then return false end
+    item[key] = val
+    Player.PlayerData.items[item.slot] = item
+    Player.Functions.SetPlayerData('items', Player.PlayerData.items)
+    return true
+end
+
 ---@param src number
 ---@param moneyType string 'cash', 'black_money', 'crypto'
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local amount = Player.Functions.GetMoney(moneyType)
-        if amount > 0 then exports['qb-inventory']:SetItemData(src, moneyType, 'amount', amount) end
+        if amount > 0 then SetItemData(src, moneyType, 'amount', amount) end
     end
 end
+
 
 exports('UpdateItem', UpdateItem)
 
