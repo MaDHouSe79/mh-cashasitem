@@ -13,36 +13,19 @@ local function GetItemName(item)
     return tmpItem
 end
 
---- Remove all related moneyType items and add 1 item moneyType with the total moneyType amount left.
---- This function gets automaticly triggered,
---- when money changes happens `QBCore:Server:OnMoneyChange`, or when open the inventory(server side only)
---- NOTE do not update money here, this is only to update the item for the inventory.
 ---@param src number
----@param moneyType string ('cash', 'black_money', 'crypto')
+---@param moneyType string 'cash', 'black_money', 'crypto'
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
-
-        -- Remove all related moneyType items, we only want to know the last slot where the item was, cause we need this to add a new item on that slot.
-        local lastSlot = nil
-        for _, item in pairs(Player.PlayerData.items) do
-            if item and item.name:lower() == moneyType:lower() then
-                lastSlot = item.slot
-                Player.Functions.RemoveItem(item.name, item.amount, item.slot)
-            end
-        end
-
-        -- We now have zero moneyType items and we want to add one item moneyType with the amount of moneyType we have left.
+        exports['qb-inventory']:SetItemData(src, moneyType, 'amount', 0)
         local amount = Player.Functions.GetMoney(moneyType)
-        -- Check if amount is higher then 0 or is 1.
         if amount >= 1 then
-            -- Add a single item with the amount of moneyType we have left. 
-            -- This moneyType is 'cash' or 'black_money' or 'crypto', 
-            -- see https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme.md#note-for-using-blackmoney
-            Player.Functions.AddItem(moneyType, amount, lastSlot)
+            exports['qb-inventory']:SetItemData(src, moneyType, 'amount', amount)
         end
     end
 end
+
 exports('UpdateItem', UpdateItem)
 
 --- Only use when move/add/remove items in the inventory. (server side only)
@@ -52,17 +35,12 @@ exports('UpdateItem', UpdateItem)
 ---@param action string `add` or `remove`
 local function UpdateCash(source, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(source)
-    -- check if player exist
     if Player then
-        -- get item name as sting
         local tmpItem = GetItemName(item)
-        -- check if tmpItem is a cash item
         if tmpItem ~= nil and tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
             if action == "add" then
-                -- In the function `Player.Functions.Addmoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
                 Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
             elseif action == "remove" then
-                -- In the function `Player.Functions.RemoveMoney` the trigger `QBCore:Server:OnMoneyChange` gets triggered
                 Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
             end
         end
@@ -70,7 +48,6 @@ local function UpdateCash(source, item, amount, action)
 end
 exports('UpdateCash', UpdateCash)
 
---- On Money Change
 --- This will trigger when money changes happens in other scripts
 --- React on `Player.Functions.Addmoney` and Player.Functions.RemoveMoney
 ---@param source number
@@ -83,23 +60,17 @@ RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amou
 end)
 
 --- onResourceStart
---- This execute every server start of script load.
---- it does nothing if all data is already set.
 ---@param resource any
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-        if not QBCore.Config.Money.MoneyTypes['black_money'] then -- check if qb-core does not have a black_money currency
+        if not QBCore.Config.Money.MoneyTypes['black_money'] then
             print("~r~["..GetCurrentResourceName().."] - ERROR - You forgot to add 'black_money' in the 'resources/[qb]/qb-core/config.lua' file at line 9 and 10.~w~")
-        elseif QBCore.Config.Money.MoneyTypes['black_money'] then -- check if qb-core have a black_money currency
-            -- check if player has a black_money currency
+        elseif QBCore.Config.Money.MoneyTypes['black_money'] then
             MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
                 for k, v in pairs(rs) do
                     local list = json.decode(v.money)
-                    -- if black_money is not found
                     if not list['black_money'] then
-                        -- add black_money to player currency
                         list['black_money'] = 0
-                        -- update player currency
                         MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
                     end  
                 end
