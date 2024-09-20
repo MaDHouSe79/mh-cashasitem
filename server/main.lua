@@ -38,8 +38,6 @@ local function UpdateItem(src, moneyType)
         if amount > 0 then SetItemData(src, moneyType, 'amount', amount) end
     end
 end
-
-
 exports('UpdateItem', UpdateItem)
 
 --- Only use when move/add/remove items in the inventory. (server side only)
