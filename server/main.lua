@@ -19,7 +19,7 @@ local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local amount = Player.Functions.GetMoney(moneyType)
-        if amount >= 1 then exports['qb-inventory']:SetItemData(src, moneyType, 'amount', amount) end
+        if amount > 0 then exports['qb-inventory']:SetItemData(src, moneyType, 'amount', amount) end
     end
 end
 
