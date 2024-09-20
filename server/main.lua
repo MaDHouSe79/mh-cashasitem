@@ -27,7 +27,6 @@ local function SetItemData(source, itemName, key, val)
     item[key] = val
     Player.PlayerData.items[item.slot] = item
     Player.Functions.SetPlayerData('items', Player.PlayerData.items)
-    return true
 end
 
 ---@param src number
