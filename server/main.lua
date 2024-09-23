@@ -23,7 +23,11 @@ local function SetItemData(source, itemName, key, val)
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return end
     local item = exports['qb-inventory']:GetItemByName(source, itemName)
-    if not item then return false end
+    if not item then
+        local amount = Player.Functions.GetMoney(itemName)
+        exports['qb-inventory']:AddItem(source, itemName, amount, nil, nil, 'mh-cashasitem')
+        item = exports['qb-inventory']:GetItemByName(source, itemName)
+    end
     item[key] = val
     Player.PlayerData.items[item.slot] = item
     Player.Functions.SetPlayerData('items', Player.PlayerData.items)
