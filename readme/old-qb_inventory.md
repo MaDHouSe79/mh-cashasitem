@@ -2,7 +2,7 @@
 
 # Add Code in qb-inventory/server/main.lua
 - find `RegisterNetEvent('inventory:server:OpenInventory', function(name, id, other)`
-- add this code below `if not ply.state.inv_busy then`
+- add this code below after the block `if not ply.state.inv_busy then` add after the `end` of that if statement.
 ```lua
 if GetResourceState("mh-cashasitem") ~= 'missing' then
     exports['mh-cashasitem']:UpdateItem(src, 'cash')
