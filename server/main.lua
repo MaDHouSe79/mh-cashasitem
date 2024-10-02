@@ -52,7 +52,7 @@ end
 exports('UpdateCash', UpdateCash)
 
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
-    UpdateItem(source, moneyType)
+    if moneyType ~= 'bank' then UpdateItem(source, moneyType) end
 end)
 
 AddEventHandler('onResourceStart', function(resource)
