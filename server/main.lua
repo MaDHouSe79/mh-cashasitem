@@ -12,27 +12,27 @@ local function GetItemName(item)
     return tmpItem
 end
 
-local function SetItemData(source, moneyType, key, val)
+local function SetItemData(source, moneyType)
     if GetResourceState(inventory) == 'missing' then return end
-    if not moneyType or not key then return false end
+    if not moneyType then return false end
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return end
+    local current = Player.Functions.GetMoney(moneyType)
     local item = exports[inventory]:GetItemByName(source, moneyType)
-    if not item and val >= 1 then
-        Player.Functions.AddItem(moneyType, val, nil, nil, 'mh-cashasitem update (SetItemData)')
-        item = exports[inventory]:GetItemByName(source, moneyType)
+    if item then
+        item.amount = current
+        Player.PlayerData.items[item.slot] = item
+        Player.Functions.SetPlayerData('items', Player.PlayerData.items)
+    elseif not item then
+        if current >= 1 then
+            Player.Functions.AddItem(moneyType, current, nil, nil, 'mh-cashasitem update (SetItemData)')
+        end
     end
-    item[key] = val
-    Player.PlayerData.items[item.slot] = item
-    Player.Functions.SetPlayerData('items', Player.PlayerData.items)
 end
 
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        local amount = Player.Functions.GetMoney(moneyType)
-        if amount > 0 then SetItemData(src, moneyType, 'amount', amount) end
-    end
+    if Player then SetItemData(src, moneyType) end
 end
 exports('UpdateItem', UpdateItem)
 
