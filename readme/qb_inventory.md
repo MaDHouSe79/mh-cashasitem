@@ -11,19 +11,93 @@ ensure [voice]
 ensure [defaultmaps]
 ```
 
-# Add this code below (Server side)
-- in `qb-inventory/server/functions.lua` and find the function `function OpenInventory(source, identifier, data)`
-- add below `if Player(source).state.inv_busy then return end`
+# Replace code in qb-inventory (server side)
+- In `qb-inventory/server/functions.lua` and find the function `OpenInventoryById(source, targetId)`
+- Replace that function to this function below
 ```lua
-if GetResourceState("mh-cashasitem") ~= 'missing' then
-    exports['mh-cashasitem']:UpdateItem(source, 'cash')
-    exports['mh-cashasitem']:UpdateItem(source, 'black_money')
-    exports['mh-cashasitem']:UpdateItem(source, 'crypto')
+function OpenInventoryById(source, targetId)
+    local QBPlayer = QBCore.Functions.GetPlayer(source)
+    local TargetPlayer = QBCore.Functions.GetPlayer(tonumber(targetId))
+    if not QBPlayer or not TargetPlayer then return end
+
+    if GetResourceState("mh-cashasitem") ~= 'missing' then
+        exports['mh-cashasitem']:UpdateItem(source, 'cash')
+        exports['mh-cashasitem']:UpdateItem(source, 'black_money')
+        exports['mh-cashasitem']:UpdateItem(source, 'crypto')
+
+        exports['mh-cashasitem']:UpdateItem(targetId, 'cash')
+        exports['mh-cashasitem']:UpdateItem(targetId, 'black_money')
+        exports['mh-cashasitem']:UpdateItem(targetId, 'crypto')
+    end
+
+    if Player(targetId).state.inv_busy then CloseInventory(targetId) end
+    local playerItems = QBPlayer.PlayerData.items
+    local targetItems = TargetPlayer.PlayerData.items
+    local formattedInventory = {
+        name = 'otherplayer-' .. targetId,
+        label = GetPlayerName(targetId),
+        maxweight = Config.MaxWeight,
+        slots = Config.MaxSlots,
+        inventory = targetItems
+    }
+    Wait(1500)
+    Player(targetId).state.inv_busy = true
+    TriggerClientEvent('qb-inventory:client:openInventory', source, playerItems, formattedInventory)
 end
 ```
 
-# Replace this code below (Server side)
-- in `qb-inventory/server/main.lua` around line 282
+# Replace code in qb-inventory (server side)
+- In `qb-inventory/server/functions.lua` and find the function `function OpenInventory(source, identifier, data)`
+- Replace that function to this function below
+```lua
+function OpenInventory(source, identifier, data)
+    if Player(source).state.inv_busy then return end
+
+    local QBPlayer = QBCore.Functions.GetPlayer(source)
+    if not QBPlayer then return end
+    
+    if GetResourceState("mh-cashasitem") ~= 'missing' then
+        exports['mh-cashasitem']:UpdateItem(source, 'cash')
+        exports['mh-cashasitem']:UpdateItem(source, 'black_money')
+        exports['mh-cashasitem']:UpdateItem(source, 'crypto')
+    end
+    
+    if not identifier then
+        Player(source).state.inv_busy = true
+        TriggerClientEvent('qb-inventory:client:openInventory', source, QBPlayer.PlayerData.items)
+        return
+    end
+
+    if type(identifier) ~= 'string' then
+        print('Inventory tried to open an invalid identifier')
+        return
+    end
+
+    local inventory = Inventories[identifier]
+
+    if inventory and inventory.isOpen then
+        TriggerClientEvent('QBCore:Notify', source, 'This inventory is currently in use', 'error')
+        return
+    end
+    if not inventory then inventory = InitializeInventory(identifier, data) end
+    inventory.maxweight = (inventory and inventory.maxweight) or (data and data.maxweight) or Config.StashSize.maxweight
+    inventory.slots = (inventory and inventory.slots) or (data and data.slots) or Config.StashSize.slots
+    inventory.label = (inventory and inventory.label) or (data and data.label) or identifier
+    inventory.isOpen = source
+
+    local formattedInventory = {
+        name = identifier,
+        label = inventory.label,
+        maxweight = inventory.maxweight,
+        slots = inventory.slots,
+        inventory = inventory.items
+    }
+    TriggerClientEvent('qb-inventory:client:openInventory', source, QBPlayer.PlayerData.items, formattedInventory)
+end
+```
+
+# Replace code in qb-inventory (server side)
+- In `qb-inventory/server/main.lua` around line 282
 ```lua
 QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(source, cb, item)
     local src = source
@@ -67,7 +141,7 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
 end)
 ```
 
-# Replace this code below (server side) 
+# Replace code in qb-inventory (server side)
 - in `qb-inventory/server/main.lua` around line 472
 ```lua
 RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory, toInventory, fromSlot, toSlot, fromAmount, toAmount)
@@ -130,7 +204,7 @@ RegisterNetEvent('qb-inventory:server:SetInventoryData', function(fromInventory,
 end)
 ```
 
-# Replace this code below (Server side)
+# Replace code in qb-inventory (server side)
 - in `qb-inventory/server/main.lua` around line 318
 ```lua
 QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source, cb, target, item, amount, slot, info)
@@ -191,6 +265,8 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         return
     end
 
+    if itemInfo.type == 'weapon' then checkWeapon(source, item) end
+
     if GetResourceState("mh-cashasitem") ~= 'missing' then
         exports['mh-cashasitem']:UpdateCash(source, item, giveAmount, 'remove')
     end
@@ -199,7 +275,6 @@ QBCore.Functions.CreateCallback('qb-inventory:server:giveItem', function(source,
         exports['mh-cashasitem']:UpdateCash(target, item, giveAmount, 'add')
     end
 
-    if itemInfo.type == 'weapon' then checkWeapon(source, item) end
     TriggerClientEvent('qb-inventory:client:giveAnim', source)
     TriggerClientEvent('qb-inventory:client:ItemBox', source, itemInfo, 'remove', giveAmount)
     TriggerClientEvent('qb-inventory:client:giveAnim', target)
