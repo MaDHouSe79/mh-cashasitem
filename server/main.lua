@@ -17,7 +17,9 @@ local function UpdateItem(src, moneyType)
     if Player then
         exports[inventory]:SetItemData(src, moneyType, 'amount', 0)
         local amount = Player.Functions.GetMoney(moneyType)
-        if amount >= 1 then exports[inventory]:SetItemData(src, moneyType, 'amount', amount) end
+        if amount >= 1 then
+            exports[inventory]:SetItemData(src, moneyType, 'amount', amount)
+        end
     end
 end
 exports('UpdateItem', UpdateItem)
