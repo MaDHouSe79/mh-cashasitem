@@ -14,10 +14,10 @@ end
 
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
+    local lastSlot = nil
     if Player then
-        local lastSlot = nil
         for _, item in pairs(Player.PlayerData.items) do
-            if item and item.name:lower() == moneyType:lower() then
+            if item and item.name == moneyType then
                 lastSlot = item.slot
                 Player.Functions.RemoveItem(item.name, item.amount, item.slot)
             end
