@@ -14,7 +14,6 @@ end
 
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    local tmpItem = {}
     if Player then
         if moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
             local current = Player.Functions.GetMoney(moneyType)
