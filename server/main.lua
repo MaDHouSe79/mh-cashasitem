@@ -14,16 +14,19 @@ end
 
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    local lastSlot = nil
+    local tmpItem = {}
     if Player then
-        for _, item in pairs(Player.PlayerData.items) do
-            if item and item.name == moneyType then
-                lastSlot = item.slot
-                Player.Functions.RemoveItem(item.name, item.amount, item.slot)
+        if moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
+            local current = Player.Functions.GetMoney(moneyType)
+            local lastSlot = nil
+            for _, item in pairs(Player.PlayerData.items) do
+                if item and item.name == moneyType then
+                    lastSlot = item.slot
+                    Player.Functions.RemoveItem(item.name, item.amount, item.slot)
+                end
             end
+            if current >= 1 then Player.Functions.AddItem(moneyType, current, nil, nil, nil) end
         end
-        local amount = Player.Functions.GetMoney(moneyType)
-        if amount >= 1 then Player.Functions.AddItem(moneyType, amount, lastSlot) end
     end
 end
 exports('UpdateItem', UpdateItem)
