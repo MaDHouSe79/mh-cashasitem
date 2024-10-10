@@ -110,9 +110,17 @@ QBCore.Functions.CreateCallback('qb-inventory:server:createDrop', function(sourc
     local playerCoords = GetEntityCoords(playerPed)
 
     if RemoveItem(src, item.name, item.amount, item.fromSlot, 'dropped item') then
+
         if GetResourceState("mh-cashasitem") ~= 'missing' then
-            exports['mh-cashasitem']:UpdateCash(src, item.name, item.amount, 'remove')
+            if item.name == 'cash' or item.name == 'black_money' or item.name == 'crypto' then
+                if item.amount >= 1 then
+                    exports['mh-cashasitem']:UpdateCash(src, item.name, item.amount, 'remove')
+                elseif item.amount <= 0 then
+                    return
+                end
+            end
         end
+
         if item.type == 'weapon' then checkWeapon(src, item) end
         TaskPlayAnim(playerPed, 'pickup_object', 'pickup_low', 8.0, -8.0, 2000, 0, 0, false, false, false)
         local bag = CreateObjectNoOffset(Config.ItemDropObject, playerCoords.x + 0.5, playerCoords.y + 0.5, playerCoords.z, true, true, false)
