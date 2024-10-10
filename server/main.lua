@@ -35,9 +35,7 @@ end
 
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        SetItemData(src, moneyType)
-    end
+    if Player then SetItemData(src, moneyType) end
 end
 exports('UpdateItem', UpdateItem)
 
