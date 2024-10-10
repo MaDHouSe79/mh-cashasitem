@@ -25,11 +25,11 @@ local function SetItemData(source, moneyType)
             Player.PlayerData.items[item.slot] = item
             Player.Functions.SetPlayerData('items', Player.PlayerData.items)
         elseif current == 0 then
-            Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
+            exports[inventory]:RemoveItem(source, moneyType, current, item.slot, 'mh-cashasitem update (SetItemData)')
         end
     elseif not item then
         if current > 0 then
-            Player.Functions.AddItem(moneyType, current, nil, nil, 'mh-cashasitem update (SetItemData)')
+            exports[inventory]:AddItem(source, moneyType, current, nil, nil, 'mh-cashasitem update (SetItemData)')
         end
     end
 end
