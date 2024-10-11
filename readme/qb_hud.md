@@ -115,6 +115,7 @@ const moneyHud = Vue.createApp({
             this.showCash = true;
             this.showBank = true;
             this.showBlack = true;
+            this.showCrypto = true;
             this.cash = data.cash;
             this.bank = data.bank;
             this.blackmoney = data.blackmoney;
