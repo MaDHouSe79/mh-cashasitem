@@ -6,8 +6,10 @@ local inventory = 'qb-inventory'
 
 local function GetItemName(item)
     local tmpItem = nil
-    if type(item) == 'string' then tmpItem = item:lower()
-    elseif type(item) == 'table' then tmpItem = item.name:lower()
+    if type(item) == 'string' then 
+        if item ~= nil then tmpItem = item:lower() end
+    elseif type(item) == 'table' then 
+        if item.name ~= nil then tmpItem = item.name:lower() end
     else tmpItem = nil end
     return tmpItem
 end
@@ -20,8 +22,8 @@ local function SetItemData(source, moneyType)
     local current = Player.Functions.GetMoney(moneyType)
     local item = exports['qb-inventory']:GetItemByName(source, moneyType)
     if item ~= nil then
-        exports['qb-inventory']:SetItemData(source, moneyType, 'amount', 0)
         if current > 0 then
+            exports['qb-inventory']:SetItemData(source, moneyType, 'amount', 0)
             exports['qb-inventory']:SetItemData(source, moneyType, 'amount', current)
         elseif current == 0 then
             Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
