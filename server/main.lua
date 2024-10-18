@@ -14,7 +14,7 @@ end
 
 local function SetItemData(source, moneyType)
     if GetResourceState('qb-inventory') == 'missing' then return end
-    if not moneyType then return end
+    if not moneyType or moneyType == nil then return end
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return end
     local current = Player.Functions.GetMoney(moneyType)
