@@ -24,11 +24,11 @@ local function SetItemData(source, moneyType)
         if current > 0 then
             exports['qb-inventory']:SetItemData(source, moneyType, 'amount', current)
         elseif current == 0 then
-            exports['qb-inventory']:RemoveItem(moneyType, item.amount, item.slot)
+            Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
         end
     elseif not item then
         if current > 0 then
-            exports['qb-inventory']:AddItem(moneyType, current, nil, nil, 'mh-cashasitem update (SetItemData)')
+            Player.Functions.AddItem(moneyType, current, nil, nil, 'mh-cashasitem update (SetItemData)')
         end
     end
 end
