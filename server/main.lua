@@ -14,7 +14,7 @@ end
 
 local function SetItemData(source, moneyType)
     if GetResourceState('qb-inventory') == 'missing' then return end
-    if not moneyType or moneyType == nil then return end
+    if not moneyType or moneyType == nil or moneyType ~= 'cash' or moneyType ~= 'black_money' or moneyType ~= 'crypto' then return end
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return end
     local current = Player.Functions.GetMoney(moneyType)
@@ -37,6 +37,7 @@ local function UpdateItem(src, moneyType)
     if GetResourceState('qb-inventory') == 'missing' then return end
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
+        if moneyType ~= 'cash' or moneyType ~= 'black_money' or moneyType ~= 'crypto' then return end
         local current = Player.Functions.GetMoney(moneyType)
         if current >= 1 then SetItemData(src, moneyType) end
     end
