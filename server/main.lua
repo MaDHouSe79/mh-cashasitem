@@ -6,10 +6,8 @@ local inventory = 'qb-inventory'
 
 local function GetItemName(item)
     local tmpItem = nil
-    if type(item) == 'string' then 
-        if item ~= nil then tmpItem = item:lower() end
-    elseif type(item) == 'table' then 
-        if item.name ~= nil then tmpItem = item.name:lower() end
+    if type(item) == 'string' and item ~= nil then tmpItem = item:lower()
+    elseif type(item) == 'table' and item.name ~= nil then tmpItem = item.name:lower()
     else tmpItem = nil end
     return tmpItem
 end
