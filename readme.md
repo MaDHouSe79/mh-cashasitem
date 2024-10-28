@@ -100,6 +100,7 @@ exports['mh-cashasitem']:UpdateCash(source, ItemData, amount, "remove")
 cash                         = { name = 'cash', label = 'Cash', weight = 0, type = 'item', image = 'cash.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Cash'  },
 black_money                  = { name = 'black_money', label = 'Black Money', weight = 0, type = 'item', image = 'black_money.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Black Money?' },
 crypto                       = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
+```
 
 # How to change marketbills to black_money 
 - The black_money uses the item amount as a number, 
