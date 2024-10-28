@@ -68,6 +68,7 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
+        for k, item in pairs(SharedItems) do exports['qb-core']:AddItem(item.name, item) end
         if not QBCore.Config.Money.MoneyTypes['black_money'] then
             print("~r~["..GetCurrentResourceName().."] - ERROR - You forgot to add 'black_money' in the 'resources/[qb]/qb-core/config.lua' file at line 9 and 10.~w~")
         elseif QBCore.Config.Money.MoneyTypes['black_money'] then
@@ -82,9 +83,7 @@ AddEventHandler('onResourceStart', function(resource)
             end)
         end
         Wait(5000)
-        -- Add items to QBShared Items
         for k, item in pairs(SharedItems) do
-            exports['qb-core']:AddItem(item.name, item)
             print("[^1"..GetCurrentResourceName().."^7] - Add item ^2" .. item.name .."^7 to ^6qb-core/shared/items.lua^7.")
         end
     end
