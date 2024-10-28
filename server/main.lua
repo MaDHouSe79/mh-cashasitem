@@ -2,7 +2,12 @@
 --[[           MH Cash As Item Script by MaDHouSe          ]] --
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
-local inventory = 'qb-inventory'
+
+local SharedItems = {
+    cash = { name = 'cash', label = 'Cash', weight = 0, type = 'item', image = 'cash.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Cash'  },
+    black_money = { name = 'black_money', label = 'Black Money', weight = 0, type = 'item', image = 'black_money.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Black Money?' },
+    crypto = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
+}
 
 local function GetItemName(item)
     local tmpItem = nil
@@ -75,6 +80,12 @@ AddEventHandler('onResourceStart', function(resource)
                     end  
                 end
             end)
+        end
+        Wait(5000)
+        -- Add items to QBShared Items
+        for k, item in pairs(SharedItems) do
+            exports['qb-core']:AddItem(item.name, item)
+            print("[^1"..GetCurrentResourceName().."^7] - Add item ^2" .. item.name .."^7 to ^6qb-core/shared/items.lua^7.")
         end
     end
 end)
