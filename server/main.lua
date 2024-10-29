@@ -82,18 +82,6 @@ AddEventHandler('onResourceStart', function(resource)
                 end
             end)
         end
-        Wait(5000)
-        for k, item in pairs(SharedItems) do
-            print("[^1"..GetCurrentResourceName().."^7] - Add item ^2" .. item.name .."^7 to ^6qb-core/shared/items.lua^7.")
-        end
-    end
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-    if resource == GetCurrentResourceName() then
-        for k, item in pairs(SharedItems) do 
-            exports['qb-core']:RemoveItem(item.name)
-        end
     end
 end)
 
