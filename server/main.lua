@@ -91,10 +91,8 @@ end)
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then
-        if GetResourceState("mh-items") ~= 'missing' then
-            for k, item in pairs(SharedItems) do 
-                exports['mh-items']:Remove(item.name)
-            end
+        for k, item in pairs(SharedItems) do 
+            exports['qb-core']:RemoveItem(item.name)
         end
     end
 end)
