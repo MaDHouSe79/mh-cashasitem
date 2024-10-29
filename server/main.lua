@@ -89,6 +89,16 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
+AddEventHandler('onResourceStop', function(resource)
+    if resource == GetCurrentResourceName() then
+        if GetResourceState("mh-items") ~= 'missing' then
+            for k, item in pairs(SharedItems) do 
+                exports['mh-items']:Remove(item.name)
+            end
+        end
+    end
+end)
+
 QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local amount = Player.PlayerData.money.black_money
