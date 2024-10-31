@@ -94,14 +94,6 @@ Player.Functions.RemoveItem(ItemData.name, amount, toSlot)
 exports['mh-cashasitem']:UpdateCash(source, ItemData, amount, "remove")
 ```
 
-# QB Shared Items 
-- Don't forgot to add the `cash.png` and `blackmoney.png` and `crypto.png` in to your inventory image folder.
-```lua
-cash                         = { name = 'cash', label = 'Cash', weight = 0, type = 'item', image = 'cash.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Cash'  },
-black_money                  = { name = 'black_money', label = 'Black Money', weight = 0, type = 'item', image = 'black_money.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Black Money?' },
-crypto                       = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
-```
-
 # How to change marketbills to black_money 
 - The black_money uses the item amount as a number, 
 - and the marketbills uses the item amount as a table.
