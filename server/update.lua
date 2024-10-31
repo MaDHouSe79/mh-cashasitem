@@ -1,22 +1,19 @@
 local script = GetCurrentResourceName()
-
-local function checkVersion(err, responseText, headers)
-    local curVersion = LoadResourceFile(script, "version")
-    local version = string.gsub(curVersion, "%s+", "")
-    if responseText == nil then return print("[^1"..script.."^7] Check for script update ^1FAILED^7") end
-    if version ~= responseText and tonumber(version) < tonumber(responseText) then
-        print("^1----------------------------------------------------------------------------------^7")
-        print("[^3"..script.."^7] is outdated, latest version is: ^2"..responseText.."^7")
-        print("^1----------------------------------------------------------------------------------^7")
-    elseif tonumber(version) > tonumber(responseText) then
-        print("^3----------------------------------------------------------------------------------^7")
-        print("[^3"..script.."^7] git version is: ^2"..responseText.."^7, installed version: ^1"..version.."^7!")
-        print("^3----------------------------------------------------------------------------------^7")
-    else
-        print("[^2"..script.."^7] is up to date (^2"..version.."^7) ")
-    end
-end
+local url = "https://raw.githubusercontent.com" .. "/MaDHouSe79/" .. script .. "/master/version"
+local version = GetResourceMetadata(script, "version")
 
 CreateThread(function()
-    PerformHttpRequest("https://raw.githubusercontent.com".."/MaDHouSe79/"..script.."/master/version", checkVersion, "GET")
+    PerformHttpRequest(url, function(err, text, headers)
+        if (text ~= nil) then
+            version = string.gsub(version, "%s+", "")
+            text = string.gsub(text, "%s+", "")
+            if version == text then
+                print("^0[^4Update Check^0: ^1"..script.."^0] - [Installed Version:^2 "..version.."^0] [Github Version:^2 "..text.."^0] [Status:^2Ok^0] ")
+            else
+                print("^0[^4Update Check^0: ^1"..script.."^0] - Newer version of "..script.." found [Old:^1 "..version.."^0] [New:^2 "..text.."^0]")      
+            end
+        else
+            print("[^6" .. script .. "^0] Check for script update ^1FAILED^0, unable to find the host.")
+        end
+    end, "GET", "", "")
 end)
