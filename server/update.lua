@@ -1,5 +1,5 @@
 local script = GetCurrentResourceName()
-local url = "https://raw.githubusercontent.com/MaDHouSe79/mh-parking/master/version"
+local url = "https://raw.githubusercontent.com/MaDHouSe79/"..script.."/master/version"
 local version = GetResourceMetadata(script, "version")
 
 CreateThread(function()
