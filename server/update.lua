@@ -15,7 +15,7 @@ CreateThread(function()
                 print("^0[^2" .. script .. "^0] - [^3Update Check^0] - You somehow skipped a few versions or the github went offline, if it's still online i advise you to update ( or downgrade? )^0")
             end
         else
-            print("^0[^2" .. script .. "^0] - [^1FAILED^0] - ^1Unable to connect to "..url ..", somehow the host is offline^0.")
+            print("^0[^2" .. script .. "^0] - [^1FAILED^0] - ^1Unable to connect to^0 ^3"..url .."^0 , somehow the host is ^1offline^0.")
         end
     end, "GET", "", "")
 end)
