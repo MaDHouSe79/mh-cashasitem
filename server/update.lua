@@ -17,10 +17,10 @@ CreateThread(function()
                     print("^2[^4Update Check^0: ^4"..script.."^0] - You somehow skipped a few versions of "..script.." or the github went offline, if it's still online i advise you to update ( or downgrade? )")
                 end
             elseif text == nil then
-                print("[^6" .. script .. "^0] Unable to find the version, Error: ".. error)
+                print("[^6" .. script .. "^0] Unable to find the version...")
             end
         elseif error == '200' then
-            print("[^6" .. script .. "^0] ^1FAILED^0, we are unable to find the github host.".. error)
+            print("[^6" .. script .. "^0] ^1FAILED^0, we are unable to find the github.")
         end
     end, "GET", "", "")
 end)
