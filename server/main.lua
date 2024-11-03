@@ -24,7 +24,6 @@ local function SetItemData(source, moneyType)
         local current = Player.Functions.GetMoney(moneyType)
         local item = exports['qb-inventory']:GetItemByName(source, moneyType)
         if item ~= nil then
-            if moneyType ~= nil and moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
             if current > 0 then
                 local currenItem = Player.PlayerData.items[item.slot]
                 currenItem.amount = current
