@@ -40,9 +40,8 @@ end
 
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player then
-        local current = Player.Functions.GetMoney(moneyType)
-        if current >= 0 then SetItemData(src, moneyType) end
+    if Player and moneyType ~= nil and moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
+       SetItemData(src, moneyType)
     end
 end
 exports('UpdateItem', UpdateItem)
