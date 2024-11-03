@@ -586,7 +586,7 @@ RegisterNetEvent('inventory:server:SetInventoryData', function(fromInventory, to
             end
 
         elseif QBCore.Shared.SplitStr(shopType, "_")[1] == "market" then
-            if Player.Functions.RemoveMoney("blackmoney", price, "blackmarket-item-bought") then
+            if Player.Functions.RemoveMoney("black_money", price, "blackmarket-item-bought") then
                 AddItem(src, itemData.name, fromAmount, toSlot, itemData.info)
                 exports['mh-cashasitem']:UpdateCash(src, itemData.name, price, "remove")
                 QBCore.Functions.Notify(src, itemInfo["label"] .. " bought!", "success")
