@@ -156,7 +156,7 @@ const moneyHud = Vue.createApp({
                     setTimeout(() => (this.showBank = false), 2000);
                 }
             }
-            if (data.type === "blackmoney") {
+            if (data.type === "black_money") {
                 if (data.minus) {
                     this.showBlack = true;
                     this.minus = true;
