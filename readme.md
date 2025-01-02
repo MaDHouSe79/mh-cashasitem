@@ -81,6 +81,13 @@ QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0, black_money =
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto', 'black_money' } -- Money that is not allowed going in minus
 ```
 
+# QB Shared Items
+```lua
+cash = { name = 'cash', label = 'Cash', weight = 0, type = 'item', image = 'cash.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Cash'  },
+black_money = { name = 'black_money', label = 'Black Money', weight = 0, type = 'item', image = 'black_money.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Black Money?' },
+crypto = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
+```
+
 # Exports you can use for your own inventory.
 - use this server side only when you add or delete an item from and to a inventory.
 - Also use this for item movment in the inventory.
