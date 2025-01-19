@@ -3,12 +3,6 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local SharedItems = {
-    cash = { name = 'cash', label = 'Cash', weight = 0, type = 'item', image = 'cash.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Cash'  },
-    black_money = { name = 'black_money', label = 'Black Money', weight = 0, type = 'item', image = 'black_money.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Black Money?' },
-    crypto = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
-}
-
 local function GetItemName(item)
     local tmpItem = nil
     if type(item) == 'string' and item ~= nil then tmpItem = item:lower()
@@ -69,7 +63,6 @@ end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-        for k, item in pairs(SharedItems) do exports['qb-core']:AddItem(item.name, item) end
         if not QBCore.Config.Money.MoneyTypes['black_money'] then
             print("~r~["..GetCurrentResourceName().."] - ERROR - You forgot to add 'black_money' in the 'resources/[qb]/qb-core/config.lua' file at line 9 and 10.~w~")
         elseif QBCore.Config.Money.MoneyTypes['black_money'] then
