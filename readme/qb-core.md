@@ -11,6 +11,14 @@ ensure [voice]
 ensure [defaultmaps]
 ```
 
+
+# Command
+- `/cash` to see the amount
+- `/bank` to see the amount
+- `/blackmoney` to see the amount
+- `/crypto` to see the amount
+
+
 # Note for using blackmoney
 - first you need to edit the qb-core/config.lua to this below add black_money to this tables
 ```lua
