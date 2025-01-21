@@ -45,15 +45,10 @@
 - [mh-moneywash](https://github.com/MaDHouSe79/mh-moneywash)
 
 # Install
-- [READ-ME](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/)
-- Add in your server.cfg `ensure mh-cashasitem`, make sure this is above `ensure [qb]`
-- Make sure you read the readme files for install, and only when you are done you can restart the server.
-
-# Command
-- `/cash` to see the amount
-- `/bank` to see the amount
-- `/blackmoney` to see the amount
-- `/crypto` to see the amount
+- Step 1 read: [QB-Core](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb-core.md)
+- Step 2 read: [QB-Inventory](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md)
+- Step 3 Make sure you read the readme files for install, and only when you are done you can restart the server.
+- Step 4 Add in your server.cfg `ensure mh-cashasitem`, make sure this is above `ensure [qb]`
 
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
