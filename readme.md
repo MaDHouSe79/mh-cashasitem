@@ -36,7 +36,7 @@
 - If YOU want to use it then YOU have to install it, don't ask my to do it for you.
 
 # Dependencies
-- [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qb-core](https://github.com/qbcore-framework/qb-core) (1.2.6)
 - [qb-inventory](https://github.com/qbcore-framework/qb-inventory) 2.0.0
 
 # Optional
@@ -46,7 +46,7 @@
 
 # Install
 - Step 1 Read: [QB-Core](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb-core.md)
-- Step 2 Read: [QB-Inventory](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md)
+- Step 2 Read: [QB-Inventory](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md) (2.0.0)
 - Step 3 Make sure you read the readme files for install, and only when you are done you can restart the server.
 
 # Video
