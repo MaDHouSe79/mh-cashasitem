@@ -50,7 +50,7 @@
 - Step 3 Make sure you read the readme files for install, and only when you are done you can restart the server.
 
 # If it's all too difficult for you
-- I have a plug and play pack here (link)[https://github.com/MaDHouSe79/mh-cashasitem-pack]
+- I have a plug and play pack here [link](https://github.com/MaDHouSe79/mh-cashasitem-pack)
 
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
