@@ -45,7 +45,7 @@
 - [mh-moneywash](https://github.com/MaDHouSe79/mh-moneywash)
 
 # Install
-- Step 1 Read: [QB-Core](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb-core.md)
+- Step 1 Read: [QB-Core](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb-core.md) (1.2.6)
 - Step 2 Read: [QB-Inventory](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md) (2.0.0)
 - Step 3 Make sure you read the readme files for install, and only when you are done you can restart the server.
 
