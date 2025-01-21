@@ -1,16 +1,5 @@
 # QB Inventory 2.0.0
 
-# Example Server.cfg
-```conf
-# QBCore & Extra stuff
-ensure qb-core
-ensure mh-cashasitem -- ADD HERE
-ensure [qb]
-ensure [standalone]
-ensure [voice]
-ensure [defaultmaps]
-```
-
 # Replace code in qb-inventory (server side)
 - In `qb-inventory/server/functions.lua` and find the function `OpenInventoryById(source, targetId)`
 - Replace that function to this function below
