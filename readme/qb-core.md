@@ -1,5 +1,15 @@
 # QBCore version 1.2.6
 
+# Example Server.cfg
+```conf
+# QBCore & Extra stuff
+ensure qb-core
+ensure mh-cashasitem -- ADD HERE
+ensure [qb]
+ensure [standalone]
+ensure [voice]
+ensure [defaultmaps]
+```
 
 # Note for using blackmoney
 - first you need to edit the qb-core/config.lua to this below add black_money to this tables
