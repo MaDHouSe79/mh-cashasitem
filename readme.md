@@ -51,7 +51,8 @@
 
 # If it's all too difficult for you to install
 - I have a `qb-inventory 2.0.0` edit by my here [link](https://github.com/MaDHouSe79/qb-inventory)
-- cash as item is already includes, you don't need mh-cashasitem for this inventory.
+- Cash as item is already includes, you don't need `mh-cashasitem` for this `qb-inventory`.
+- You also need to read the readme in `qb-inventory` for installing.
 
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
