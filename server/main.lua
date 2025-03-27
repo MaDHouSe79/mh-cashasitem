@@ -11,54 +11,50 @@ local function GetItemName(item)
     return tmpItem
 end
 
-local function SetItemData(source, moneyType)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return end
-    if moneyType ~= nil and moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
-        local current = Player.Functions.GetMoney(moneyType)
-        local item = exports['qb-inventory']:GetItemByName(source, moneyType)
-        if item ~= nil then
-            if current > 0 then
-                local currenItem = Player.PlayerData.items[item.slot]
-                currenItem.amount = current
-                if currenItem.amount <= 0 then currenItem.amount = 0 end
-                Player.Functions.SetInventory(Player.PlayerData.items, true)
-            elseif current == 0 then
-                Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
-            end
-        elseif not item then
-            if current > 0 then
-                Player.Functions.AddItem(moneyType, current, nil, nil, 'mh-cashasitem update (SetItemData)')
-            end
-        end
-    end
-end
-
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player and moneyType ~= nil and moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
-        SetItemData(src, moneyType) 
+    if not Player then return end
+    if moneyType ~= nil and (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then
+        local found = false
+        local lastSlot = nil
+        local current = Player.Functions.GetMoney(moneyType)
+        local items = exports['qb-inventory']:GetItemsByName(src, moneyType) or {}
+        if type(items) == 'table' and #items > 0 then
+            for _, item in pairs(items) do
+                if item.name == moneyType then
+                    found = true
+                    lastSlot = item.slot
+                    Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
+                end
+            end
+            if found then
+                Player.Functions.AddItem(moneyType, current, lastSlot, false)
+            end
+        end
+        if not found then
+            Player.Functions.AddItem(moneyType, current, lastSlot, false)
+        end
     end
 end
 exports('UpdateItem', UpdateItem)
 
-local function UpdateCash(source, item, amount, action)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if Player then
-        local tmpItem = GetItemName(item)
-        if tmpItem ~= nil and tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto' then
-            if action == "add" then
-                Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
-            elseif action == "remove" then
-                Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
-            end
+local function UpdateCash(src, item, amount, action)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+    local tmpItem = GetItemName(item)
+    if tmpItem ~= nil then
+        local current = Player.Functions.GetMoney(tmpItem)
+        if action == "add" then
+            Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+        elseif action == "remove" then
+            Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
         end
     end
 end
 exports('UpdateCash', UpdateCash)
 
-RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
-    if moneyType == 'bank' then UpdateItem(source, 'cash') else UpdateItem(source, moneyType) end
+RegisterNetEvent("QBCore:Server:OnMoneyChange", function(playerId, moneyType, amount, set, reason)
+    if moneyType == 'bank' then UpdateItem(playerId, 'cash') else UpdateItem(playerId, moneyType) end
 end)
 
 AddEventHandler('onResourceStart', function(resource)
@@ -72,7 +68,7 @@ AddEventHandler('onResourceStart', function(resource)
                     if not list['black_money'] then
                         list['black_money'] = 0
                         MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
-                    end  
+                    end
                 end
             end)
         end
