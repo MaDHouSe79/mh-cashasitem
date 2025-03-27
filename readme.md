@@ -63,7 +63,7 @@
 ![alttext](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/image/crypto.png?raw=true)
 
 # Special Thanks
-- @iplocator, for help resolving the duplication of the items.
+- [@iplocator](https://github.com/iplocator), for help resolving the duplication of the items.
 
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
