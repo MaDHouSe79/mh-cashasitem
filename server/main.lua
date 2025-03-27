@@ -27,11 +27,11 @@ local function UpdateItem(src, moneyType)
                     Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
                 end
             end
-            if found then
+            if found and current > 0 then
                 Player.Functions.AddItem(moneyType, current, lastSlot, false)
             end
         end
-        if not found then
+        if not found and current > 0 then
             Player.Functions.AddItem(moneyType, current, lastSlot, false)
         end
     end
