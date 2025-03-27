@@ -21,7 +21,7 @@ local function UpdateItem(src, moneyType)
         local items = exports['qb-inventory']:GetItemsByName(src, moneyType) or {}
         if type(items) == 'table' and #items > 0 then
             for _, item in pairs(items) do
-                if item.name == moneyType then
+                if item ~= nil and item.name:lower() == moneyType:lower() then
                     found = true
                     lastSlot = item.slot
                     Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
