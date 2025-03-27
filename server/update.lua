@@ -25,17 +25,17 @@ local function checkVersion(err, github, headers)
             cur_inst_version = string.gsub(cur_inst_version, "%s+", "")
             cur_git_version = string.gsub(cur_git_version, "%s+", "")
             if insversion == gitversion then
-                print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2"..cur_inst_version.."^0] [^3Github^0:^2"..cur_git_version.."^0] [Status:^2Success^0]")
+                print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2"..cur_inst_version.."^0] [^3Github^0:^2"..cur_git_version.."^0] [Status:^2Success^0] "..notes)
             elseif insversion < gitversion then
                 print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2"..cur_inst_version.."^0] [^3Github^0:^2"..cur_git_version.."^0] [Status:^1Outdated^0] "..notes)
             elseif insversion > gitversion then
-                print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2"..cur_inst_version.."^0] [^3Github^0:^2"..cur_git_version.."^0] [Status:^1Failed^0]")
+                print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2"..cur_inst_version.."^0] [^3Github^0:^2"..cur_git_version.."^0] [Status:^1Failed^0] "..notes)
             end
         elseif github == nil then
-            print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2" .. cur_inst_version .. "^0] - ^0Unable to connect to ^3Github^0 host. ^0[STATUS:^1OFFLINE^0]")
+            print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2" .. cur_inst_version .. "^0] - ^0Unable to connect to ^3Github^0 host. ^0[STATUS:^1OFFLINE^0] "..notes)
         end
     elseif err == 404 then
-        print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2" .. cur_inst_version .. "^0] - ^0Unable to connect to ^3Github^0 host. ^0[STATUS:^1OFFLINE^0]")
+        print("^0[^2" .. script:upper() .. "^0] - ^0[^4UPDATE CHECK^0] - [^3Installed^0:^2" .. cur_inst_version .. "^0] - ^0Unable to connect to ^3Github^0 host. ^0[STATUS:^1OFFLINE^0] "..notes)
     end
 end
 
