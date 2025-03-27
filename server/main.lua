@@ -62,15 +62,16 @@ AddEventHandler('onResourceStart', function(resource)
         if not QBCore.Config.Money.MoneyTypes['black_money'] then
             print("~r~["..GetCurrentResourceName().."] - ERROR - You forgot to add 'black_money' in the 'resources/[qb]/qb-core/config.lua' file at line 9 and 10.~w~")
         elseif QBCore.Config.Money.MoneyTypes['black_money'] then
-            MySQL.Async.fetchAll("SELECT * FROM players", function(rs)
-                for k, v in pairs(rs) do
+            local query = MySQL.Sync.fetchAll("SELECT * FROM players")
+            if type(query) == 'table' and #query > 0 then
+                for k, v in pairs(query) do
                     local list = json.decode(v.money)
                     if not list['black_money'] then
                         list['black_money'] = 0
                         MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(list), v.citizenid })
                     end
                 end
-            end)
+            end
         end
     end
 end)
