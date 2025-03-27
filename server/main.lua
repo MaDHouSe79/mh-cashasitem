@@ -15,11 +15,8 @@ local function GetItemName(item)
 end
 
 -- Calculate total amount of a money type across all inventory slots
-local function GetTotalMoneyInInventory(src, moneyType)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return 0 end
+local function GetTotalMoneyInInventory(items, moneyType)
     local totalAmount = 0
-    local items = Player.PlayerData.items
     for slot, item in pairs(items) do
         if GetItemName(item) == moneyType then totalAmount = totalAmount + (item.amount or 0) end
     end
@@ -35,7 +32,7 @@ local function SetItemData(src, moneyType)
     updateLocks[src] = true
     local currentMoney = Player.Functions.GetMoney(moneyType)
     if currentMoney < 0 then currentMoney = 0 end
-    local inventoryTotal = GetTotalMoneyInInventory(src, moneyType)
+    local inventoryTotal = GetTotalMoneyInInventory(Player.PlayerData.items, moneyType)
     if inventoryTotal ~= currentMoney then
         local items = Player.PlayerData.items
         for slot, item in pairs(items) do
