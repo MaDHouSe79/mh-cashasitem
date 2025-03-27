@@ -112,25 +112,25 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 
 -- Command to check black money
-QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source)
+QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
-    local amount = Player.PlayerData.money.black_money or 0
+    local amount = Player.PlayerData.money.black_money
     if amount < 0 then amount = 0 end
     if GetResourceState("qb-hud") ~= 'missing' then
         TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
-    else
-        QBCore.Functions.Notify(source, 'You have '..amount..' blackmoney', 'primary')
+    elseif GetResourceState("qb-hud") == 'missing' then
+        QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' blackmoney' }, 'primary')
     end
 end)
 
 -- Command to check crypto
-QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source)
+QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
-    local amount = Player.PlayerData.money.crypto or 0
+    local amount = Player.PlayerData.money.crypto
     if amount < 0 then amount = 0 end
     if GetResourceState("qb-hud") ~= 'missing' then
         TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
-    else
-        QBCore.Functions.Notify(source, 'You have '..amount..' crypto', 'primary')
+    elseif GetResourceState("qb-hud") == 'missing' then
+        QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' crypto' }, 'primary')
     end
 end)
