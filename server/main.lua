@@ -44,9 +44,9 @@ local function UpdateCash(src, item, amount, action)
     local tmpItem = GetItemName(item)
     if tmpItem ~= nil then
         local current = Player.Functions.GetMoney(tmpItem)
-        if action == "add" then
+        if action == "add" and amount > 0 then
             Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
-        elseif action == "remove" then
+        elseif action == "remove" and current >= amount then
             Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
         end
     end
