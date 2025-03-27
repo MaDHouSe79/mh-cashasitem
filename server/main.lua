@@ -32,9 +32,9 @@ local function SetItemData(src, moneyType)
     updateLocks[src] = true
     local currentMoney = Player.Functions.GetMoney(moneyType)
     if currentMoney < 0 then currentMoney = 0 end
-    local inventoryTotal = GetTotalMoneyInInventory(Player.PlayerData.items, moneyType)
+    local items = Player.PlayerData.items
+    local inventoryTotal = GetTotalMoneyInInventory(items, moneyType)
     if inventoryTotal ~= currentMoney then
-        local items = Player.PlayerData.items
         for slot, item in pairs(items) do
             if GetItemName(item) == moneyType then Player.Functions.RemoveItem(moneyType, item.amount, slot) end
         end
