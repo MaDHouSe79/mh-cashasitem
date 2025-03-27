@@ -33,7 +33,7 @@ black_money = { name = 'black_money', label = 'Black Money', weight = 0, type = 
 crypto = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image = 'crypto.png', unique = false, useable = false, shouldClose = true, combinable = nil, description = 'Crypto' },
 ```
 
-# Hud Money Notifucation Disabled
+# Hud Money Notification Disabled
 -- in `qb-core/server/players.lua`
 -- replace or make it the same as below 
 -- and place -- before the trigger `hud:client:OnMoneyChange` 
