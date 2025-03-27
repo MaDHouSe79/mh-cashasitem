@@ -82,7 +82,7 @@ QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, functio
     if GetResourceState("qb-hud") ~= 'missing' then
         TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
     elseif GetResourceState("qb-hud") == 'missing' then
-        QBCore.Functions.Notify(source, 'You have '..amount..' blackmoney', 'primary')
+        QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' blackmoney' }, 'primary')
     end
 end)
 
@@ -93,6 +93,6 @@ QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source
     if GetResourceState("qb-hud") ~= 'missing' then
         TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
     elseif GetResourceState("qb-hud") == 'missing' then
-        QBCore.Functions.Notify(source, 'You have '..amount..' crypto', 'primary')
+        QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' crypto' }, 'primary')
     end
 end)
