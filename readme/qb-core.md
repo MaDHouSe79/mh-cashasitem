@@ -34,8 +34,8 @@ crypto = { name = 'crypto', label = 'Crypto', weight = 0, type = 'item', image =
 ```
 
 # Hud Money Notification Disabled
--- in `qb-core/server/players.lua`
--- replace or make it the same as below and place -- before the trigger `hud:client:OnMoneyChange` 
+- in `qb-core/server/players.lua`
+- replace or make it the same as below and place -- before the trigger `hud:client:OnMoneyChange` 
 ```lua
 function self.Functions.AddMoney(moneytype, amount, reason)
     reason = reason or 'unknown'
