@@ -2,7 +2,10 @@
 --[[           MH Cash As Item Script by MaDHouSe          ]] --
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
+local updateLocks = {} -- Per-player lock to prevent race conditions
+local lastUpdate = {}  -- Throttle updates to prevent event spam
 
+-- Normalize item input to lowercase string
 local function GetItemName(item)
     local tmpItem = nil
     if type(item) == 'string' and item ~= nil then tmpItem = item:lower()
@@ -11,52 +14,84 @@ local function GetItemName(item)
     return tmpItem
 end
 
+-- Calculate total amount of a money type across all inventory slots
+local function GetTotalMoneyInInventory(src, moneyType)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return 0 end
+    local totalAmount = 0
+    local items = Player.PlayerData.items
+    for slot, item in pairs(items) do
+        if GetItemName(item) == moneyType then totalAmount = totalAmount + (item.amount or 0) end
+    end
+    return totalAmount
+end
+
+-- Sync money to inventory with validation, locking, and multi-slot support
+local function SetItemData(src, moneyType)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return false end
+    if not (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then return false end
+    if updateLocks[src] then return false end
+    updateLocks[src] = true
+    local currentMoney = Player.Functions.GetMoney(moneyType)
+    if currentMoney < 0 then currentMoney = 0 end
+    local inventoryTotal = GetTotalMoneyInInventory(src, moneyType)
+    if inventoryTotal ~= currentMoney then
+        local items = Player.PlayerData.items
+        for slot, item in pairs(items) do
+            if GetItemName(item) == moneyType then Player.Functions.RemoveItem(moneyType, item.amount, slot) end
+        end
+        if currentMoney > 0 then Player.Functions.AddItem(moneyType, currentMoney, nil, nil, 'mh-cashasitem sync') end
+    end
+    updateLocks[src] = nil
+end
+
+-- Update item with throttling
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    if moneyType ~= nil and (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then
-        local found = false
-        local lastSlot = nil
-        local current = Player.Functions.GetMoney(moneyType)
-        local items = exports['qb-inventory']:GetItemsByName(src, moneyType) or {}
-        if type(items) == 'table' and #items > 0 then
-            for _, item in pairs(items) do
-                if item ~= nil and item.name:lower() == moneyType:lower() then
-                    found = true
-                    lastSlot = item.slot
-                    Player.Functions.RemoveItem(moneyType, item.amount, item.slot)
-                end
-            end
-            if found and current > 0 then
-                Player.Functions.AddItem(moneyType, current, lastSlot, false)
-            end
-        end
-        if not found and current > 0 then
-            Player.Functions.AddItem(moneyType, current, lastSlot, false)
-        end
-    end
+    if not Player or not (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then return end
+    local currentTime = os.time()
+    if lastUpdate[src] and (currentTime - lastUpdate[src] < 1) then return end
+    lastUpdate[src] = currentTime
+    SetItemData(src, moneyType)
 end
 exports('UpdateItem', UpdateItem)
 
+-- Update money based on inventory action with validation
 local function UpdateCash(src, item, amount, action)
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
     local tmpItem = GetItemName(item)
-    if tmpItem ~= nil then
-        local current = Player.Functions.GetMoney(tmpItem)
-        if action == "add" then
-            if amount > 0 then Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem) end
-        elseif action == "remove" then
-            if amount > 0 and current >= amount then Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem) end
+    if not (tmpItem == 'cash' or tmpItem == 'black_money' or tmpItem == 'crypto') then return end
+    if updateLocks[src] then return end -- Prevent overlap with SetItemData
+    updateLocks[src] = true
+    local currentMoney = Player.Functions.GetMoney(tmpItem)
+    if action == "add" then
+        if amount > 0 then
+            Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+            SetItemData(src, tmpItem)
+        end
+    elseif action == "remove" then
+        if amount > 0 and currentMoney >= amount then
+            Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+            SetItemData(src, tmpItem)
         end
     end
+    updateLocks[src] = nil
 end
 exports('UpdateCash', UpdateCash)
 
-RegisterNetEvent("QBCore:Server:OnMoneyChange", function(playerId, moneyType, amount, set, reason)
-    if moneyType == 'bank' then UpdateItem(playerId, 'cash') else UpdateItem(playerId, moneyType) end
+-- Handle money changes with specific logic
+RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
+    if updateLocks[source] then return end
+    if moneyType == 'bank' then
+        UpdateItem(source, 'cash')
+    elseif moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
+        UpdateItem(source, moneyType)
+    end
 end)
 
+-- Resource startup: ensure black_money is configured
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         if not QBCore.Config.Money.MoneyTypes['black_money'] then
@@ -76,24 +111,26 @@ AddEventHandler('onResourceStart', function(resource)
     end
 end)
 
-QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source, _)
+-- Command to check black money
+QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, function(source)
     local Player = QBCore.Functions.GetPlayer(source)
-    local amount = Player.PlayerData.money.black_money
+    local amount = Player.PlayerData.money.black_money or 0
     if amount < 0 then amount = 0 end
     if GetResourceState("qb-hud") ~= 'missing' then
         TriggerClientEvent('hud:client:ShowAccounts', source, 'black_money', amount)
-    elseif GetResourceState("qb-hud") == 'missing' then
-        QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' blackmoney' }, 'primary')
+    else
+        QBCore.Functions.Notify(source, 'You have '..amount..' blackmoney', 'primary')
     end
 end)
 
-QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source, _)
+-- Command to check crypto
+QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source)
     local Player = QBCore.Functions.GetPlayer(source)
-    local amount = Player.PlayerData.money.crypto
+    local amount = Player.PlayerData.money.crypto or 0
     if amount < 0 then amount = 0 end
     if GetResourceState("qb-hud") ~= 'missing' then
         TriggerClientEvent('hud:client:ShowAccounts', source, 'crypto', amount)
-    elseif GetResourceState("qb-hud") == 'missing' then
-        QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' crypto' }, 'primary')
+    else
+        QBCore.Functions.Notify(source, 'You have '..amount..' crypto', 'primary')
     end
 end)
