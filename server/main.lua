@@ -43,13 +43,10 @@ local function SetItemData(src, moneyType)
     updateLocks[src] = nil
 end
 
--- Update item with throttling
+-- Update item
 local function UpdateItem(src, moneyType)
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player or not (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then return end
-    local currentTime = os.time()
-    if lastUpdate[src] and (currentTime - lastUpdate[src] < 1) then return end
-    lastUpdate[src] = currentTime
     SetItemData(src, moneyType)
 end
 exports('UpdateItem', UpdateItem)
