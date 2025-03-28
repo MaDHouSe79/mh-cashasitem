@@ -56,11 +56,6 @@
 - here: https://github.com/qbcore-framework/qb-core/blob/fe654facee0a04c3a24276ffda5615c35afed07b/server/player.lua#L382
 - just add -- before the trigger and restart the server and that notification is disabled.
 
-# If it's all too difficult for you to install
-- I have a `qb-inventory 2.0.0` edit by my here [link](https://github.com/MaDHouSe79/qb-inventory)
-- Cash as item is already includes, you don't need `mh-cashasitem` for this `qb-inventory`.
-- You also need to read the readme in `qb-inventory` for installing.
-
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
 
