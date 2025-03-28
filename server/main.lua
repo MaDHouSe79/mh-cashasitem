@@ -115,7 +115,7 @@ QBCore.Commands.Add('blackmoney', 'Check Blackmoney Balance', {}, false, functio
         QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' blackmoney' }, 'primary')
     end
 end)
-
+ 
 -- Command to check crypto
 QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
