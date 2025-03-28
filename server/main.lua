@@ -2,7 +2,7 @@
 --[[           MH Cash As Item Script by MaDHouSe          ]] --
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
-local updateLocks = {} -- Per-player lock to prevent race conditions
+local updateLocks = {} -- lock to prevent dupplication
 
 -- Normalize item input to lowercase string
 local function GetItemName(item)
