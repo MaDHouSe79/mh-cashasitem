@@ -45,8 +45,8 @@ end
 
 -- Update item
 local function UpdateItem(src, moneyType)
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player or not (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then return end
+    if updateLocks[src] then return end -- Prevent overlap with SetItemData
+    if not (moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto') then return end
     SetItemData(src, moneyType)
 end
 exports('UpdateItem', UpdateItem)
