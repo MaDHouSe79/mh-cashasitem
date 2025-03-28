@@ -3,7 +3,6 @@
 --[[ ===================================================== ]] --
 local QBCore = exports['qb-core']:GetCoreObject()
 local updateLocks = {} -- Per-player lock to prevent race conditions
-local lastUpdate = {}  -- Throttle updates to prevent event spam
 
 -- Normalize item input to lowercase string
 local function GetItemName(item)
