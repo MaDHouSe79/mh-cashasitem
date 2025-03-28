@@ -49,13 +49,6 @@
 - Step 2 Read: [QB-Inventory](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md) (2.0.0)
 - Step 3 Make sure you read the readme files for install, and only when you are done you can restart the server.
 
-# Right top corner notification disable
-- You can disable that in qb-core/server/player.lua and find trigger `hud:client:OnMoneyChange`
-- here: https://github.com/qbcore-framework/qb-core/blob/fe654facee0a04c3a24276ffda5615c35afed07b/server/player.lua#L328
-- here: https://github.com/qbcore-framework/qb-core/blob/fe654facee0a04c3a24276ffda5615c35afed07b/server/player.lua#L359
-- here: https://github.com/qbcore-framework/qb-core/blob/fe654facee0a04c3a24276ffda5615c35afed07b/server/player.lua#L382
-- just add -- before the trigger and restart the server and that notification is disabled.
-
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
 
