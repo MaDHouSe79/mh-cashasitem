@@ -22,7 +22,7 @@
     </a>      
 </p>
 
-# My Youtube Channel and Discord
+# My Youtube Channel
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 
 # mh-cashasitem
