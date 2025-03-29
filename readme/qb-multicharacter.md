@@ -1,8 +1,8 @@
 # Edit Code
-- in qb-multicharacter/server/main.lua
+- in `qb-multicharacter/server/main.lua`
 
 ```lua
--- replace this trigger with the trigger inside server.lua
+-- replace this trigger with the trigger inside `qb-multicharacter/server/main.lua`
 RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
     local src = source
     if QBCore.Player.Login(src, cData.citizenid) then
