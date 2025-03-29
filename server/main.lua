@@ -77,11 +77,7 @@ exports('UpdateCash', UpdateCash)
 -- Handle money changes with specific logic
 RegisterNetEvent("QBCore:Server:OnMoneyChange", function(source, moneyType, amount, set, reason)
     if updateLocks[source] then return end
-    if moneyType == 'bank' then
-        UpdateItem(source, 'cash')
-    elseif moneyType == 'cash' or moneyType == 'black_money' or moneyType == 'crypto' then
-        UpdateItem(source, moneyType)
-    end
+    if moneyType == 'bank' then UpdateItem(source, 'cash') else UpdateItem(source, moneyType) end
 end)
 
 -- Resource startup: ensure black_money is configured
