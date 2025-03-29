@@ -32,8 +32,7 @@
 
 # NOTE you need coding experience.
 - This is not just a plug and play script, you need some coding experience to install this script.
-- Don't ask questions that are already in the readme files, you already have an answer...
-- If YOU want to use it then YOU have to install it, don't ask my to do it for you.
+- Don't ask questions that are already in the readme files, you already have an answer.
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core) (1.2.6)
