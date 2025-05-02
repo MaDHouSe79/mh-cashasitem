@@ -25,14 +25,10 @@
 # My Youtube Channel
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 
-# mh-cashasitem
+# MH Cash As Item
 - Before you start, `BACKUP` your `resources` folder cause when something is wrong you have a backup.
 - This is the best cash/blackmoney/crypto item script for your qbcore server.
 - The `cash`, `black_money`, `crypto` is not dependent on the item amount, but the item amount is dependent on the currency amount.
-
-# NOTE you need coding experience.
-- This is not just a plug and play script, you need some coding experience to install this script.
-- Don't ask questions that are already in the readme files, you already have an answer.
 
 # Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core) (1.2.6)
