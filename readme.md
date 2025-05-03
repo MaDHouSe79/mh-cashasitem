@@ -18,7 +18,7 @@
         <img src="https://img.shields.io/github/stars/MH-Scripts/mh-cashasitem?color=white"/> 
     </a>
     <a href="https://github.com/MaDHouSe79/MH-Scripts/blob/main/LICENSE">
-        <img src="https://img.shields.io/github/license/MaDHouSe79/MH-Scripts?color=black"/> 
+        <img src="https://img.shields.io/github/license/MH-Scripts/MH-Scripts?color=black"/> 
     </a>      
 </p>
 
