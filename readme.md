@@ -6,4 +6,4 @@
 
 # MH Cash As Item
 - Download: https://github.com/MH-Scripts
-- Youtube: https://www.youtube.com/c/@MaDHouSe79
+- Youtube: https://www.youtube.com/@MaDHouSe79
