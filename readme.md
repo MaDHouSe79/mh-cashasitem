@@ -23,7 +23,7 @@
 </p>
 
 # MH Cash As Item
-- Download Link: https://github.com/MH-Scripts/mh-cashasitem
+- Download: https://github.com/MH-Scripts
 - Youtube: https://www.youtube.com/c/@MaDHouSe79
 
 # LICENSE
