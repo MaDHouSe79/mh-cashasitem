@@ -27,7 +27,7 @@ local function SetItemData(src, moneyType)
     if updateLocks[src] then return false end
     updateLocks[src] = true
     local currentMoney = Player.Functions.GetMoney(moneyType)
-    if currentMoney < 0 then currentMoney = 0 end
+    if tonumber(currentMoney) < 0 then currentMoney = 0 end
     local items = Player.PlayerData.items
     local inventoryTotal = GetTotalMoneyInInventory(items, moneyType)
     if inventoryTotal ~= currentMoney then
@@ -55,13 +55,13 @@ local function UpdateCash(src, item, amount, action)
     updateLocks[src] = true
     local currentMoney = Player.Functions.GetMoney(tmpItem)
     if action == "add" then
-        if amount > 0 then
-            Player.Functions.AddMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+        if tonumber(amount) > 0 then
+            Player.Functions.AddMoney(tmpItem, tonumber(amount), 'mh-cashasitem-update-'..tmpItem)
             SetItemData(src, tmpItem)
         end
     elseif action == "remove" then
-        if amount > 0 and currentMoney >= amount then
-            Player.Functions.RemoveMoney(tmpItem, amount, 'mh-cashasitem-update-'..tmpItem)
+        if tonumber(amount) > 0 and currentMoney >= tonumber(amount) then
+            Player.Functions.RemoveMoney(tmpItem, tonumber(amount), 'mh-cashasitem-update-'..tmpItem)
             SetItemData(src, tmpItem)
         end
     end
@@ -113,4 +113,5 @@ QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source
     elseif GetResourceState("qb-hud") == 'missing' then
         QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' crypto' }, 'primary')
     end
+
 end)
