@@ -26,7 +26,7 @@
     <img src="https://komarev.com/ghpvc/?username=MaDHouSe79&label=Profile%20views&color=3464eb&style=for-the-badge&logo=star&abbreviated=true" alt="MaDHouSe79" style="padding-right:20px;" />
 </p>
 
-# My Youtube Channel and Discord
+# My Youtube Channel
 - [Subscribe](https://www.youtube.com/c/@MaDHouSe79) 
 
 # mh-cashasitem
@@ -64,4 +64,5 @@
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
 &copy; [MaDHouSe79](https://www.youtube.com/@MaDHouSe79)
+
 
