@@ -53,11 +53,6 @@
 - Step 2 Read: [QB-Inventory](https://github.com/MaDHouSe79/mh-cashasitem/blob/main/readme/qb_inventory.md) (2.0.0)
 - Step 3 Make sure you read the readme files for install, and only when you are done you can restart the server.
 
-# If it's all too difficult for you to install
-- I have a `qb-inventory 2.0.0` edit by my here [link](https://github.com/MaDHouSe79/qb-inventory)
-- Cash as item is already includes, you don't need `mh-cashasitem` for this `qb-inventory`.
-- You also need to read the readme in `qb-inventory` for installing.
-
 # Video
 [Youtube](https://www.youtube.com/watch?v=sWYkV-PeqU4)
 
@@ -69,3 +64,4 @@
 # LICENSE
 [GPL LICENSE](./LICENSE)<br />
 &copy; [MaDHouSe79](https://www.youtube.com/@MaDHouSe79)
+
