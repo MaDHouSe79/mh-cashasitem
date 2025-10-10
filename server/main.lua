@@ -32,9 +32,19 @@ local function SetItemData(src, moneyType)
     local inventoryTotal = GetTotalMoneyInInventory(items, moneyType)
     if inventoryTotal ~= currentMoney then
         for slot, item in pairs(items) do
-            if GetItemName(item) == moneyType then Player.Functions.RemoveItem(moneyType, item.amount, slot) end
+            if GetItemName(item) == moneyType then 
+                Player.Functions.RemoveItem(moneyType, item.amount, slot)
+                if GetResourceState("qb-inventory") ~= 'missing' then
+                    TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items[moneyType], 'remove', item.amount)
+                end
+            end
         end
-        if currentMoney > 0 then Player.Functions.AddItem(moneyType, currentMoney, nil, nil, 'mh-cashasitem sync') end
+        if currentMoney > 0 then 
+            Player.Functions.AddItem(moneyType, currentMoney, nil, nil, 'mh-cashasitem sync')
+            if GetResourceState("qb-inventory") ~= 'missing' then
+                TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items[moneyType], 'add', currentMoney)
+            end
+        end
     end
     updateLocks[src] = nil
 end
@@ -58,11 +68,17 @@ local function UpdateCash(src, item, amount, action)
         if tonumber(amount) >= 1 then
             Player.Functions.AddMoney(tmpItem, tonumber(amount), 'mh-cashasitem-update-'..tmpItem)
             SetItemData(src, tmpItem)
+            if GetResourceState("qb-hud") ~= 'missing' then
+                TriggerClientEvent('hud:client:OnMoneyChange', src, tmpItem, tonumber(amount), false)
+            end
         end
     elseif action == "remove" then
         if tonumber(amount) >= 1 and currentMoney >= tonumber(amount) then
             Player.Functions.RemoveMoney(tmpItem, tonumber(amount), 'mh-cashasitem-update-'..tmpItem)
             SetItemData(src, tmpItem)
+            if GetResourceState("qb-hud") ~= 'missing' then
+                TriggerClientEvent('hud:client:OnMoneyChange', src, tmpItem, tonumber(amount), true)
+            end
         end
     end
     updateLocks[src] = nil
@@ -113,6 +129,4 @@ QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source
     elseif GetResourceState("qb-hud") == 'missing' then
         QBCore.Functions.Notify(source, { text = "MH Cash As Item", caption = 'You have '..amount..' crypto' }, 'primary')
     end
-
 end)
-
