@@ -55,12 +55,12 @@ local function UpdateCash(src, item, amount, action)
     updateLocks[src] = true
     local currentMoney = Player.Functions.GetMoney(tmpItem)
     if action == "add" then
-        if tonumber(amount) > 0 then
+        if tonumber(amount) >= 1 then
             Player.Functions.AddMoney(tmpItem, tonumber(amount), 'mh-cashasitem-update-'..tmpItem)
             SetItemData(src, tmpItem)
         end
     elseif action == "remove" then
-        if tonumber(amount) > 0 and currentMoney >= tonumber(amount) then
+        if tonumber(amount) >= 1 and currentMoney >= tonumber(amount) then
             Player.Functions.RemoveMoney(tmpItem, tonumber(amount), 'mh-cashasitem-update-'..tmpItem)
             SetItemData(src, tmpItem)
         end
@@ -115,3 +115,4 @@ QBCore.Commands.Add('crypto', 'Check Crypto Balance', {}, false, function(source
     end
 
 end)
+
